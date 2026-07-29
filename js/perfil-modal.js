@@ -15,6 +15,21 @@
 (function () {
     const PERFIL_API_URL = "http://localhost:3000";
     const SESSAO_KEY = "usuarioLogado";
+    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Mostrar/ocultar senha: delegado no document (o modal é criado dinamicamente).
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".toggle-senha");
+        if (!btn) return;
+
+        const input = document.getElementById(btn.dataset.target);
+        if (!input) return;
+
+        const estaVisivel = input.type === "text";
+        input.type = estaVisivel ? "password" : "text";
+        btn.classList.toggle("is-visible", !estaVisivel);
+        btn.setAttribute("aria-label", estaVisivel ? "Mostrar senha" : "Ocultar senha");
+    });
 
     function getUsuario() {
         const bruto = localStorage.getItem(SESSAO_KEY);
@@ -88,7 +103,13 @@
 
                     <div class="form-group">
                         <label for="perfilSenha">Nova senha</label>
-                        <input type="password" id="perfilSenha" placeholder="Deixe em branco para manter a atual" minlength="6">
+                        <div class="password-field">
+                            <input type="password" id="perfilSenha" placeholder="Deixe em branco para manter a atual" minlength="6">
+                            <button type="button" class="toggle-senha" data-target="perfilSenha" aria-label="Mostrar senha" tabindex="-1">
+                                <svg class="icon-olho" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="icon-olho-fechado" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M10.58 10.58a2 2 0 0 0 2.83 2.83M9.88 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a13.16 13.16 0 0 1-3.09 3.88M6.53 6.53A13.4 13.4 0 0 0 1 11s4 7 11 7a10.94 10.94 0 0 0 4.47-.94"/></svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -136,7 +157,7 @@
         if (novaSenha.length > 0) dados.senha = novaSenha;
 
         if (ehMaster && novoEmail !== usuarioAtual.email) {
-            if (!novoEmail) {
+            if (!novoEmail || !EMAIL_REGEX.test(novoEmail)) {
                 exibirFeedback(overlay, "Informe um e-mail válido.");
                 return;
             }
