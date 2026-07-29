@@ -1,8 +1,7 @@
 // ==================================================== //
-// LÓGICA DE EDIÇÃO DE PERFIL (PÁGINA PERFIL)          //
+// LÓGICA DE EDIÇÃO DE PERFIL (PÁGINA PERFIL)           //
+// Backend simulado via json-server (fetch nos endpoints). //
 // ==================================================== //
-
-const API_URL = "http://localhost:3000";
 
 // Elementos do DOM
 const userWelcome = document.getElementById("userWelcome");
@@ -21,14 +20,12 @@ const feedback = document.getElementById("feedback");
 // 1. CARREGAMENTO E VERIFICAÇÃO DE SESSÃO              //
 // ---------------------------------------------------- //
 function carregarDadosPerfil() {
-    const usuarioSalvo = localStorage.getItem("usuarioLogado");
+    const usuario = Sessao.getUsuario();
 
-    if (!usuarioSalvo) {
+    if (!usuario) {
         window.location.href = "../login/index.html";
         return null;
     }
-
-    const usuario = JSON.parse(usuarioSalvo);
 
     // Atualiza o Header
     if (userWelcome) userWelcome.textContent = `Olá, ${usuario.nome}`;
@@ -51,7 +48,7 @@ function carregarDadosPerfil() {
 
 if (btnLogout) {
     btnLogout.addEventListener("click", () => {
-        localStorage.removeItem("usuarioLogado");
+        Sessao.logout();
         window.location.href = "../login/index.html";
     });
 }
@@ -68,7 +65,7 @@ function exibirFeedback(msg, ehSucesso = false) {
 formPerfil.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const usuarioAtual = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const usuarioAtual = Sessao.getUsuario();
     if (!usuarioAtual) return;
 
     const novoNome = inputNome.value.trim();
@@ -105,9 +102,9 @@ formPerfil.addEventListener("submit", async (e) => {
 
         if (resposta.ok) {
             const usuarioSalvoApi = await resposta.json();
-            
+
             // Atualiza a sessão no localStorage mantendo o objeto atualizado
-            localStorage.setItem("usuarioLogado", JSON.stringify(usuarioSalvoApi));
+            Sessao.setUsuario(usuarioSalvoApi);
 
             exibirFeedback("Perfil atualizado com sucesso!", true);
             carregarDadosPerfil(); // Atualiza a tela
