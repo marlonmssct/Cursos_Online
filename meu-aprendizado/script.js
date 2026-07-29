@@ -44,6 +44,9 @@ const inputTituloAnotacao = document.getElementById("inputTituloAnotacao");
 const textoAnotacao = document.getElementById("textoAnotacao");
 const listaAnotacoes = document.getElementById("listaAnotacoes");
 
+// Elementos de Certificados em PDF (Aba de Anotações)
+const listaCertificados = document.getElementById("listaCertificados");
+
 // Elementos de Badges, Estatísticas e Sugestões
 const badgesContainer = document.getElementById("badgesContainer");
 const distribuicaoCategorias = document.getElementById("distribuicaoCategorias");
@@ -165,6 +168,7 @@ async function carregarDashboard() {
         renderizarAbasCursos();
         popularSelectCursosAnotacao();
         renderizarAnotacoesSalvas();
+        renderizarCertificadosConcluidos();
         renderizarGamificacao();
         renderizarEstatisticas();
         renderizarRecomendacoes();
@@ -455,6 +459,113 @@ if (formAnotacao) {
             NexaUI.toastSucesso("Anotação salva com sucesso!");
         }
     });
+}
+
+
+// ---------------------------------------------------- //
+// 6.1 CERTIFICADOS EM PDF NA ABA DE ANOTAÇÕES          //
+// ---------------------------------------------------- //
+function renderizarCertificadosConcluidos() {
+    if (!listaCertificados) return;
+
+    const concluidos = matriculasGlobal.filter(m => (m.progresso || 0) === 100 || m.status === "concluido");
+
+    if (concluidos.length === 0) {
+        listaCertificados.innerHTML = `<p class="empty-state">Conclua um curso para poder baixar seu certificado em PDF por aqui.</p>`;
+        return;
+    }
+
+    listaCertificados.innerHTML = concluidos.map(m => {
+        const curso = cursosGlobal.find(c => c.id === m.cursoId);
+        if (!curso) return "";
+
+        return `
+            <div class="certificado-card">
+                <h4>${curso.titulo}</h4>
+                <p class="certificado-meta"><i class="bi bi-clock-history"></i> Carga horária: ${curso.cargaHoraria || "30h"}</p>
+                <button type="button" class="btn btn-primary btn-sm btn-baixar-cert-pdf" data-curso-id="${curso.id}">
+                    <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Certificado em PDF
+                </button>
+            </div>
+        `;
+    }).join("");
+
+    listaCertificados.querySelectorAll(".btn-baixar-cert-pdf").forEach(btn => {
+        btn.addEventListener("click", () => gerarCertificadoPDF(btn.dataset.cursoId));
+    });
+}
+
+// Gera e baixa um arquivo PDF real do certificado, com nome do aluno e curso concluído
+function gerarCertificadoPDF(cursoId) {
+    const curso = cursosGlobal.find(c => c.id === cursoId);
+    if (!curso || !usuarioLogadoGlobal || !window.jspdf) return;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+
+    const largura = doc.internal.pageSize.getWidth();
+    const altura = doc.internal.pageSize.getHeight();
+
+    // Moldura decorativa do certificado
+    doc.setDrawColor(45, 28, 82);
+    doc.setLineWidth(1.5);
+    doc.rect(10, 10, largura - 20, altura - 20);
+
+    doc.setTextColor(45, 28, 82);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(26);
+    doc.text("CERTIFICADO DE CONCLUSÃO", largura / 2, 40, { align: "center" });
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(150, 120, 20);
+    doc.text("NEXA HIGH PERFORMANCE EDUCATION", largura / 2, 48, { align: "center" });
+
+    doc.setTextColor(60, 60, 60);
+    doc.setFontSize(13);
+    doc.text("Certificamos que o(a) aluno(a)", largura / 2, 70, { align: "center" });
+
+    doc.setTextColor(45, 28, 82);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(24);
+    doc.text(usuarioLogadoGlobal.nome, largura / 2, 85, { align: "center" });
+
+    doc.setTextColor(60, 60, 60);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(13);
+    doc.text("concluiu com êxito o curso de extensão profissionalizante de", largura / 2, 100, { align: "center" });
+
+    doc.setTextColor(45, 28, 82);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text(curso.titulo, largura / 2, 112, { align: "center" });
+
+    doc.setTextColor(60, 60, 60);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    const cargaHoraria = curso.cargaHoraria || "30h";
+    doc.text(`com carga horária total de ${cargaHoraria} e aproveitamento de 100%.`, largura / 2, 122, { align: "center" });
+
+    const dataEmissao = new Date().toLocaleDateString("pt-BR");
+    doc.setFontSize(10);
+    doc.text(`Emitido em ${dataEmissao}`, largura / 2, altura - 20, { align: "center" });
+
+    doc.setFont("helvetica", "italic");
+    doc.text(curso.instrutor || "Mariana Souza", largura / 2, altura - 30, { align: "center" });
+    doc.setFont("helvetica", "normal");
+    doc.text("Instrutor(a) Responsável", largura / 2, altura - 26, { align: "center" });
+
+    const nomeArquivo = `certificado_${curso.titulo}_${usuarioLogadoGlobal.nome}`
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "");
+
+    doc.save(`${nomeArquivo}.pdf`);
+
+    if (window.NexaUI && typeof NexaUI.toastSucesso === "function") {
+        NexaUI.toastSucesso("Certificado em PDF gerado com sucesso!");
+    }
 }
 
 

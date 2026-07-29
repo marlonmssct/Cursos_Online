@@ -19,6 +19,9 @@
 
     <!-- SweetAlert2: feedbacks visuais e confirmações da plataforma -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jsPDF: geração do arquivo PDF real do certificado de conclusão -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -198,6 +201,14 @@
                         <h3><i class="bi bi-journal-bookmark"></i> Minhas Anotações Salvas</h3>
                         <div id="listaAnotacoes" class="anotacoes-grid">
                             <!-- Anotações inseridas via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Certificados em PDF dos Cursos Concluídos -->
+                    <div class="certificados-list-container">
+                        <h3><i class="bi bi-award-fill"></i> Meus Certificados de Conclusão</h3>
+                        <div id="listaCertificados" class="certificados-grid">
+                            <!-- Certificados inseridos via JS -->
                         </div>
                     </div>
                 </div>

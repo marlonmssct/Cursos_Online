@@ -345,6 +345,42 @@
     font-weight: 700;
 }
 
+.certificados-list-container h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.1rem;
+    color: var(--nexa-secondary);
+    margin-bottom: 16px;
+}
+
+.certificados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.certificado-card {
+    background: #FFFFFF;
+    border: 1px solid var(--nexa-border);
+    border-left: 4px solid var(--nexa-cta);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--shadow-sm);
+}
+
+.certificado-card h4 {
+    font-size: 1rem;
+    color: var(--nexa-secondary);
+}
+
+.certificado-card .certificado-meta {
+    font-size: 0.85rem;
+    color: var(--nexa-text-muted);
+}
+
 
 /* ---------------------------------------------------- */
 /* 4 & 5. GAMIFICAÇÃO & CRONOGRAMA                      */
