@@ -45,15 +45,9 @@
       "slug": "marketing"
     },
     {
-<<<<<<< HEAD
-      "id": "0bV-SFOkpCY",
-      "nome": "TESTE1",
-      "slug": "teste1"
-=======
       "id": "cat_ia",
       "nome": "Inteligência Artificial & Data",
       "slug": "ia-data"
->>>>>>> 95fafa39a8d822547f9596cb22bd949524c4f672
     }
   ],
   "cursos": [
@@ -70,8 +64,6 @@
       "criadoEm": "2026-07-10T09:00:00.000Z"
     },
     {
-<<<<<<< HEAD
-=======
       "id": "curso_react",
       "titulo": "React.js & Next.js Completo",
       "descricao": "Construa aplicações web modernas, reativas e com Server-Side Rendering utilizando os frameworks mais requisitados do mercado.",
@@ -108,7 +100,6 @@
       "criadoEm": "2026-07-14T08:00:00.000Z"
     },
     {
->>>>>>> 95fafa39a8d822547f9596cb22bd949524c4f672
       "id": "curso_mkt",
       "titulo": "Estratégias de Growth e SEO para Negócios",
       "descricao": "Aumente o tráfego orgânico e aprenda a posicionar sua marca no topo dos mecanismos de busca com técnicas avançadas.",
@@ -131,6 +122,18 @@
       "imagem": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&auto=format&fit=crop",
       "status": "rascunho",
       "criadoEm": "2026-07-20T11:00:00.000Z"
+    },
+    {
+      "titulo": "fdsfdsvss",
+      "descricao": "dsvsvsvsvs",
+      "categoriaId": "cat_prog",
+      "cargaHoraria": "22",
+      "instrutor": "Mariana Souza",
+      "preco": 333.03,
+      "status": "publicado",
+      "id": "curso_1785356727486",
+      "criadoEm": "2026-07-29T20:25:27.486Z",
+      "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
     }
   ],
   "aulas": [
@@ -190,7 +193,7 @@
     },
     {
       "id": "aula_ui_1",
-      "cursoId": null,
+      "cursoId": "curso_ui",
       "ordem": 1,
       "titulo": "Aula 1: Tipografia e Teoria das Cores",
       "duracao": "20 min",
@@ -223,6 +226,15 @@
       "duracao": "30 min",
       "thumb": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&auto=format&fit=crop",
       "videoUrl": "https://www.youtube-nocookie.com/embed/YYXdXT2l-Gg"
+    },
+    {
+      "id": "aula_curso_1785356727486_1_1785356727511",
+      "cursoId": "curso_1785356727486",
+      "ordem": 1,
+      "titulo": "Aula 1: Introdução",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
     }
   ],
   "matriculas": [
@@ -285,28 +297,12 @@
     {
       "id": "mat_admin_4",
       "usuarioId": "u_admin1",
-      "cursoId": null,
+      "cursoId": "curso_ui",
       "progresso": 100,
       "status": "concluido",
       "dataMatricula": "2026-07-16T16:00:00.000Z"
     },
     {
-<<<<<<< HEAD
-      "id": "03mTopy4yLM",
-      "usuarioId": "u_admin1",
-      "cursoId": "curso_js",
-      "progresso": 100,
-      "status": "concluido",
-      "dataMatricula": "2026-07-29T17:12:29.106Z"
-    },
-    {
-      "id": "4BwlGsLTWik",
-      "usuarioId": "XI3khSIQxb4",
-      "cursoId": null,
-      "progresso": 10,
-      "status": "em_andamento",
-      "dataMatricula": "2026-07-29T18:03:21.814Z"
-=======
       "id": "mat_editor_1",
       "usuarioId": "u_editor1",
       "cursoId": "curso_react",
@@ -329,7 +325,14 @@
       "progresso": 100,
       "status": "concluido",
       "dataMatricula": "2026-07-17T18:00:00.000Z"
->>>>>>> 95fafa39a8d822547f9596cb22bd949524c4f672
+    },
+    {
+      "id": "mat_1785356744856",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_1785356727486",
+      "progresso": 10,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-29T20:25:44.856Z"
     }
   ],
   "avaliacoes": [
@@ -338,26 +341,6 @@
       "cursoId": "curso_js",
       "usuarioNome": "Carlos Oliveira",
       "nota": 5,
-<<<<<<< HEAD
-      "comentario": "Excelente curso! Didática muito clara e prática.",
-      "data": "2026-07-20T11:00:00.000Z"
-    },
-    {
-      "id": "DfqEDbvYHlY",
-      "cursoId": "curso_js",
-      "usuarioNome": "Administrador Principal",
-      "nota": 4,
-      "comentario": "TESTE",
-      "data": "2026-07-29T19:42:32.275Z"
-    },
-    {
-      "id": "GTeVjMB0WS0",
-      "cursoId": null,
-      "usuarioNome": "Administrador Principal",
-      "nota": 2,
-      "comentario": "2323232332",
-      "data": "2026-07-29T19:55:52.408Z"
-=======
       "comentario": "Excelente Didática! As aulas práticas facilitam muito o aprendizado dos conceitos.",
       "data": "2026-07-22T15:30:00.000Z"
     },
@@ -384,7 +367,6 @@
       "nota": 5,
       "comentario": "Muito bom! Ótima visão de design de produto e prototipação rápida.",
       "data": "2026-07-26T14:20:00.000Z"
->>>>>>> 95fafa39a8d822547f9596cb22bd949524c4f672
     }
   ]
 }
