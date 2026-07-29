@@ -326,3 +326,106 @@
     gap: 12px;
     margin-top: 24px;
 }
+
+/* ==================================================== */
+/* SWEETALERT2 - IDENTIDADE NEXA                        */
+/* Popups de confirmação/bloqueio de acesso herdam a     */
+/* tipografia, cores e cantos quadrados do painel — a    */
+/* faixa superior colorida sinaliza a natureza da ação    */
+/* (o mesmo acento usado nas abas ativas do painel).      */
+/* ==================================================== */
+.swal2-popup.nexa-swal {
+    position: relative;
+    overflow: hidden;
+    padding: 40px 32px 28px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    box-shadow: var(--shadow-md);
+}
+
+.swal2-popup.nexa-swal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--nexa-primary);
+}
+
+.swal2-popup.nexa-swal:has(.swal2-icon-warning)::before { background: var(--nexa-warning); }
+.swal2-popup.nexa-swal:has(.swal2-icon-error)::before { background: var(--nexa-danger); }
+.swal2-popup.nexa-swal:has(.swal2-icon-success)::before { background: var(--nexa-success); }
+
+.nexa-swal .swal2-title {
+    font-family: var(--font-titles);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--nexa-text-main);
+    padding: 0;
+    margin-bottom: 4px;
+}
+
+.nexa-swal .swal2-html-container {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--nexa-text-muted);
+    margin: 8px 2px 0;
+}
+
+.nexa-swal .swal2-icon {
+    border-width: 3px;
+    margin: 0 auto 14px;
+}
+
+.nexa-swal .swal2-icon.swal2-warning { border-color: var(--nexa-warning); color: var(--nexa-warning); }
+.nexa-swal .swal2-icon.swal2-error { border-color: var(--nexa-danger); color: var(--nexa-danger); }
+.nexa-swal .swal2-icon.swal2-success [class^="swal2-success-line"] { background-color: var(--nexa-success); }
+.nexa-swal .swal2-icon.swal2-success .swal2-success-ring { border-color: var(--nexa-success); }
+.nexa-swal .swal2-icon.swal2-question { border-color: var(--nexa-primary); color: var(--nexa-primary); }
+
+.nexa-swal .swal2-actions {
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.nexa-swal .swal2-actions .btn {
+    margin: 0;
+}
+
+/* Telas de bloqueio de acesso (login necessário / acesso restrito): */
+/* o selo hexagonal da NEXA substitui o ícone genérico do SweetAlert2. */
+.nexa-swal-gate {
+    padding-top: 36px;
+}
+
+.nexa-swal-gate .swal2-icon.nexa-swal-brand-icon {
+    border: none;
+    width: auto;
+    height: auto;
+    margin: 0 auto 16px;
+}
+
+.nexa-swal-gate .swal2-icon.nexa-swal-brand-icon svg {
+    width: 64px;
+    height: 64px;
+}
+
+/* Toasts: reaproveita o padrão de acento lateral do .feedback-box */
+.swal2-popup.nexa-toast {
+    font-family: var(--font-body);
+    border-radius: 4px;
+    padding: 14px 20px 14px 16px;
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--nexa-primary);
+}
+
+.swal2-popup.nexa-toast:has(.swal2-success) { border-left-color: var(--nexa-success); }
+.swal2-popup.nexa-toast:has(.swal2-error) { border-left-color: var(--nexa-danger); }
+
+.nexa-toast .swal2-title {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--nexa-text-main);
+}

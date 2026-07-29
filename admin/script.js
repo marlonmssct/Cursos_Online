@@ -13,21 +13,33 @@ function escapeHTML(valor) {
     }[c]));
 }
 
+// Selo hexagonal da NEXA reaproveitado como ícone das telas de bloqueio de acesso
+// (login necessário / acesso restrito) — os únicos dois momentos de marca do painel.
+const NEXA_SWAL_BRAND_ICON = `
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5 L88 26.5 C92 28.8 94 32.3 94 36.8 L94 63.2 C94 67.7 92 71.2 88 73.5 L50 95 C46 97.3 42 97.3 38 95 L12 73.5 C8 71.2 6 67.7 6 63.2 L6 36.8 C6 32.3 8 28.8 12 26.5 Z" fill="#2D1C52"/>
+        <path d="M30 68 V34 C30 30 35 28 38 31 L64 64 C67 67 72 65 72 61 V30" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M42 43.5 L57 51 L42 58.5 Z" fill="#F3A730"/>
+    </svg>
+`;
+
 function toastSucesso(mensagem) {
     Swal.fire({
         toast: true, position: "top-end", icon: "success", title: mensagem,
-        showConfirmButton: false, timer: 2200, timerProgressBar: true
+        showConfirmButton: false, timer: 2200, timerProgressBar: true,
+        customClass: { popup: "nexa-toast" }
     });
 }
 
 function toastErro(mensagem) {
     Swal.fire({
         toast: true, position: "top-end", icon: "error", title: mensagem,
-        showConfirmButton: false, timer: 2600, timerProgressBar: true
+        showConfirmButton: false, timer: 2600, timerProgressBar: true,
+        customClass: { popup: "nexa-toast" }
     });
 }
 
-async function confirmarAcao({ titulo, texto, confirmText = "Confirmar", icon = "warning" }) {
+async function confirmarAcao({ titulo, texto, confirmText = "Confirmar", icon = "warning", perigoso = true }) {
     const resultado = await Swal.fire({
         title: titulo,
         text: texto,
@@ -35,9 +47,13 @@ async function confirmarAcao({ titulo, texto, confirmText = "Confirmar", icon = 
         showCancelButton: true,
         confirmButtonText: confirmText,
         cancelButtonText: "Cancelar",
-        confirmButtonColor: "#EF4444",
-        cancelButtonColor: "#6E6A78",
-        reverseButtons: true
+        reverseButtons: true,
+        buttonsStyling: false,
+        customClass: {
+            popup: "nexa-swal",
+            confirmButton: `btn ${perigoso ? "btn-danger" : "btn-secondary"}`,
+            cancelButton: "btn btn-outline"
+        }
     });
     return resultado.isConfirmed;
 }
@@ -49,13 +65,27 @@ async function checkAuth() {
     const usuario = Sessao.getUsuario();
 
     if (!usuario || !usuario.role) {
-        await Swal.fire({ icon: "info", title: "Sessão necessária", text: "Faça login para continuar.", confirmButtonColor: "#3A4171" });
+        await Swal.fire({
+            iconHtml: NEXA_SWAL_BRAND_ICON,
+            title: "Sessão necessária",
+            text: "Faça login para acessar o Painel de Gestão.",
+            confirmButtonText: "Ir para o login",
+            buttonsStyling: false,
+            customClass: { popup: "nexa-swal nexa-swal-gate", icon: "nexa-swal-brand-icon", confirmButton: "btn btn-primary" }
+        });
         window.location.href = "../login/index.html";
         return null;
     }
 
     if (usuario.role === "aluno") {
-        await Swal.fire({ icon: "warning", title: "Acesso negado", text: "Alunos não possuem permissão para acessar o Painel de Gestão.", confirmButtonColor: "#3A4171" });
+        await Swal.fire({
+            iconHtml: NEXA_SWAL_BRAND_ICON,
+            title: "Acesso restrito",
+            text: "Este painel é exclusivo para a equipe de gestão (Editor ou Administrador).",
+            confirmButtonText: "Voltar ao catálogo",
+            buttonsStyling: false,
+            customClass: { popup: "nexa-swal nexa-swal-gate", icon: "nexa-swal-brand-icon", confirmButton: "btn btn-primary" }
+        });
         window.location.href = "../catalogo/index.html";
         return null;
     }
@@ -735,7 +765,8 @@ async function alternarStatusUsuario(id, ativoAtual) {
         titulo: ativoAtual ? "Desativar usuário?" : "Ativar usuário?",
         texto: ativoAtual ? "O usuário perderá o acesso à plataforma imediatamente." : "O usuário voltará a ter acesso à plataforma.",
         confirmText: ativoAtual ? "Desativar" : "Ativar",
-        icon: ativoAtual ? "warning" : "question"
+        icon: ativoAtual ? "warning" : "question",
+        perigoso: ativoAtual
     });
     if (!confirmado) return;
 
