@@ -29,7 +29,6 @@
             <nav>
                 <ul class="nav-menu">
                     <li><a href="../catalogo/index.html" class="nav-link">Catálogo</a></li>
-                    <li><a href="../perfil/index.html" class="nav-link">Meu Perfil</a></li>
                     <li id="navAdminItem" class="hidden"><a href="../admin/index.html" class="nav-link">Painel Gestão</a></li>
                 </ul>
             </nav>
@@ -37,6 +36,7 @@
             <div class="user-widget">
                 <span id="userWelcome" style="font-size: 0.9rem; font-weight: 600;">Olá, Aluno</span>
                 <span id="userRoleBadge" class="badge-role aluno">Aluno</span>
+                <button type="button" id="btnAbrirPerfil" class="profile-icon-btn" aria-label="Meu perfil" title="Meu perfil"></button>
                 <button id="btnLogout" class="btn btn-secondary btn-sm">Sair</button>
             </div>
         </div>
@@ -157,6 +157,7 @@
         <p>&copy; 2026 <strong>NEXA Cursos Online</strong>. Plataforma de alta performance e aprendizado contínuo.</p>
     </footer>
 
+    <script src="../js/perfil-modal.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

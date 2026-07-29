@@ -178,6 +178,123 @@ h1, h2, h3, h4, h5, h6 {
 .badge-role.editor { background: #FFF7ED; color: #C2410C; }
 .badge-role.admin { background: #FEE2E2; color: #991B1B; }
 
+/* Ícone de perfil (canto superior direito do header): abre o modal de edição de conta */
+.profile-icon-btn {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--nexa-secondary);
+    color: #FFFFFF;
+    font-family: var(--font-titles);
+    font-size: 0.82rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.profile-icon-btn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 3px rgba(45, 28, 82, 0.15);
+}
+
+/* ==================================================== */
+/* MODAL PADRÃO (usado pelo modal de edição de perfil e   */
+/* reaproveitado pelos modais do Painel de Gestão)        */
+/* ==================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(28, 24, 38, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+}
+
+.modal-card {
+    background-color: #FFFFFF;
+    padding: 36px;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 440px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--nexa-border);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--nexa-text-muted);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--nexa-text-main);
+}
+
+.form-group small {
+    color: var(--nexa-text-muted);
+    font-size: 0.78rem;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    padding: 11px 14px;
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.92rem;
+    font-family: var(--font-body);
+    outline: none;
+    background-color: #FFFFFF;
+    color: var(--nexa-text-main);
+}
+
+.form-group input:disabled {
+    background-color: var(--nexa-bg-light);
+    color: var(--nexa-text-muted);
+    cursor: not-allowed;
+}
+
+.form-group input:focus:not(:disabled), .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--nexa-primary);
+    box-shadow: 0 0 0 3px rgba(58, 65, 113, 0.15);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
 /* ==================================================== */
 /* BOTÕES E ELEMENTOS DE UI (DIRETRIZES DO GUIA NEXA)   */
 /* ==================================================== */

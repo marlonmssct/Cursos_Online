@@ -136,6 +136,14 @@
       "cursoId": "curso_ui",
       "progresso": 10,
       "dataMatricula": "2026-07-29T14:30:20.725Z"
+    },
+    {
+      "id": "03mTopy4yLM",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_js",
+      "progresso": 10,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-29T17:12:29.106Z"
     }
   ],
   "avaliacoes": [
