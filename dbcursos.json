@@ -70,6 +70,11 @@
       "id": "cat_mkt",
       "nome": "Marketing Digital",
       "slug": "marketing"
+    },
+    {
+      "id": "0bV-SFOkpCY",
+      "nome": "TESTE1",
+      "slug": "teste1"
     }
   ],
   "cursos": [
@@ -84,18 +89,6 @@
       "imagem": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=600&auto=format&fit=crop",
       "status": "publicado",
       "criadoEm": "2026-07-10T09:00:00.000Z"
-    },
-    {
-      "id": "curso_ui",
-      "titulo": "Design de Interfaces UI/UX com Figma",
-      "descricao": "Domine a criação de protótipos de alta fidelidade, sistemas de design, componentes reutilizáveis e usabilidade em interfaces.",
-      "categoriaId": "cat_design",
-      "instrutor": "Lucas Mendes",
-      "cargaHoraria": "25h",
-      "preco": 199.9,
-      "imagem": "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=600&auto=format&fit=crop",
-      "status": "publicado",
-      "criadoEm": "2026-07-12T14:00:00.000Z"
     },
     {
       "id": "curso_mkt",
@@ -140,7 +133,7 @@
     },
     {
       "id": "aula_ui_1",
-      "cursoId": "curso_ui",
+      "cursoId": null,
       "ordem": 1,
       "titulo": "Fundamentos de Tipografia e Teoria das Cores",
       "duracao": "20 min",
@@ -160,7 +153,7 @@
     {
       "id": "XQeW2gyuKE0",
       "usuarioId": "u_admin1",
-      "cursoId": "curso_ui",
+      "cursoId": null,
       "progresso": 100,
       "dataMatricula": "2026-07-29T14:30:20.725Z",
       "status": "concluido"
@@ -169,14 +162,14 @@
       "id": "03mTopy4yLM",
       "usuarioId": "u_admin1",
       "cursoId": "curso_js",
-      "progresso": 67,
-      "status": "em_andamento",
+      "progresso": 100,
+      "status": "concluido",
       "dataMatricula": "2026-07-29T17:12:29.106Z"
     },
     {
       "id": "4BwlGsLTWik",
       "usuarioId": "XI3khSIQxb4",
-      "cursoId": "curso_ui",
+      "cursoId": null,
       "progresso": 10,
       "status": "em_andamento",
       "dataMatricula": "2026-07-29T18:03:21.814Z"
@@ -190,6 +183,22 @@
       "nota": 5,
       "comentario": "Excelente curso! Didática muito clara e prática.",
       "data": "2026-07-20T11:00:00.000Z"
+    },
+    {
+      "id": "DfqEDbvYHlY",
+      "cursoId": "curso_js",
+      "usuarioNome": "Administrador Principal",
+      "nota": 4,
+      "comentario": "TESTE",
+      "data": "2026-07-29T19:42:32.275Z"
+    },
+    {
+      "id": "GTeVjMB0WS0",
+      "cursoId": null,
+      "usuarioNome": "Administrador Principal",
+      "nota": 2,
+      "comentario": "2323232332",
+      "data": "2026-07-29T19:55:52.408Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

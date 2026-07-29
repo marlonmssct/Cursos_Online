@@ -1,1 +1,5 @@
-dbcursos.json
+# Chave de API do chat de suporte (NUNCA commitar uma chave real).
+# Copie js/chat-config.example.js para js/chat-config.js e preencha a sua chave.
+js/chat-config.js
+
+node_modules/
