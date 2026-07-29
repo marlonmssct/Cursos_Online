@@ -1,63 +1,94 @@
 /* ==================================================== */
-/* ARQUIVO CSS GLOBAL - PLATAFORMA DE CURSOS ONLINE     */
+/* GUIA DE IDENTIDADE VISUAL NEXA - CSS GLOBAL          */
+/* Marca para plataforma de cursos online - Foco em     */
+/* conversão, confiança e legibilidade.                  */
 /* ==================================================== */
 
-/* Importação da fonte moderna Inter do Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* Importação das fontes oficiais do Guia NEXA: Sora (Títulos) e Plus Jakarta Sans (Corpo) */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@600;700;800&display=swap');
 
-/* Variáveis de estilo global (Design System da Plataforma) */
+/* ==================================================== */
+/* 01. PALETA DE CORES E VARIÁVEIS OFICIAIS (NEXA)       */
+/* ==================================================== */
 :root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --secondary: #0f172a;
-    --bg-body: #f8fafc;
-    --bg-card: #ffffff;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --border-color: #e2e8f0;
-    --success: #16a34a;
-    --warning: #d97706;
-    --danger: #dc2626;
-    --radius-sm: 6px;
+    /* Cores Focadas em Conversão e Acessibilidade */
+    --nexa-primary: #3A4171;        /* Azul-índigo (Confiança, tecnologia, inovação) */
+    --nexa-secondary: #2D1C52;      /* Violeta profundo (Sofisticação e credibilidade) */
+    --nexa-cta: #F3A730;            /* Destaque / CTA Dourado Quente (Chamar atenção imediata) */
+    --nexa-cta-hover: #E59820;      /* Hover do CTA principal */
+    
+    /* Fundos */
+    --nexa-bg-light: #F7F7F8;       /* Fundo Claro neutro (Não cansa o olho) */
+    --nexa-bg-dark: #1C1826;        /* Fundo Escuro (Alto impacto) */
+    --nexa-bg-card: #FFFFFF;        /* Fundo de Cartões e Elementos */
+    
+    /* Textos */
+    --nexa-text-main: #221C2D;      /* Texto Principal (Quase preto violeta - Alta legibilidade) */
+    --nexa-text-muted: #6E6A78;     /* Neutro / Apoio (Texto secundário e bordas) */
+    --nexa-border: #E4E2E7;         /* Bordas finas e discretas */
+    
+    /* Status e Alertas */
+    --nexa-success: #10B981;        /* Verde suave para confirmação */
+    --nexa-success-bg: #ECFDF5;
+    --nexa-warning: #F59E0B;        /* Amarelo para rascunhos */
+    --nexa-warning-bg: #FFFBEB;
+    --nexa-danger: #EF4444;         /* Vermelho para exclusões */
+    --nexa-danger-bg: #FEF2F2;
+
+    /* Tipografia Oficial NEXA */
+    --font-titles: 'Sora', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+
+    /* Sombras e Raios de Borda */
+    --radius-sm: 8px;
     --radius-md: 12px;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+    --radius-lg: 16px;
+    --shadow-sm: 0 2px 8px rgba(34, 28, 45, 0.04);
+    --shadow-md: 0 8px 24px -4px rgba(34, 28, 45, 0.08);
 }
 
-/* Reset básico universal */
+/* Reset Global */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background-color: var(--bg-body);
-    color: var(--text-main);
+    background-color: var(--nexa-bg-light);
+    color: var(--nexa-text-main);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding-top: 80px; /* Compensa a altura do header fixo */
+    padding-top: 80px; /* Alinhamento por conta do Header fixo */
 }
 
-/* Classe utilitária para ocultar elementos */
+/* Títulos com a fonte sora (Bold 700-800) */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-titles);
+    color: var(--nexa-text-main);
+    letter-spacing: -0.02em;
+}
+
 .hidden {
     display: none !important;
 }
 
 /* ==================================================== */
-/* HEADER FIXO E NAVBAR GLOBAL                          */
+/* HEADER DA NAVEGAÇÃO SUPERIOR (BRANDING NEXA)         */
 /* ==================================================== */
 .global-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 72px;
+    height: 76px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--nexa-border);
     z-index: 1000;
     box-shadow: var(--shadow-sm);
 }
@@ -72,42 +103,61 @@ body {
     padding: 0 24px;
 }
 
-/* Logotipo */
+/* Logo Oficial NEXA (Hexágono + Trançado N + Play + Wordmark nexa) */
 .logo-brand {
-    font-size: 1.3rem;
+    font-family: var(--font-titles);
+    font-size: 1.75rem;
     font-weight: 800;
-    color: var(--secondary);
+    color: var(--nexa-secondary);
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+    letter-spacing: -0.04em;
 }
 
-.logo-brand span {
-    color: var(--primary);
+.logo-brand svg.nexa-logo-svg {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.logo-brand:hover svg.nexa-logo-svg {
+    transform: scale(1.05);
+}
+
+.logo-brand .logo-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--nexa-secondary);
+    letter-spacing: -0.04em;
+    font-family: var(--font-titles);
 }
 
 /* Links de Navegação */
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
     list-style: none;
 }
 
 .nav-link {
-    text-decoration: none;
-    color: var(--text-muted);
-    font-weight: 500;
+    font-family: var(--font-body);
     font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--nexa-text-muted);
+    text-decoration: none;
     transition: color 0.2s ease;
 }
 
 .nav-link:hover, .nav-link.active {
-    color: var(--primary);
+    color: var(--nexa-secondary);
+    font-weight: 700;
 }
 
-/* Área do Usuário Logado */
+/* Seção de Perfil do Usuário Logado */
 .user-widget {
     display: flex;
     align-items: center;
@@ -115,67 +165,93 @@ body {
 }
 
 .badge-role {
-    padding: 4px 10px;
-    border-radius: 20px;
+    font-family: var(--font-body);
     font-size: 0.75rem;
     font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.badge-role.aluno { background: #e0e7ff; color: #3730a3; }
-.badge-role.editor { background: #fef3c7; color: #92400e; }
-.badge-role.admin { background: #fee2e2; color: #991b1b; }
+.badge-role.aluno { background: #EBF3FE; color: var(--nexa-primary); }
+.badge-role.editor { background: #FFF7ED; color: #C2410C; }
+.badge-role.admin { background: #FEE2E2; color: #991B1B; }
 
-/* Botões Globais */
+/* ==================================================== */
+/* BOTÕES E ELEMENTOS DE UI (DIRETRIZES DO GUIA NEXA)   */
+/* ==================================================== */
 .btn {
-    padding: 9px 18px;
-    border-radius: var(--radius-sm);
-    font-size: 0.9rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
     font-weight: 600;
-    cursor: pointer;
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
     border: none;
-    transition: all 0.2s ease;
+    cursor: pointer;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
+    transition: all 0.2s ease;
 }
 
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* Botão Principal CTA (Destaque Dourado / Amarelo #F3A730 com texto escuro #1C1826) */
 .btn-primary {
-    background-color: var(--primary);
-    color: white;
+    background-color: var(--nexa-cta);
+    color: var(--nexa-bg-dark);
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(243, 167, 48, 0.3);
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-hover);
+    background-color: var(--nexa-cta-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(243, 167, 48, 0.4);
 }
 
+/* Botão Secundário (Violeta Profundo #2D1C52 com texto branco) */
 .btn-secondary {
-    background-color: #f1f5f9;
-    color: #334155;
-    border: 1px solid var(--border-color);
+    background-color: var(--nexa-secondary);
+    color: #FFFFFF;
 }
 
 .btn-secondary:hover {
-    background-color: #e2e8f0;
+    background-color: #21143D;
+    transform: translateY(-1px);
+}
+
+/* Botão Neutro / Outlined */
+.btn-outline {
+    background-color: transparent;
+    color: var(--nexa-text-main);
+    border: 1px solid var(--nexa-border);
+}
+
+.btn-outline:hover {
+    background-color: #ECEAEF;
 }
 
 .btn-danger {
-    background-color: var(--danger);
+    background-color: var(--nexa-danger);
     color: white;
 }
 
 .btn-danger:hover {
-    background-color: #b91c1c;
+    background-color: #DC2626;
 }
 
 .btn-sm {
-    padding: 6px 12px;
-    font-size: 0.8rem;
+    padding: 8px 14px;
+    font-size: 0.85rem;
 }
 
-/* Container de Mensagens de Feedback */
+/* Caixa de Feedback e Erros */
 .feedback-box {
     padding: 12px 16px;
     border-radius: var(--radius-sm);
@@ -185,24 +261,28 @@ body {
 }
 
 .feedback-box.error {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
+    background-color: var(--nexa-danger-bg);
+    color: var(--nexa-danger);
+    border: 1px solid #FCA5A5;
 }
 
 .feedback-box.success {
-    background-color: #dcfce7;
-    color: #166534;
-    border: 1px solid #86efac;
+    background-color: var(--nexa-success-bg);
+    color: var(--nexa-success);
+    border: 1px solid #6EE7B7;
 }
 
-/* Footer Simples */
+/* Rodapé Oficial NEXA (Fundo Escuro #1C1826) */
 .global-footer {
     margin-top: auto;
-    background-color: #ffffff;
-    border-top: 1px solid var(--border-color);
-    padding: 20px;
+    background-color: var(--nexa-bg-dark);
+    color: #9A95A5;
+    padding: 24px;
     text-align: center;
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: 0.88rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.global-footer strong {
+    color: #FFFFFF;
 }

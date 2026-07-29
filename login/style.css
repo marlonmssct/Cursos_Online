@@ -1,17 +1,17 @@
-/* Estilos específicos da Tela de Login */
+/* Estilos específicos da Tela de Login - Guia NEXA */
 .auth-wrapper {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px;
+    padding: 48px 24px;
 }
 
 .auth-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 40px;
+    background-color: var(--nexa-bg-card);
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-lg);
+    padding: 44px 40px;
     width: 100%;
     max-width: 440px;
     box-shadow: var(--shadow-md);
@@ -19,25 +19,25 @@
 
 .auth-header {
     text-align: center;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
 }
 
 .auth-header h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--secondary);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--nexa-secondary);
 }
 
 .auth-header p {
-    font-size: 0.88rem;
-    color: var(--text-muted);
+    font-size: 0.9rem;
+    color: var(--nexa-text-muted);
     margin-top: 6px;
 }
 
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 20px;
 }
 
 .form-group {
@@ -47,44 +47,46 @@
 }
 
 .form-group label {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    color: var(--text-main);
+    color: var(--nexa-text-main);
 }
 
 .form-group input, .form-group select {
-    padding: 11px 14px;
-    border: 1px solid var(--border-color);
+    padding: 12px 16px;
+    border: 1px solid var(--nexa-border);
     border-radius: var(--radius-sm);
     font-size: 0.95rem;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    background-color: #ffffff;
+    transition: all 0.2s ease;
+    background-color: #FFFFFF;
+    color: var(--nexa-text-main);
 }
 
 .form-group input:focus, .form-group select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    border-color: var(--nexa-primary);
+    box-shadow: 0 0 0 3px rgba(58, 65, 113, 0.15);
 }
 
 .btn-block {
     width: 100%;
-    margin-top: 8px;
-    padding: 12px;
+    margin-top: 10px;
+    padding: 14px;
 }
 
 .test-accounts {
-    background-color: #f8fafc;
-    border: 1px dashed var(--border-color);
+    background-color: var(--nexa-bg-light);
+    border: 1px dashed var(--nexa-border);
     border-radius: var(--radius-sm);
-    padding: 14px;
-    margin-top: 24px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
+    padding: 16px;
+    margin-top: 28px;
+    font-size: 0.82rem;
+    color: var(--nexa-text-muted);
 }
 
 .test-accounts p {
     margin-bottom: 6px;
+    color: var(--nexa-text-main);
 }
 
 .test-accounts ul {
@@ -95,21 +97,26 @@
 }
 
 .test-accounts code {
-    background: #e2e8f0;
+    background: #E8E6EB;
+    color: var(--nexa-secondary);
     padding: 2px 6px;
     border-radius: 4px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .auth-footer {
     text-align: center;
-    margin-top: 20px;
-    font-size: 0.88rem;
-    color: var(--text-muted);
+    margin-top: 24px;
+    font-size: 0.9rem;
+    color: var(--nexa-text-muted);
 }
 
 .auth-footer a {
-    color: var(--primary);
-    font-weight: 600;
+    color: var(--nexa-primary);
+    font-weight: 700;
     text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
 }

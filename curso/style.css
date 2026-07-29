@@ -1,39 +1,39 @@
-/* Estilos da Página Dinâmica do Curso */
+/* Estilos da Página Dinâmica do Curso NEXA */
 .course-detail-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 32px 24px;
+    padding: 36px 24px;
     width: 100%;
 }
 
 .course-detail-header {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    padding: 32px;
-    border-radius: var(--radius-md);
+    background-color: var(--nexa-bg-card);
+    border: 1px solid var(--nexa-border);
+    padding: 36px;
+    border-radius: var(--radius-lg);
     margin-bottom: 32px;
     box-shadow: var(--shadow-sm);
 }
 
 .course-detail-header h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 800;
-    color: var(--secondary);
+    color: var(--nexa-text-main);
     margin-bottom: 12px;
 }
 
 .course-meta {
     display: flex;
-    gap: 20px;
-    font-size: 0.9rem;
-    color: var(--text-muted);
+    gap: 24px;
+    font-size: 0.92rem;
+    color: var(--nexa-text-muted);
     flex-wrap: wrap;
 }
 
 .course-detail-layout {
     display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 32px;
+    grid-template-columns: 1fr 360px;
+    gap: 36px;
 }
 
 @media (max-width: 900px) {
@@ -43,15 +43,15 @@
 }
 
 .section-box {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    padding: 28px;
+    background-color: var(--nexa-bg-card);
+    border: 1px solid var(--nexa-border);
+    padding: 32px;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
 }
 
 .section-box h3 {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 20px;
 }
@@ -60,29 +60,29 @@
 .lessons-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .lesson-item {
-    padding: 16px 20px;
-    border: 1px solid var(--border-color);
+    padding: 18px 20px;
+    border: 1px solid var(--nexa-border);
     border-radius: var(--radius-sm);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
-    transition: background-color 0.2s;
+    background-color: #FFFFFF;
+    transition: background-color 0.2s ease;
 }
 
 .lesson-item:hover {
-    background-color: #f8fafc;
+    background-color: var(--nexa-bg-light);
 }
 
-/* Sidebar de Matrícula */
+/* Sidebar de Matrícula NEXA */
 .enrollment-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    background-color: var(--nexa-bg-card);
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-md);
     position: sticky;
@@ -91,12 +91,12 @@
 
 .enrollment-thumb {
     width: 100%;
-    height: 190px;
+    height: 200px;
     object-fit: cover;
 }
 
 .enrollment-body {
-    padding: 24px;
+    padding: 28px;
 }
 
 .progress-box {
@@ -104,44 +104,44 @@
 }
 
 .progress-box label {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    color: var(--text-main);
+    color: var(--nexa-text-main);
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .progress-bar-bg {
     width: 100%;
     height: 10px;
-    background-color: #e2e8f0;
+    background-color: #E8E6EB;
     border-radius: 5px;
     overflow: hidden;
 }
 
 .progress-bar-fill {
     height: 100%;
-    background-color: var(--success);
+    background-color: var(--nexa-success);
     transition: width 0.3s ease;
 }
 
 .progress-text {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 700;
-    color: var(--text-muted);
-    margin-top: 4px;
+    color: var(--nexa-text-muted);
+    margin-top: 6px;
     display: block;
 }
 
 .reviews-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
 }
 
 .review-card {
-    padding: 14px;
-    background-color: #f8fafc;
+    padding: 16px;
+    background-color: var(--nexa-bg-light);
     border-radius: var(--radius-sm);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--nexa-border);
 }

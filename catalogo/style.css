@@ -1,116 +1,137 @@
-/* Estilos da Tela de Catálogo de Cursos */
+/* Estilos da Tela de Catálogo de Cursos NEXA */
 .catalogo-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 32px 24px;
+    padding: 36px 24px;
     width: 100%;
 }
 
+/* Banner de Alto Impacto (Fundo Escuro #1C1826 / Violeta #2D1C52) */
 .hero-banner {
-    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+    background: linear-gradient(135deg, var(--nexa-bg-dark) 0%, var(--nexa-secondary) 100%);
     color: white;
-    padding: 40px 32px;
-    border-radius: var(--radius-md);
-    margin-bottom: 32px;
+    padding: 48px 40px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 36px;
     box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: rgba(243, 167, 48, 0.2);
+    color: var(--nexa-cta);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .hero-banner h2 {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-weight: 800;
-    margin-bottom: 8px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
 }
 
 .hero-banner p {
-    opacity: 0.9;
-    font-size: 1rem;
+    font-size: 1.05rem;
+    color: #C6C2CF;
+    max-width: 680px;
 }
 
-/* Barra de Filtro */
+/* Barra de Filtro por Categoria */
 .filter-bar {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    padding: 16px 24px;
+    background-color: var(--nexa-bg-card);
+    border: 1px solid var(--nexa-border);
+    padding: 18px 24px;
     border-radius: var(--radius-md);
-    margin-bottom: 32px;
+    margin-bottom: 36px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     box-shadow: var(--shadow-sm);
 }
 
 .filter-bar label {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     font-weight: 600;
-    color: var(--text-main);
+    color: var(--nexa-text-main);
 }
 
 .filter-bar select {
-    padding: 8px 14px;
-    border: 1px solid var(--border-color);
+    padding: 10px 16px;
+    border: 1px solid var(--nexa-border);
     border-radius: var(--radius-sm);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     outline: none;
-    background-color: #ffffff;
+    background-color: var(--nexa-bg-light);
+    color: var(--nexa-text-main);
+    font-family: var(--font-body);
 }
 
-/* Grid de Cards de Cursos */
+/* Grid de Cards dos Cursos NEXA */
 .courses-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 24px;
+    gap: 28px;
 }
 
 .course-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background-color: var(--nexa-bg-card);
+    border: 1px solid var(--nexa-border);
     border-radius: var(--radius-md);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     box-shadow: var(--shadow-sm);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .course-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     box-shadow: var(--shadow-md);
 }
 
 .course-thumb {
     width: 100%;
-    height: 180px;
+    height: 190px;
     object-fit: cover;
 }
 
 .course-body {
-    padding: 20px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
 .course-category {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: var(--primary);
+    color: var(--nexa-primary);
     margin-bottom: 8px;
+    letter-spacing: 0.5px;
 }
 
 .course-title {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    color: var(--secondary);
-    margin-bottom: 8px;
+    color: var(--nexa-text-main);
+    margin-bottom: 10px;
     line-height: 1.4;
 }
 
 .course-desc {
-    font-size: 0.88rem;
-    color: var(--text-muted);
+    font-size: 0.9rem;
+    color: var(--nexa-text-muted);
     line-height: 1.5;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     flex: 1;
 }
 
@@ -118,17 +139,25 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 14px;
-    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+    border-top: 1px solid var(--nexa-border);
     margin-top: auto;
 }
 
 .badge-status {
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
+    text-transform: uppercase;
 }
 
-.badge-status.publicado { background-color: #dcfce7; color: #166534; }
-.badge-status.rascunho { background-color: #fef3c7; color: #92400e; }
+.badge-status.publicado { background-color: var(--nexa-success-bg); color: var(--nexa-success); }
+.badge-status.rascunho { background-color: var(--nexa-warning-bg); color: #B45309; }
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--nexa-text-muted);
+}
