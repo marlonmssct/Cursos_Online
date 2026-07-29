@@ -295,6 +295,48 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 24px;
 }
 
+/* Campo de senha com botão de mostrar/ocultar (usado em login, cadastro, */
+/* perfil e no cadastro de usuários do painel de gestão) */
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    width: 100%;
+    padding-right: 42px;
+}
+
+.toggle-senha {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--nexa-text-muted);
+    cursor: pointer;
+}
+
+.toggle-senha:hover {
+    color: var(--nexa-secondary);
+}
+
+.toggle-senha .icon-olho-fechado {
+    display: none;
+}
+
+.toggle-senha.is-visible .icon-olho {
+    display: none;
+}
+
+.toggle-senha.is-visible .icon-olho-fechado {
+    display: block;
+}
+
 /* ==================================================== */
 /* BOTÕES E ELEMENTOS DE UI (DIRETRIZES DO GUIA NEXA)   */
 /* ==================================================== */

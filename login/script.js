@@ -3,6 +3,24 @@
 // Backend simulado via json-server (fetch nos endpoints). //
 // ==================================================== //
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// ---------------------------------------------------- //
+// 0. MOSTRAR/OCULTAR SENHA                              //
+// ---------------------------------------------------- //
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".toggle-senha");
+    if (!btn) return;
+
+    const input = document.getElementById(btn.dataset.target);
+    if (!input) return;
+
+    const estaVisivel = input.type === "text";
+    input.type = estaVisivel ? "password" : "text";
+    btn.classList.toggle("is-visible", !estaVisivel);
+    btn.setAttribute("aria-label", estaVisivel ? "Mostrar senha" : "Ocultar senha");
+});
+
 // ---------------------------------------------------- //
 // 1. TROCA ENTRE OS MÓDULOS DE LOGIN E CADASTRO         //
 // ---------------------------------------------------- //
@@ -51,6 +69,16 @@ formLogin.addEventListener("submit", async (e) => {
 
     feedbackLogin.classList.add("hidden");
 
+    if (!emailDigitado || !EMAIL_REGEX.test(emailDigitado)) {
+        exibirErroLogin("Informe um e-mail válido.");
+        return;
+    }
+
+    if (!senhaDigitada) {
+        exibirErroLogin("Informe sua senha.");
+        return;
+    }
+
     try {
         const resposta = await fetch(`${API_URL}/usuarios?email=${encodeURIComponent(emailDigitado)}`);
 
@@ -94,7 +122,6 @@ const formCadastro = document.getElementById("formCadastro");
 const cadastroNome = document.getElementById("cadastroNome");
 const cadastroEmail = document.getElementById("cadastroEmail");
 const cadastroSenha = document.getElementById("cadastroSenha");
-const cadastroRole = document.getElementById("cadastroRole");
 const feedbackCadastro = document.getElementById("feedbackCadastro");
 
 function exibirFeedbackCadastro(mensagem, ehSucesso = false) {
@@ -109,12 +136,21 @@ formCadastro.addEventListener("submit", async (e) => {
     const nome = cadastroNome.value.trim();
     const email = cadastroEmail.value.trim().toLowerCase();
     const senha = cadastroSenha.value.trim();
-    const role = cadastroRole.value;
 
     feedbackCadastro.classList.add("hidden");
 
     if (nome.length < 3) {
         exibirFeedbackCadastro("O nome deve ter no mínimo 3 caracteres.");
+        return;
+    }
+
+    if (!email || !EMAIL_REGEX.test(email)) {
+        exibirFeedbackCadastro("Informe um e-mail válido.");
+        return;
+    }
+
+    if (!senha) {
+        exibirFeedbackCadastro("A senha é obrigatória.");
         return;
     }
 
@@ -135,12 +171,14 @@ formCadastro.addEventListener("submit", async (e) => {
             }
         }
 
+        // Todo cadastro público nasce como "aluno". Somente um admin pode
+        // promover o cargo depois, pelo Painel de Gestão (US04).
         const novoUsuario = {
             id: "u_" + Date.now(),
             nome,
             email,
             senha,
-            role,
+            role: "aluno",
             ativo: true,
             criadoEm: new Date().toISOString()
         };

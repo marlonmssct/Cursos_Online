@@ -26,6 +26,33 @@
       "role": "aluno",
       "ativo": true,
       "criadoEm": "2026-07-05T14:20:00.000Z"
+    },
+    {
+      "id": "VvDNG72RTiY",
+      "nome": "assadsadsadsadsadsa",
+      "email": "dsadsad@gmail.com",
+      "senha": "aaaaaa",
+      "role": "aluno",
+      "ativo": true,
+      "criadoEm": "2026-07-29T18:01:46.713Z"
+    },
+    {
+      "id": "XI3khSIQxb4",
+      "nome": "Gabrielm",
+      "email": "gabriel.silva@itlean.com.br",
+      "senha": "123456",
+      "role": "admin",
+      "ativo": true,
+      "criadoEm": "2026-07-29T18:02:04.413Z"
+    },
+    {
+      "id": "4RbvjOX3yLA",
+      "nome": "Gabrielaa",
+      "email": "asdasd@gmail.com",
+      "senha": "123456",
+      "role": "aluno",
+      "ativo": true,
+      "criadoEm": "2026-07-29T18:02:56.864Z"
     }
   ],
   "categorias": [
@@ -144,6 +171,14 @@
       "progresso": 10,
       "status": "em_andamento",
       "dataMatricula": "2026-07-29T17:12:29.106Z"
+    },
+    {
+      "id": "4BwlGsLTWik",
+      "usuarioId": "XI3khSIQxb4",
+      "cursoId": "curso_ui",
+      "progresso": 10,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-29T18:03:21.814Z"
     }
   ],
   "avaliacoes": [

@@ -13,6 +13,30 @@ function escapeHTML(valor) {
     }[c]));
 }
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const TOGGLE_SENHA_HTML = (targetId) => `
+    <button type="button" class="toggle-senha" data-target="${targetId}" aria-label="Mostrar senha" tabindex="-1">
+        <svg class="icon-olho" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="icon-olho-fechado" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M10.58 10.58a2 2 0 0 0 2.83 2.83M9.88 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a13.16 13.16 0 0 1-3.09 3.88M6.53 6.53A13.4 13.4 0 0 0 1 11s4 7 11 7a10.94 10.94 0 0 0 4.47-.94"/></svg>
+    </button>
+`;
+
+// Mostrar/ocultar senha: delegado no document, funciona também para campos
+// criados depois (modais montados dinamicamente).
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".toggle-senha");
+    if (!btn) return;
+
+    const input = document.getElementById(btn.dataset.target);
+    if (!input) return;
+
+    const estaVisivel = input.type === "text";
+    input.type = estaVisivel ? "password" : "text";
+    btn.classList.toggle("is-visible", !estaVisivel);
+    btn.setAttribute("aria-label", estaVisivel ? "Mostrar senha" : "Ocultar senha");
+});
+
 // Selo hexagonal da NEXA reaproveitado como ícone das telas de bloqueio de acesso
 // (login necessário / acesso restrito) — os únicos dois momentos de marca do painel.
 const NEXA_SWAL_BRAND_ICON = `
@@ -450,13 +474,49 @@ function abrirModalCurso(curso, categorias, aulasExistentes = []) {
 }
 
 async function salvarCursoEAulasMemoria(cursoExistente, overlay, listaAulas) {
+    const titulo = overlay.querySelector("#cursoTitulo").value.trim();
+    const descricao = overlay.querySelector("#cursoDescricao").value.trim();
+    const categoriaId = overlay.querySelector("#cursoCategoria").value;
+    const cargaHoraria = overlay.querySelector("#cursoCarga").value.trim();
+    const instrutor = overlay.querySelector("#cursoInstrutor").value.trim();
+    const precoValor = overlay.querySelector("#cursoPreco").value.trim();
+
+    if (!titulo) {
+        toastErro("O título do curso é obrigatório.");
+        return;
+    }
+    if (!descricao) {
+        toastErro("A descrição do curso é obrigatória.");
+        return;
+    }
+    if (!categoriaId) {
+        toastErro("Selecione uma categoria para o curso.");
+        return;
+    }
+    if (!cargaHoraria) {
+        toastErro("Informe a carga horária do curso.");
+        return;
+    }
+    if (!instrutor) {
+        toastErro("Informe o instrutor responsável.");
+        return;
+    }
+    if (precoValor === "" || isNaN(precoValor) || Number(precoValor) < 0) {
+        toastErro("Informe um preço válido (0 ou maior).");
+        return;
+    }
+    if (listaAulas.some((a) => !a.titulo?.trim() || !a.videoUrl?.trim())) {
+        toastErro("Toda videoaula precisa de título e URL preenchidos.");
+        return;
+    }
+
     const dadosCurso = {
-        titulo: overlay.querySelector("#cursoTitulo").value.trim(),
-        descricao: overlay.querySelector("#cursoDescricao").value.trim(),
-        categoriaId: overlay.querySelector("#cursoCategoria").value,
-        cargaHoraria: overlay.querySelector("#cursoCarga").value.trim(),
-        instrutor: overlay.querySelector("#cursoInstrutor").value.trim(),
-        preco: parseFloat(overlay.querySelector("#cursoPreco").value) || 0,
+        titulo,
+        descricao,
+        categoriaId,
+        cargaHoraria,
+        instrutor,
+        preco: parseFloat(precoValor),
         status: overlay.querySelector("#cursoStatus").value
     };
 
@@ -570,6 +630,12 @@ function abrirModalCategoria() {
 
 async function salvarCategoria(overlay) {
     const nome = overlay.querySelector("#categoriaNome").value.trim();
+
+    if (nome.length < 3) {
+        toastErro("O nome da categoria deve ter no mínimo 3 caracteres.");
+        return;
+    }
+
     const semAcentos = nome.normalize("NFD").split("").filter((ch) => {
         const codigo = ch.codePointAt(0);
         return codigo < 0x0300 || codigo > 0x036f;
@@ -720,7 +786,10 @@ function abrirModalUsuario(usuario) {
                 </div>
                 <div class="form-group">
                     <label for="usuarioSenha">Senha</label>
-                    <input type="text" id="usuarioSenha" required minlength="6" value="${escapeHTML(usuario?.senha || "")}">
+                    <div class="password-field">
+                        <input type="password" id="usuarioSenha" required minlength="6" value="${escapeHTML(usuario?.senha || "")}">
+                        ${TOGGLE_SENHA_HTML("usuarioSenha")}
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -758,12 +827,34 @@ function abrirModalUsuario(usuario) {
 }
 
 async function salvarUsuario(usuarioExistente, overlay) {
+    const nome = overlay.querySelector("#usuarioNome").value.trim();
     const email = overlay.querySelector("#usuarioEmail").value.trim().toLowerCase();
+    const senha = overlay.querySelector("#usuarioSenha").value.trim();
+
+    if (nome.length < 3) {
+        toastErro("O nome deve ter no mínimo 3 caracteres.");
+        return;
+    }
+
+    if (!email || !EMAIL_REGEX.test(email)) {
+        toastErro("Informe um e-mail válido.");
+        return;
+    }
+
+    if (!senha) {
+        toastErro("A senha é obrigatória.");
+        return;
+    }
+
+    if (senha.length < 6) {
+        toastErro("A senha deve conter pelo menos 6 caracteres.");
+        return;
+    }
 
     const dadosUser = {
-        nome: overlay.querySelector("#usuarioNome").value.trim(),
+        nome,
         email,
-        senha: overlay.querySelector("#usuarioSenha").value.trim(),
+        senha,
         role: overlay.querySelector("#usuarioRole").value,
         ativo: overlay.querySelector("#usuarioAtivo").value === "true"
     };
