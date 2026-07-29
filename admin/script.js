@@ -204,21 +204,27 @@ function cardCurso(curso, categorias) {
 
 async function editarCurso(id, categorias) {
     try {
-        const resposta = await fetch(`${API_URL}/cursos/${id}`);
-        if (!resposta.ok) throw new Error("Curso não encontrado");
+        const [respCurso, respAulas] = await Promise.all([
+            fetch(`${API_URL}/cursos/${id}`),
+            fetch(`${API_URL}/aulas?cursoId=${id}`)
+        ]);
 
-        const curso = await resposta.json();
-        abrirModalCurso(curso, categorias);
+        if (!respCurso.ok) throw new Error("Curso não encontrado");
+
+        const curso = await respCurso.json();
+        const aulas = respAulas.ok ? await respAulas.json() : [];
+
+        abrirModalCurso(curso, categorias, aulas);
     } catch (erro) {
         toastErro("Erro ao carregar curso para edição.");
     }
 }
 
-function abrirModalCurso(curso, categorias) {
+function abrirModalCurso(curso, categorias, aulasExistentes = []) {
     const overlay = document.createElement("div");
     overlay.className = "modal-overlay";
     overlay.innerHTML = `
-        <div class="modal-card">
+        <div class="modal-card" style="max-width: 650px; max-height: 90vh; overflow-y: auto;">
             <div class="modal-header">
                 <h3>${curso ? "Editar Curso" : "Criar Novo Curso"}</h3>
                 <button type="button" class="btn-close" data-close>&times;</button>
@@ -254,6 +260,7 @@ function abrirModalCurso(curso, categorias) {
                         <input type="number" id="cursoPreco" placeholder="Ex: 149.90" min="0" step="0.01" required value="${curso?.preco ?? 0}">
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="cursoStatus">Status de Publicação</label>
                     <select id="cursoStatus">
@@ -261,25 +268,108 @@ function abrirModalCurso(curso, categorias) {
                         <option value="rascunho" ${curso?.status === "rascunho" ? "selected" : ""}>Rascunho (Oculto aos Alunos)</option>
                     </select>
                 </div>
-                <div class="modal-actions">
+
+                <!-- LISTA DINÂMICA DE VIDEOAULAS ENUMERADAS (AULA 1, AULA 2, AULA 3...) -->
+                <div class="form-group" style="margin-top: 24px; border-top: 2px dashed var(--nexa-border); padding-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                        <div>
+                            <label style="font-weight: 700; font-size: 1.05rem; color: var(--nexa-secondary);">🎬 Videoaulas do Curso</label>
+                            <small style="display: block; color: var(--nexa-text-muted);">Adicione e ordene as videoaulas do curso dinamicamente</small>
+                        </div>
+                        <button type="button" id="btnAdicionarVideoAula" class="btn btn-primary btn-sm">➕ Adicionar Videoaula</button>
+                    </div>
+
+                    <div id="containerListaVideoAulas" style="display: flex; flex-direction: column; gap: 14px;">
+                        <!-- Cards das aulas inseridos via JS -->
+                    </div>
+                </div>
+
+                <div class="modal-actions" style="margin-top: 24px;">
                     <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar Curso</button>
+                    <button type="submit" class="btn btn-primary">Salvar Curso e Aulas</button>
                 </div>
             </form>
         </div>
     `;
 
     document.body.appendChild(overlay);
+
+    const containerLista = overlay.querySelector("#containerListaVideoAulas");
+    const btnAdd = overlay.querySelector("#btnAdicionarVideoAula");
+
+    // Preenche as aulas existentes ordenadas ou cria 1 aula vazia se for novo
+    const aulasOrdenadas = aulasExistentes.sort((a, b) => a.ordem - b.ordem);
+    if (aulasOrdenadas.length > 0) {
+        aulasOrdenadas.forEach((a) => adicionarItemVideoAula(containerLista, a));
+    } else {
+        adicionarItemVideoAula(containerLista); // Adiciona Aula 1 inicial por padrão
+    }
+
+    btnAdd.addEventListener("click", () => {
+        adicionarItemVideoAula(containerLista);
+    });
+
     overlay.querySelectorAll("[data-close]").forEach((el) => el.addEventListener("click", () => overlay.remove()));
     overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.remove(); });
 
     overlay.querySelector("#formCurso").addEventListener("submit", async (e) => {
         e.preventDefault();
-        await salvarCurso(curso, overlay);
+        await salvarCursoEAulas(curso, overlay, containerLista);
     });
 }
 
-async function salvarCurso(cursoExistente, overlay) {
+// Função auxiliar para criar cada card de videoaula enumerado (Aula 1, Aula 2, Aula 3...)
+function adicionarItemVideoAula(container, dados = {}) {
+    const numAula = container.children.length + 1;
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "item-video-aula-card";
+    itemDiv.style.cssText = "background: var(--nexa-bg-light); border: 1px solid var(--nexa-border); border-radius: var(--radius-sm); padding: 16px; position: relative;";
+
+    itemDiv.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <strong class="label-num-aula" style="color: var(--nexa-primary); font-size: 0.95rem;">📖 Aula ${numAula}</strong>
+            <button type="button" class="btn-remover-aula" style="background: #FEE2E2; border: 1px solid #FCA5A5; color: #991B1B; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 0.8rem; font-weight: 700;">🗑️ Remover</button>
+        </div>
+        <div class="form-group" style="margin-bottom: 10px;">
+            <label style="font-size: 0.8rem; font-weight: 600;">Título da Aula ${numAula}</label>
+            <input type="text" class="input-aula-titulo" placeholder="Ex: Aula ${numAula}: Introdução aos conceitos" required value="${escapeHTML(dados.titulo || "")}">
+        </div>
+        <div class="form-row">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label style="font-size: 0.8rem; font-weight: 600;">URL do Vídeo (YouTube)</label>
+                <input type="url" class="input-aula-url" placeholder="https://www.youtube.com/watch?v=..." required value="${escapeHTML(dados.videoUrl || "")}">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label style="font-size: 0.8rem; font-weight: 600;">Duração</label>
+                <input type="text" class="input-aula-duracao" placeholder="Ex: 15 min" value="${escapeHTML(dados.duracao || "15 min")}">
+            </div>
+        </div>
+    `;
+
+    itemDiv.querySelector(".btn-remover-aula").addEventListener("click", () => {
+        itemDiv.remove();
+        reordenarEnumeracaoAulas(container);
+    });
+
+    container.appendChild(itemDiv);
+}
+
+// Reordena a numeração (Aula 1, Aula 2, Aula 3...) caso alguma seja removida
+function reordenarEnumeracaoAulas(container) {
+    const cards = container.querySelectorAll(".item-video-aula-card");
+    cards.forEach((card, index) => {
+        const label = card.querySelector(".label-num-aula");
+        const inputTitulo = card.querySelector(".input-aula-titulo");
+        if (label) {
+            label.textContent = `📖 Aula ${index + 1}`;
+        }
+        if (inputTitulo && (!inputTitulo.value || inputTitulo.value.startsWith("Aula "))) {
+            inputTitulo.placeholder = `Ex: Aula ${index + 1}: Introdução aos conceitos`;
+        }
+    });
+}
+
+async function salvarCursoEAulas(cursoExistente, overlay, containerLista) {
     const dadosCurso = {
         titulo: overlay.querySelector("#cursoTitulo").value.trim(),
         descricao: overlay.querySelector("#cursoDescricao").value.trim(),
@@ -291,15 +381,17 @@ async function salvarCurso(cursoExistente, overlay) {
     };
 
     try {
+        let targetCursoId = cursoExistente ? cursoExistente.id : null;
+
         if (cursoExistente) {
             await fetch(`${API_URL}/cursos/${cursoExistente.id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dadosCurso)
             });
-            toastSucesso("Curso atualizado com sucesso!");
         } else {
             dadosCurso.id = "curso_" + Date.now();
+            targetCursoId = dadosCurso.id;
             dadosCurso.criadoEm = new Date().toISOString();
             dadosCurso.imagem = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600";
 
@@ -308,14 +400,65 @@ async function salvarCurso(cursoExistente, overlay) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dadosCurso)
             });
-            toastSucesso("Novo curso criado com sucesso!");
         }
 
+        // Deleta as aulas antigas vinculadas a este curso para atualizar a lista cronológica
+        if (cursoExistente) {
+            const respAntigas = await fetch(`${API_URL}/aulas?cursoId=${targetCursoId}`);
+            if (respAntigas.ok) {
+                const antigas = await respAntigas.json();
+                for (const a of antigas) {
+                    await fetch(`${API_URL}/aulas/${a.id}`, { method: "DELETE" });
+                }
+            }
+        }
+
+        // Lê todos os cards de videoaula do modal e salva na ordem cronológica (1, 2, 3...)
+        const cardsAulas = containerLista.querySelectorAll(".item-video-aula-card");
+        let ordemNum = 1;
+
+        for (const card of cardsAulas) {
+            const titulo = card.querySelector(".input-aula-titulo").value.trim();
+            const urlRaw = card.querySelector(".input-aula-url").value.trim();
+            const duracao = card.querySelector(".input-aula-duracao").value.trim() || "15 min";
+
+            if (titulo && urlRaw) {
+                let urlEmbed = urlRaw;
+                if (urlRaw.includes("watch?v=")) {
+                    const videoId = urlRaw.split("watch?v=")[1].split("&")[0];
+                    urlEmbed = `https://www.youtube-nocookie.com/embed/${videoId}`;
+                } else if (urlRaw.includes("youtu.be/")) {
+                    const videoId = urlRaw.split("youtu.be/")[1].split("?")[0];
+                    urlEmbed = `https://www.youtube-nocookie.com/embed/${videoId}`;
+                }
+
+                const novaAula = {
+                    id: `aula_${targetCursoId}_${ordemNum}_${Date.now()}`,
+                    cursoId: targetCursoId,
+                    ordem: ordemNum,
+                    titulo: titulo,
+                    duracao: duracao,
+                    thumb: "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+                    videoUrl: urlEmbed
+                };
+
+                await fetch(`${API_URL}/aulas`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(novaAula)
+                });
+
+                ordemNum++;
+            }
+        }
+
+        toastSucesso(cursoExistente ? "Curso e videoaulas atualizados!" : "Novo curso e videoaulas criados!");
         overlay.remove();
         renderCursosPanel();
 
     } catch (erro) {
-        toastErro("Erro ao salvar curso na API.");
+        console.error(erro);
+        toastErro("Erro ao salvar curso e aulas na API.");
     }
 }
 

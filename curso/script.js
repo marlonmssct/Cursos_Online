@@ -13,6 +13,7 @@ const navAdminItem = document.getElementById("navAdminItem");
 // Elementos do Modo Foco e Player
 const playerFocusSection = document.getElementById("playerFocusSection");
 const videoPlayer = document.getElementById("videoPlayer");
+const videoPlayerErro = document.getElementById("videoPlayerErro");
 const aulaTituloAtual = document.getElementById("aulaTituloAtual");
 const btnAulaAnterior = document.getElementById("btnAulaAnterior");
 const btnProximaAula = document.getElementById("btnProximaAula");
@@ -79,32 +80,48 @@ function obterCursoIdDaURL() {
     return urlParams.get("id");
 }
 
-// Helper: Formata qualquer link do YouTube (Vídeo único ou Playlist) para o domínio seguro nocookie
+// Helper: Formata qualquer link do YouTube (Vídeo único ou Playlist) para o domínio seguro nocookie.
+// Retorna null quando a URL não pôde ser reconhecida, para o chamador exibir um estado de erro
+// em vez de jogar um valor inválido no src do iframe.
 function formatarUrlVideoEmbed(url) {
     if (!url) return "https://www.youtube-nocookie.com/embed/WRlfwBof66s?rel=0&enablejsapi=1";
 
-    let videoId = "";
+    const urlLimpa = url.trim();
 
-    // 1. Se for link de Playlist pura (youtube.com/playlist?list=ID)
-    if (url.includes("playlist?list=")) {
-        const playlistId = url.split("playlist?list=")[1].split("&")[0];
-        return `https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}&rel=0&enablejsapi=1`;
+    // 1. Link de Playlist pura (youtube.com/playlist?list=ID)
+    const matchPlaylist = urlLimpa.match(/[?&]list=([a-zA-Z0-9_-]+)/);
+    if (urlLimpa.includes("playlist?list=") && matchPlaylist) {
+        return `https://www.youtube-nocookie.com/embed/videoseries?list=${matchPlaylist[1]}&rel=0&enablejsapi=1`;
     }
 
-    // 2. Extrai o ID do vídeo para qualquer padrão de URL do YouTube
-    if (url.includes("watch?v=")) {
-        videoId = url.split("watch?v=")[1].split("&")[0];
-    } else if (url.includes("youtu.be/")) {
-        videoId = url.split("youtu.be/")[1].split("?")[0];
-    } else if (url.includes("/embed/")) {
-        videoId = url.split("/embed/")[1].split("?")[0];
+    // 2. Extrai o ID do vídeo cobrindo os formatos mais comuns do YouTube
+    const padroesId = [
+        /(?:watch\?v=|[?&]v=)([a-zA-Z0-9_-]{11})/,
+        /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+        /\/embed\/([a-zA-Z0-9_-]{11})/,
+        /\/shorts\/([a-zA-Z0-9_-]{11})/,
+        /\/live\/([a-zA-Z0-9_-]{11})/
+    ];
+
+    let videoId = "";
+    for (const padrao of padroesId) {
+        const match = urlLimpa.match(padrao);
+        if (match) {
+            videoId = match[1];
+            break;
+        }
+    }
+
+    // 3. Se nenhum padrão de URL bateu, aceita o valor como um ID puro de 11 caracteres
+    if (!videoId && /^[a-zA-Z0-9_-]{11}$/.test(urlLimpa)) {
+        videoId = urlLimpa;
     }
 
     if (videoId) {
         return `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&enablejsapi=1`;
     }
 
-    return url;
+    return null;
 }
 
 
@@ -141,6 +158,22 @@ async function carregarSalaDeAula() {
         imagemCursoPadrao = curso.imagem || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600';
         listaAulasOrdenadas = aulas.sort((a, b) => a.ordem - b.ordem);
         
+        // Se o curso tiver videoUrl cadastrado no Admin mas nenhuma aula salva no banco, gera dinamicamente as aulas da playlist/vídeo:
+        if (listaAulasOrdenadas.length === 0 && curso.videoUrl) {
+            const urlFormatada = formatarUrlVideoEmbed(curso.videoUrl);
+            if (curso.videoUrl.includes("playlist?list=")) {
+                listaAulasOrdenadas = [
+                    { id: "aula_dyn_1", cursoId: curso.id, ordem: 1, titulo: "Módulo 1: Introdução & Conceitos Iniciais", duracao: "20 min", videoUrl: urlFormatada, thumb: imagemCursoPadrao },
+                    { id: "aula_dyn_2", cursoId: curso.id, ordem: 2, titulo: "Módulo 2: Prática Hands-on & Exercícios", duracao: "35 min", videoUrl: urlFormatada, thumb: imagemCursoPadrao },
+                    { id: "aula_dyn_3", cursoId: curso.id, ordem: 3, titulo: "Módulo 3: Projeto Prático & Conclusão", duracao: "40 min", videoUrl: urlFormatada, thumb: imagemCursoPadrao }
+                ];
+            } else {
+                listaAulasOrdenadas = [
+                    { id: "aula_dyn_1", cursoId: curso.id, ordem: 1, titulo: `Aula Principal: ${curso.titulo}`, duracao: "30 min", videoUrl: urlFormatada, thumb: imagemCursoPadrao }
+                ];
+            }
+        }
+
         matriculaAlunoLogado = matriculas.length > 0 ? matriculas[0] : null;
         const estaMatriculado = matriculaAlunoLogado !== null;
 
@@ -223,7 +256,18 @@ function carregarAulaNoPlayer(index) {
 
     // Formata o link para embed do próprio site
     const videoEmbedUrl = formatarUrlVideoEmbed(aula.videoUrl);
-    videoPlayer.src = videoEmbedUrl;
+
+    if (videoEmbedUrl) {
+        videoPlayer.classList.remove("hidden");
+        videoPlayerErro.classList.add("hidden");
+        videoPlayer.src = videoEmbedUrl;
+    } else {
+        videoPlayer.classList.add("hidden");
+        videoPlayer.src = "about:blank";
+        videoPlayerErro.classList.remove("hidden");
+        videoPlayerErro.textContent = "⚠️ Não foi possível carregar este vídeo. O link cadastrado para esta aula é inválido.";
+    }
+
     aulaTituloAtual.textContent = `Aula ${aula.ordem}: ${aula.titulo}`;
 
     // Atualiza estado dos botões Anterior / Próxima
