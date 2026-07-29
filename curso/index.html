@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Curso - NEXA Cursos Online</title>
+    <title>Sala de Aula - NEXA Cursos Online</title>
     <!-- Google Fonts do Guia NEXA: Sora e Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,28 +42,88 @@
         </div>
     </header>
 
-    <!-- Conteúdo Dinâmico do Curso -->
+    <!-- Conteúdo Principal da Sala de Aula -->
     <main class="course-detail-container">
-        <!-- Banner e Informações Principais -->
+        <!-- Cabeçalho do Curso -->
         <div id="courseHeader" class="course-detail-header">
             <p>Carregando informações do curso...</p>
         </div>
 
+        <!-- ============================================================ -->
+        <!-- PLAYER EM MODO FOCO (VÍDEO 16:9 + CONTROLES ANTERIOR/PRÓXIMA) -->
+        <!-- ============================================================ -->
+        <section id="playerFocusSection" class="video-focus-wrapper hidden">
+            <div class="video-player-container">
+                <iframe 
+                    id="videoPlayer" 
+                    class="video-iframe" 
+                    src="https://www.youtube-nocookie.com/embed/WRlfwBof66s?rel=0&enablejsapi=1" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- Barra de Controles da Aula Atual -->
+            <div class="lesson-control-bar">
+                <div>
+                    <span class="lesson-tag">AULA ATUAL</span>
+                    <h3 id="aulaTituloAtual">Selecione uma aula</h3>
+                </div>
+
+                <!-- Botões de Navegação Contínua -->
+                <div class="lesson-nav-buttons">
+                    <button id="btnAulaAnterior" class="btn btn-secondary btn-sm" disabled>⏮️ Aula Anterior</button>
+                    <button id="btnProximaAula" class="btn btn-primary btn-sm">⏭️ Próxima Aula</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Layout Principal (Playlist + Painel Lateral de Matrícula/Progresso) -->
         <div class="course-detail-layout">
-            <!-- Coluna da Esquerda: Aulas e Conteúdo -->
+            
+            <!-- Coluna da Esquerda: Playlist Interativa e Avaliações -->
             <div class="course-content-col">
                 <div class="section-box">
-                    <h3>📚 Conteúdo do Curso (Aulas)</h3>
-                    <div id="lessonsList" class="lessons-list">
+                    <h3>📚 Playlist de Aulas do Curso</h3>
+                    <div id="playlistAulas" class="lessons-list">
                         <p>Carregando aulas...</p>
                     </div>
                 </div>
 
-                <!-- Seção de Avaliações -->
+                <!-- Seção de Avaliação (Para Alunos com Matrícula Concluída) -->
+                <div id="sectionAvaliacao" class="section-box hidden" style="margin-top: 32px;">
+                    <h3>⭐ Avaliar este Curso</h3>
+                    <p class="sub-title" style="margin-bottom: 16px;">Você concluiu este curso! Deixe sua opinião para ajudar outros alunos.</p>
+
+                    <form id="formAvaliacao">
+                        <div class="form-group" style="margin-bottom: 14px;">
+                            <label for="selectNota">Sua Nota (1 a 5 Estrelas):</label>
+                            <select id="selectNota" class="select-filter" style="width: 160px;" required>
+                                <option value="5">⭐⭐⭐⭐⭐ (5 - Excelente)</option>
+                                <option value="4">⭐⭐⭐⭐ (4 - Muito Bom)</option>
+                                <option value="3">⭐⭐⭐ (3 - Bom)</option>
+                                <option value="2">⭐⭐ (2 - Regular)</option>
+                                <option value="1">⭐ (1 - Ruim)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 14px;">
+                            <label for="inputComentario">Seu Comentário:</label>
+                            <textarea id="inputComentario" rows="3" placeholder="Escreva o que achou das aulas e do instrutor..." class="input-search" style="padding: 12px; border-radius: 8px; width: 100%;" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-sm">Enviar Avaliação</button>
+                    </form>
+                </div>
+
+                <!-- Seção de Avaliações Registradas -->
                 <div class="section-box" style="margin-top: 32px;">
-                    <h3>⭐ Avaliações dos Alunos</h3>
+                    <h3>⭐ Avaliações da Comunidade</h3>
                     <div id="reviewsList" class="reviews-list">
-                        <p>Nenhuma avaliação ainda.</p>
+                        <p>Carregando avaliações...</p>
                     </div>
                 </div>
             </div>
@@ -71,7 +131,7 @@
             <!-- Coluna da Direita: Card de Matrícula & Progresso -->
             <div class="course-sidebar-col">
                 <div class="enrollment-card">
-                    <img id="courseThumb" src="" alt="Thumbnail" class="enrollment-thumb">
+                    <img id="courseThumb" src="" alt="Thumbnail do Curso" class="enrollment-thumb">
                     
                     <div class="enrollment-body">
                         <div id="progressBox" class="progress-box hidden">
@@ -83,11 +143,12 @@
                         </div>
 
                         <div id="enrollmentActions">
-                            <!-- Botão de Matrícula preenchido via JS -->
+                            <!-- Preenchido via JS (Botão de Matrícula) -->
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 

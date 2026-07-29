@@ -29,9 +29,21 @@
     }
   ],
   "categorias": [
-    { "id": "cat_prog", "nome": "Programação & Web", "slug": "programacao" },
-    { "id": "cat_design", "nome": "Design & UI/UX", "slug": "design" },
-    { "id": "cat_mkt", "nome": "Marketing Digital", "slug": "marketing" }
+    {
+      "id": "cat_prog",
+      "nome": "Programação & Web",
+      "slug": "programacao"
+    },
+    {
+      "id": "cat_design",
+      "nome": "Design & UI/UX",
+      "slug": "design"
+    },
+    {
+      "id": "cat_mkt",
+      "nome": "Marketing Digital",
+      "slug": "marketing"
+    }
   ],
   "cursos": [
     {

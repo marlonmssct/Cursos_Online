@@ -44,25 +44,59 @@
 
     <!-- Conteúdo Principal do Catálogo NEXA -->
     <main class="catalogo-container">
+        <!-- Hero Banner Institucional -->
         <div class="hero-banner">
             <span class="hero-badge">⚡ Plataforma de Alta Performance</span>
             <h2>Evolua sua Carreira com a NEXA</h2>
             <p>Desenvolva novas habilidades com cursos focados em tecnologia, design e mercado digital.</p>
         </div>
 
-        <!-- Seção de Filtros por Categoria -->
-        <div class="filter-bar">
-            <label for="selectCategoria">Filtrar por Categoria:</label>
-            <select id="selectCategoria">
-                <option value="todos">Todas as Categorias</option>
-                <!-- Categorias carregadas via JS -->
-            </select>
-        </div>
+        <!-- ============================================================ -->
+        <!-- SEÇÃO 1: MEUS CURSOS (CURSOS EM QUE O ALUNO ESTÁ MATRICULADO)  -->
+        <!-- ============================================================ -->
+        <section id="secaoMeusCursos" class="secao-catalogo hidden">
+            <div class="secao-header">
+                <h3>📖 Meus Cursos em Andamento</h3>
+                <p class="sub-title">Acompanhe seu progresso e continue de onde parou</p>
+            </div>
+            <div id="gridMeusCursos" class="courses-grid">
+                <!-- Renderizado via JS -->
+            </div>
+        </section>
 
-        <!-- Grid de Cursos -->
-        <div id="gridCursos" class="courses-grid">
-            <p class="empty-state">Carregando cursos...</p>
-        </div>
+        <!-- ============================================================ -->
+        <!-- SEÇÃO 2: EXPLORAR TODOS OS CURSOS (COM BUSCA E FILTROS)     -->
+        <!-- ============================================================ -->
+        <section class="secao-catalogo" style="margin-top: 40px;">
+            <div class="secao-header">
+                <h3>🔍 Explorar Todos os Cursos</h3>
+                <p class="sub-title">Encontre os melhores treinamentos para a sua jornada profissional</p>
+            </div>
+
+            <!-- Barra de Filtros e Busca em Tempo Real -->
+            <div class="filter-bar">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="inputBuscaTexto" placeholder="Pesquisar por título ou palavra-chave..." class="input-search">
+                </div>
+
+                <div class="filter-group">
+                    <label for="selectCategoria">Categoria:</label>
+                    <select id="selectCategoria" class="select-filter">
+                        <option value="todos">Todas as Categorias</option>
+                        <!-- Categorias dinâmicas -->
+                    </select>
+                </div>
+
+                <button id="btnLimparFiltros" class="btn btn-outline btn-sm">Limpar Filtros</button>
+            </div>
+
+            <!-- Grid de Cursos Publicados -->
+            <div id="gridCursos" class="courses-grid">
+                <p class="empty-state">Carregando cursos...</p>
+            </div>
+        </section>
+
     </main>
 
     <footer class="global-footer">
