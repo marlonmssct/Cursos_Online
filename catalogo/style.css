@@ -1,4 +1,4 @@
-/* Estilos da Tela de Catálogo de Cursos NEXA */
+/* Estilos da Tela de Catálogo de Cursos NEXA Refatorados */
 .catalogo-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -6,7 +6,7 @@
     width: 100%;
 }
 
-/* Banner de Alto Impacto (Fundo Escuro #1C1826 / Violeta #2D1C52) */
+/* Banner de Alto Impacto */
 .hero-banner {
     background: linear-gradient(135deg, var(--nexa-bg-dark) 0%, var(--nexa-secondary) 100%);
     color: white;
@@ -44,30 +44,75 @@
     max-width: 680px;
 }
 
-/* Barra de Filtro por Categoria */
+/* Seções do Catálogo */
+.secao-catalogo {
+    margin-bottom: 40px;
+}
+
+.secao-header {
+    margin-bottom: 20px;
+}
+
+.secao-header h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--nexa-secondary);
+}
+
+.secao-header .sub-title {
+    font-size: 0.9rem;
+    color: var(--nexa-text-muted);
+    margin-top: 4px;
+}
+
+/* Barra de Filtro e Busca */
 .filter-bar {
     background-color: var(--nexa-bg-card);
     border: 1px solid var(--nexa-border);
     padding: 18px 24px;
     border-radius: var(--radius-md);
-    margin-bottom: 36px;
+    margin-bottom: 28px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
     box-shadow: var(--shadow-sm);
 }
 
-.filter-bar label {
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--nexa-text-main);
-}
-
-.filter-bar select {
-    padding: 10px 16px;
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--nexa-bg-light);
     border: 1px solid var(--nexa-border);
     border-radius: var(--radius-sm);
+    padding: 8px 14px;
+    flex: 1;
+    min-width: 260px;
+}
+
+.input-search {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-body);
     font-size: 0.92rem;
+    color: var(--nexa-text-main);
+    width: 100%;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.select-filter {
+    padding: 10px 14px;
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
     outline: none;
     background-color: var(--nexa-bg-light);
     color: var(--nexa-text-main);
@@ -135,6 +180,40 @@
     flex: 1;
 }
 
+/* Componente de Barra de Progresso no Card de "Meus Cursos" */
+.progress-card-box {
+    margin-top: auto;
+    margin-bottom: 16px;
+    background-color: var(--nexa-bg-light);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--nexa-border);
+}
+
+.progress-card-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--nexa-text-main);
+    margin-bottom: 6px;
+}
+
+.progress-card-bar-bg {
+    width: 100%;
+    height: 8px;
+    background-color: #E8E6EB;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-card-bar-fill {
+    height: 100%;
+    background-color: var(--nexa-success);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
 .course-footer {
     display: flex;
     justify-content: space-between;
@@ -160,4 +239,7 @@
     text-align: center;
     padding: 40px;
     color: var(--nexa-text-muted);
+    background-color: var(--nexa-bg-card);
+    border: 1px dashed var(--nexa-border);
+    border-radius: var(--radius-md);
 }
