@@ -1,72 +1,171 @@
 // ==================================================== //
-// LÓGICA DE AUTENTICAÇÃO E LOGIN (PÁGINA LOGIN)        //
+// LANDING PAGE NEXA — Troca de aba + Login + Cadastro   //
 // Backend simulado via json-server (fetch nos endpoints). //
-// O localStorage guarda apenas a sessão do usuário logado. //
 // ==================================================== //
 
-// Captura dos elementos do formulário no DOM
-const formLogin = document.getElementById("formLogin"); // Formulário de login
-const inputEmail = document.getElementById("email");    // Campo do e-mail
-const inputSenha = document.getElementById("senha");    // Campo da senha
-const feedback = document.getElementById("feedback");    // Caixa de mensagens de erro/sucesso
+// ---------------------------------------------------- //
+// 1. TROCA ENTRE OS MÓDULOS DE LOGIN E CADASTRO         //
+// ---------------------------------------------------- //
+const tabLoginBtn = document.getElementById("tabLoginBtn");
+const tabCadastroBtn = document.getElementById("tabCadastroBtn");
+const painelLogin = document.getElementById("painelLogin");
+const painelCadastro = document.getElementById("painelCadastro");
 
-// Função para exibir mensagem de erro na tela
-function exibirErro(mensagem) {
-    feedback.textContent = mensagem; // Define o texto do erro
-    feedback.className = "feedback-box error"; // Aplica estilo de erro
-    feedback.classList.remove("hidden"); // Exibe o container
+function abrirAba(nome) {
+    const ehLogin = nome === "login";
+
+    tabLoginBtn.classList.toggle("active", ehLogin);
+    tabCadastroBtn.classList.toggle("active", !ehLogin);
+    painelLogin.classList.toggle("hidden", !ehLogin);
+    painelCadastro.classList.toggle("hidden", ehLogin);
+
+    document.getElementById("auth").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-// Ouvinte de evento para quando o usuário envia o formulário de login
+tabLoginBtn.addEventListener("click", () => abrirAba("login"));
+tabCadastroBtn.addEventListener("click", () => abrirAba("cadastro"));
+
+document.querySelectorAll("[data-open-tab]").forEach((el) => {
+    el.addEventListener("click", () => abrirAba(el.dataset.openTab));
+});
+
+// ---------------------------------------------------- //
+// 2. LOGIN                                              //
+// ---------------------------------------------------- //
+const formLogin = document.getElementById("formLogin");
+const loginEmail = document.getElementById("loginEmail");
+const loginSenha = document.getElementById("loginSenha");
+const feedbackLogin = document.getElementById("feedbackLogin");
+
+function exibirErroLogin(mensagem) {
+    feedbackLogin.textContent = mensagem;
+    feedbackLogin.className = "feedback-box error";
+    feedbackLogin.classList.remove("hidden");
+}
+
 formLogin.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Impede o recarregamento padrão da página
+    e.preventDefault();
 
-    // Captura e limpa os valores digitados
-    const emailDigitado = inputEmail.value.trim().toLowerCase();
-    const senhaDigitada = inputSenha.value.trim();
+    const emailDigitado = loginEmail.value.trim().toLowerCase();
+    const senhaDigitada = loginSenha.value.trim();
 
-    // Limpa feedbacks anteriores
-    feedback.classList.add("hidden");
+    feedbackLogin.classList.add("hidden");
 
     try {
-        // Consulta na API json-server filtrando pelo e-mail informado
         const resposta = await fetch(`${API_URL}/usuarios?email=${encodeURIComponent(emailDigitado)}`);
 
         if (!resposta.ok) {
-            exibirErro("Erro de conexão com o servidor na porta 3000.");
+            exibirErroLogin("Erro de conexão com o servidor na porta 3000.");
             return;
         }
 
         const usuariosEncontrados = await resposta.json();
 
-        // 1. Verifica se encontrou algum usuário com esse e-mail
         if (usuariosEncontrados.length === 0) {
-            exibirErro("Nenhum usuário cadastrado com este e-mail.");
+            exibirErroLogin("Nenhum usuário cadastrado com este e-mail.");
             return;
         }
 
         const usuario = usuariosEncontrados[0];
 
-        // 2. Valida a senha digitada
         if (usuario.senha !== senhaDigitada) {
-            exibirErro("Senha incorreta! Tente novamente.");
+            exibirErroLogin("Senha incorreta! Tente novamente.");
             return;
         }
 
-        // 3. Verifica se a conta do usuário está ativa
         if (!usuario.ativo) {
-            exibirErro("Sua conta está desativada. Entre em contato com a administração.");
+            exibirErroLogin("Sua conta está desativada. Entre em contato com a administração.");
             return;
         }
 
-        // 4. Se passou em todas as validações, guarda o usuário e seu role na sessão (localStorage)
         Sessao.setUsuario(usuario);
-
-        // Redireciona para a página de Catálogo de Cursos
         window.location.href = "../catalogo/index.html";
 
     } catch (erro) {
         console.error("Erro na autenticação:", erro);
-        exibirErro("O servidor json-server não está respondendo. Verifique se executou: npx json-server db.json");
+        exibirErroLogin("O servidor json-server não está respondendo. Verifique se executou: npx json-server db.json");
+    }
+});
+
+// ---------------------------------------------------- //
+// 3. CADASTRO                                           //
+// ---------------------------------------------------- //
+const formCadastro = document.getElementById("formCadastro");
+const cadastroNome = document.getElementById("cadastroNome");
+const cadastroEmail = document.getElementById("cadastroEmail");
+const cadastroSenha = document.getElementById("cadastroSenha");
+const cadastroRole = document.getElementById("cadastroRole");
+const feedbackCadastro = document.getElementById("feedbackCadastro");
+
+function exibirFeedbackCadastro(mensagem, ehSucesso = false) {
+    feedbackCadastro.textContent = mensagem;
+    feedbackCadastro.className = `feedback-box ${ehSucesso ? "success" : "error"}`;
+    feedbackCadastro.classList.remove("hidden");
+}
+
+formCadastro.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const nome = cadastroNome.value.trim();
+    const email = cadastroEmail.value.trim().toLowerCase();
+    const senha = cadastroSenha.value.trim();
+    const role = cadastroRole.value;
+
+    feedbackCadastro.classList.add("hidden");
+
+    if (nome.length < 3) {
+        exibirFeedbackCadastro("O nome deve ter no mínimo 3 caracteres.");
+        return;
+    }
+
+    if (senha.length < 6) {
+        exibirFeedbackCadastro("A senha deve conter pelo menos 6 caracteres.");
+        return;
+    }
+
+    try {
+        const checagemEmail = await fetch(`${API_URL}/usuarios?email=${encodeURIComponent(email)}`);
+
+        if (checagemEmail.ok) {
+            const usuariosExistentes = await checagemEmail.json();
+
+            if (usuariosExistentes.length > 0) {
+                exibirFeedbackCadastro("Este e-mail já está em uso por outro usuário.");
+                return;
+            }
+        }
+
+        const novoUsuario = {
+            id: "u_" + Date.now(),
+            nome,
+            email,
+            senha,
+            role,
+            ativo: true,
+            criadoEm: new Date().toISOString()
+        };
+
+        const respostaPost = await fetch(`${API_URL}/usuarios`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(novoUsuario)
+        });
+
+        if (respostaPost.ok) {
+            exibirFeedbackCadastro("Conta criada com sucesso! Faça login para continuar.", true);
+            formCadastro.reset();
+
+            setTimeout(() => {
+                abrirAba("login");
+                loginEmail.value = email;
+                loginSenha.focus();
+            }, 1200);
+        } else {
+            exibirFeedbackCadastro("Erro ao registrar o usuário na API.");
+        }
+
+    } catch (erro) {
+        console.error("Erro no cadastro:", erro);
+        exibirFeedbackCadastro("Servidor json-server offline na porta 3000. Inicie com npx json-server db.json");
     }
 });
