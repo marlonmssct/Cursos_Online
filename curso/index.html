@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Curso - Plataforma de Cursos Online</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Fixo Dinâmico -->
+    <header class="global-header">
+        <div class="header-container">
+            <a href="../catalogo/index.html" class="logo-brand">🎓 Cursos<span>Online</span></a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="../catalogo/index.html" class="nav-link">Catálogo</a></li>
+                    <li><a href="../perfil/index.html" class="nav-link">Meu Perfil</a></li>
+                    <li id="navAdminItem" class="hidden"><a href="../admin/index.html" class="nav-link">Painel Gestão</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-widget">
+                <span id="userWelcome" style="font-size: 0.9rem; font-weight: 600;">Olá, Aluno</span>
+                <span id="userRoleBadge" class="badge-role aluno">Aluno</span>
+                <button id="btnLogout" class="btn btn-secondary btn-sm">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Dinâmico do Curso -->
+    <main class="course-detail-container">
+        <!-- Banner e Informações Principais -->
+        <div id="courseHeader" class="course-detail-header">
+            <p>Carregando informações do curso...</p>
+        </div>
+
+        <div class="course-detail-layout">
+            <!-- Coluna da Esquerda: Aulas e Conteúdo -->
+            <div class="course-content-col">
+                <div class="section-box">
+                    <h3>📚 Conteúdo do Curso (Aulas)</h3>
+                    <div id="lessonsList" class="lessons-list">
+                        <p>Carregando aulas...</p>
+                    </div>
+                </div>
+
+                <!-- Seção de Avaliações -->
+                <div class="section-box" style="margin-top: 32px;">
+                    <h3>⭐ Avaliações dos Alunos</h3>
+                    <div id="reviewsList" class="reviews-list">
+                        <p>Nenhuma avaliação ainda.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna da Direita: Card de Matrícula & Progresso -->
+            <div class="course-sidebar-col">
+                <div class="enrollment-card">
+                    <img id="courseThumb" src="" alt="Thumbnail" class="enrollment-thumb">
+                    
+                    <div class="enrollment-body">
+                        <div id="progressBox" class="progress-box hidden">
+                            <label>Seu Progresso no Curso:</label>
+                            <div class="progress-bar-bg">
+                                <div id="progressBarFill" class="progress-bar-fill" style="width: 0%;"></div>
+                            </div>
+                            <span id="progressText" class="progress-text">0% Concluído</span>
+                        </div>
+
+                        <div id="enrollmentActions">
+                            <!-- Botão de Matrícula preenchido via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="global-footer">
+        <p>&copy; 2026 Plataforma de Cursos Online. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

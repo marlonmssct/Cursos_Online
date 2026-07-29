@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Cursos - Plataforma de Cursos Online</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Fixo Dinâmico -->
+    <header class="global-header">
+        <div class="header-container">
+            <a href="../catalogo/index.html" class="logo-brand">🎓 Cursos<span>Online</span></a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="../catalogo/index.html" class="nav-link active">Catálogo</a></li>
+                    <li><a href="../perfil/index.html" class="nav-link">Meu Perfil</a></li>
+                    <li id="navAdminItem" class="hidden"><a href="../admin/index.html" class="nav-link">Painel Gestão</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-widget">
+                <span id="userWelcome" style="font-size: 0.9rem; font-weight: 600;">Olá, Visitante</span>
+                <span id="userRoleBadge" class="badge-role aluno">Aluno</span>
+                <button id="btnLogout" class="btn btn-secondary btn-sm">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal do Catálogo -->
+    <main class="catalogo-container">
+        <div class="hero-banner">
+            <h2>Explore Nossos Cursos Online</h2>
+            <p>Desenvolva novas habilidades com cursos práticos e instrutores renomados.</p>
+        </div>
+
+        <!-- Seção de Filtros por Categoria -->
+        <div class="filter-bar">
+            <label for="selectCategoria">Filtrar por Categoria:</label>
+            <select id="selectCategoria">
+                <option value="todos">Todas as Categorias</option>
+                <!-- Categorias carregadas via JS -->
+            </select>
+        </div>
+
+        <!-- Grid de Cursos -->
+        <div id="gridCursos" class="courses-grid">
+            <p class="empty-state">Carregando cursos...</p>
+        </div>
+    </main>
+
+    <footer class="global-footer">
+        <p>&copy; 2026 Plataforma de Cursos Online. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

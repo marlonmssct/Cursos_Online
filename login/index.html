@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Plataforma de Cursos</title>
+    <!-- CSS Global e CSS Específico da Tela de Login -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Fixo da Plataforma -->
+    <header class="global-header">
+        <div class="header-container">
+            <a href="#" class="logo-brand">🎓 Cursos<span>Online</span></a>
+            <span class="badge-role aluno">Visitante</span>
+        </div>
+    </header>
+
+    <!-- Form de Autenticação -->
+    <main class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Acessar a Plataforma</h2>
+                <p>Entre com seu e-mail e senha para acessar seus cursos</p>
+            </div>
+
+            <form id="formLogin" class="auth-form">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="seu.email@exemplo.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" placeholder="Digite sua senha" required>
+                </div>
+
+                <div id="feedback" class="feedback-box hidden"></div>
+
+                <button type="submit" class="btn btn-primary btn-block">Entrar no Sistema</button>
+            </form>
+
+            <!-- Test Accounts Helper para facilitar o teste pelo aluno -->
+            <div class="test-accounts">
+                <p><strong>💡 Contas para Teste Rápido:</strong></p>
+                <ul>
+                    <li><code>admin@plataforma.com</code> | <code>admin123</code> (Admin)</li>
+                    <li><code>editor@plataforma.com</code> | <code>editor123</code> (Editor)</li>
+                    <li><code>aluno@plataforma.com</code> | <code>aluno123</code> (Aluno)</li>
+                </ul>
+            </div>
+
+            <div class="auth-footer">
+                <p>Ainda não possui uma conta? <a href="../cadastro/index.html">Cadastre-se aqui</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="global-footer">
+        <p>&copy; 2026 Plataforma de Cursos Online. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Plataforma de Cursos Online</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Fixo Dinâmico -->
+    <header class="global-header">
+        <div class="header-container">
+            <a href="../catalogo/index.html" class="logo-brand">🎓 Cursos<span>Online</span></a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="../catalogo/index.html" class="nav-link">Catálogo</a></li>
+                    <li><a href="../perfil/index.html" class="nav-link active">Meu Perfil</a></li>
+                    <li id="navAdminItem" class="hidden"><a href="../admin/index.html" class="nav-link">Painel Gestão</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-widget">
+                <span id="userWelcome" style="font-size: 0.9rem; font-weight: 600;">Olá, Usuário</span>
+                <span id="userRoleBadge" class="badge-role aluno">Aluno</span>
+                <button id="btnLogout" class="btn btn-secondary btn-sm">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo da Página de Perfil -->
+    <main class="perfil-container">
+        <div class="perfil-card">
+            <div class="perfil-header">
+                <h2>⚙️ Meu Perfil</h2>
+                <p>Atualize suas informações pessoais e senha de acesso</p>
+            </div>
+
+            <form id="formPerfil" class="perfil-form">
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" required minlength="3">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail (Login)</label>
+                    <input type="email" id="email" disabled style="background-color: #f1f5f9; cursor: not-allowed;">
+                    <small style="color: var(--text-muted);">O e-mail não pode ser alterado diretamente por aqui.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Nova Senha</label>
+                    <input type="password" id="senha" placeholder="Digite uma nova senha se quiser alterar" minlength="6">
+                </div>
+
+                <!-- Campo de Role com alteração bloqueada para o próprio usuário (Critério de Aceite US02) -->
+                <div class="form-group">
+                    <label for="role">Seu Cargo / Perfil de Acesso (ROLE)</label>
+                    <input type="text" id="role" disabled style="background-color: #f1f5f9; cursor: not-allowed; font-weight: 700; text-transform: uppercase;">
+                    <small style="color: #dc2626; font-weight: 600;">🔒 A alteração do seu próprio cargo (role) é bloqueada. Apenas Administradores podem alterar cargos.</small>
+                </div>
+
+                <div id="feedback" class="feedback-box hidden"></div>
+
+                <button type="submit" class="btn btn-primary btn-block" style="padding: 12px; margin-top: 10px;">
+                    Salvar Alterações
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="global-footer">
+        <p>&copy; 2026 Plataforma de Cursos Online. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

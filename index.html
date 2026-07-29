@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Plataforma de Cursos Online</title>
+    <script>
+        // Redireciona automaticamente para o login ou catalogo conforme o estado de autenticacao
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuarioSalvo = localStorage.getItem("usuarioLogado");
+            if (usuarioSalvo) {
+                window.location.href = "catalogo/index.html";
+            } else {
+                window.location.href = "login/index.html";
+            }
+        });
+    </script>
 </head>
-
 <body>
-
+    <p style="text-align: center; padding: 40px; font-family: sans-serif;">Redirecionando para a plataforma...</p>
 </body>
-
 </html>

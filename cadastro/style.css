@@ -1,0 +1,4 @@
+/* Estilos específicos da Tela de Cadastro (Reaproveita e complementa os estilos de auth) */
+.auth-card {
+    max-width: 480px;
+}
