@@ -1,9 +1,8 @@
 // ==================================================== //
-// LÓGICA DE AUTENTICAÇÃO E LOGIN (PÁGINA LOGIN)       //
+// LÓGICA DE AUTENTICAÇÃO E LOGIN (PÁGINA LOGIN)        //
+// Backend simulado via json-server (fetch nos endpoints). //
+// O localStorage guarda apenas a sessão do usuário logado. //
 // ==================================================== //
-
-// Endereço base da API json-server
-const API_URL = "http://localhost:3000";
 
 // Captura dos elementos do formulário no DOM
 const formLogin = document.getElementById("formLogin"); // Formulário de login
@@ -32,7 +31,7 @@ formLogin.addEventListener("submit", async (e) => {
     try {
         // Consulta na API json-server filtrando pelo e-mail informado
         const resposta = await fetch(`${API_URL}/usuarios?email=${encodeURIComponent(emailDigitado)}`);
-        
+
         if (!resposta.ok) {
             exibirErro("Erro de conexão com o servidor na porta 3000.");
             return;
@@ -61,9 +60,7 @@ formLogin.addEventListener("submit", async (e) => {
         }
 
         // 4. Se passou em todas as validações, guarda o usuário e seu role na sessão (localStorage)
-        localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
-
-        console.log(`✅ Login realizado com sucesso como: ${usuario.nome} (${usuario.role})`);
+        Sessao.setUsuario(usuario);
 
         // Redireciona para a página de Catálogo de Cursos
         window.location.href = "../catalogo/index.html";

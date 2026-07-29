@@ -1,9 +1,7 @@
 // ==================================================== //
 // LÓGICA DE VALIDAÇÃO E CADASTRO (PÁGINA CADASTRO)     //
+// Backend simulado via json-server (fetch nos endpoints). //
 // ==================================================== //
-
-// Endereço base da API json-server
-const API_URL = "http://localhost:3000";
 
 // Captura dos elementos do formulário
 const formCadastro = document.getElementById("formCadastro");
@@ -47,10 +45,10 @@ formCadastro.addEventListener("submit", async (e) => {
     try {
         // 4. Checagem de E-mail Único no banco de dados via API json-server
         const checagemEmail = await fetch(`${API_URL}/usuarios?email=${encodeURIComponent(email)}`);
-        
+
         if (checagemEmail.ok) {
             const usuariosExistentes = await checagemEmail.json();
-            
+
             // Se encontrou algum usuário com esse e-mail, rejeita o cadastro
             if (usuariosExistentes.length > 0) {
                 exibirFeedback("Este e-mail já está em uso por outro usuário.");
@@ -78,7 +76,7 @@ formCadastro.addEventListener("submit", async (e) => {
 
         if (respostaPost.ok) {
             exibirFeedback("Cadastro realizado com sucesso! Redirecionando para o login...", true);
-            
+
             // Aguarda 1.5 segundos e redireciona para a tela de login
             setTimeout(() => {
                 window.location.href = "../login/index.html";

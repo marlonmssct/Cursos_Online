@@ -50,7 +50,7 @@
     font-weight: 700;
 }
 
-.tab-content {
+.tab-panel {
     background-color: var(--nexa-bg-card);
     border: 1px solid var(--nexa-border);
     border-radius: var(--radius-lg);
@@ -63,47 +63,191 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-.table-responsive {
-    width: 100%;
-    overflow-x: auto;
+.block-header-actions {
+    display: flex;
+    gap: 10px;
 }
 
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.92rem;
-    text-align: left;
-}
-
-.data-table th {
-    background-color: var(--nexa-bg-light);
-    color: var(--nexa-text-muted);
-    padding: 14px 18px;
+/* Status (reaproveita a semântica publicado/rascunho para ativo/desativado) */
+.badge-status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 0.78rem;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--nexa-border);
 }
 
-.data-table td {
-    padding: 16px 18px;
-    border-bottom: 1px solid var(--nexa-border);
-    vertical-align: middle;
+.badge-status.publicado { background-color: var(--nexa-success-bg); color: var(--nexa-success); }
+.badge-status.rascunho { background-color: var(--nexa-warning-bg); color: #B45309; }
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--nexa-text-muted);
 }
 
-.data-table tbody tr:hover {
+/* Grid de Cards (Cursos e Usuários) */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Card de Curso */
+.course-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--nexa-bg-card);
+    border: 1px solid var(--nexa-border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.course-card-media {
+    height: 120px;
     background-color: var(--nexa-bg-light);
+    background-size: cover;
+    background-position: center;
 }
 
-.table-actions {
+.course-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px;
+    flex: 1;
+}
+
+.course-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course-card-cat {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--nexa-text-muted);
+}
+
+.course-card-price {
+    font-family: var(--font-titles);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--nexa-secondary);
+}
+
+.course-card-body h4 {
+    font-size: 1.05rem;
+}
+
+.course-card-desc {
+    font-size: 0.85rem;
+    color: var(--nexa-text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.course-card-meta {
+    display: flex;
+    gap: 14px;
+    font-size: 0.8rem;
+    color: var(--nexa-text-muted);
+    margin-top: auto;
+    padding-top: 6px;
+}
+
+.course-card-actions {
+    display: flex;
+    gap: 8px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--nexa-border);
+}
+
+.course-card-actions .btn {
+    flex: 1;
+}
+
+/* Card de Usuário */
+.user-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background-color: var(--nexa-bg-card);
+    border: 1px solid var(--nexa-border);
+    border-radius: 4px;
+    padding: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.user-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 4px;
+    background-color: var(--nexa-secondary);
+    color: #FFFFFF;
+    font-family: var(--font-titles);
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.user-card-top h4 {
+    font-size: 1rem;
+}
+
+.user-email {
+    font-size: 0.82rem;
+    color: var(--nexa-text-muted);
+}
+
+.user-card-badges {
     display: flex;
     gap: 8px;
 }
 
-/* Modais */
+.user-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid var(--nexa-border);
+}
+
+.user-card-actions .btn {
+    flex: 1;
+    white-space: nowrap;
+}
+
+/* Modais (criados dinamicamente via JS) */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -121,11 +265,17 @@
 .modal-card {
     background-color: #FFFFFF;
     padding: 36px;
-    border-radius: var(--radius-lg);
+    border-radius: 4px;
     width: 100%;
     max-width: 540px;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--nexa-border);
+}
+
+.modal-card-sm {
+    max-width: 420px;
 }
 
 .modal-header {
@@ -155,11 +305,12 @@
     font-weight: 600;
 }
 
-.form-group input, .form-group select {
+.form-group input, .form-group select, .form-group textarea {
     padding: 11px 14px;
     border: 1px solid var(--nexa-border);
     border-radius: var(--radius-sm);
     font-size: 0.92rem;
+    font-family: var(--font-body);
     outline: none;
 }
 
