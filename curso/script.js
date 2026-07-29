@@ -69,7 +69,20 @@ function verificarSessao() {
 }
 
 if (btnLogout) {
-    btnLogout.addEventListener("click", () => {
+    btnLogout.addEventListener("click", async () => {
+        // Confirmação antes de encerrar a sessão: o aluno pode estar no meio de uma aula.
+        if (window.NexaUI) {
+            const confirmado = await NexaUI.confirmar({
+                titulo: "Sair da plataforma?",
+                texto: "Seu progresso já está salvo, mas você precisará entrar novamente para continuar.",
+                confirmText: "Sair",
+                cancelText: "Continuar estudando",
+                icon: "question",
+                perigoso: false
+            });
+            if (!confirmado) return;
+        }
+
         localStorage.removeItem("usuarioLogado");
         window.location.href = "../login/index.html";
     });
@@ -124,10 +137,11 @@ function formatarUrlVideoEmbed(url) {
     return null;
 }
 
+function obterCursoIdDaURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("id");
+}
 
-// ---------------------------------------------------- //
-// 2. CARREGAMENTO DINÂMICO DOS DADOS E AULAS           //
-// ---------------------------------------------------- //
 async function carregarSalaDeAula() {
     const cursoId = obterCursoIdDaURL();
     usuarioLogadoGlobal = verificarSessao();
@@ -224,7 +238,20 @@ async function carregarSalaDeAula() {
                     </button>
                 `;
 
-                document.getElementById("btnMatricular").addEventListener("click", () => {
+                document.getElementById("btnMatricular").addEventListener("click", async () => {
+                    // Confirmação antes de gravar a matrícula na API
+                    if (window.NexaUI) {
+                        const confirmado = await NexaUI.confirmar({
+                            titulo: "Confirmar matrícula?",
+                            texto: `Você entrará no curso "${curso.titulo}" e poderá assistir a todas as aulas imediatamente.`,
+                            confirmText: "Quero me matricular",
+                            cancelText: "Agora não",
+                            icon: "question",
+                            perigoso: false
+                        });
+                        if (!confirmado) return;
+                    }
+
                     realizarMatricula(usuarioLogadoGlobal.id, curso.id);
                 });
             } else {
@@ -253,6 +280,7 @@ function carregarAulaNoPlayer(index) {
 
     indiceAulaAtual = index;
     const aula = listaAulasOrdenadas[index];
+    const ehUltimaAula = (index === listaAulasOrdenadas.length - 1);
 
     // Formata o link para embed do próprio site
     const videoEmbedUrl = formatarUrlVideoEmbed(aula.videoUrl);
@@ -270,9 +298,18 @@ function carregarAulaNoPlayer(index) {
 
     aulaTituloAtual.textContent = `Aula ${aula.ordem}: ${aula.titulo}`;
 
-    // Atualiza estado dos botões Anterior / Próxima
+    // Atualiza estado e texto dos botões de navegação
     btnAulaAnterior.disabled = (indiceAulaAtual === 0);
-    btnProximaAula.disabled = (indiceAulaAtual === listaAulasOrdenadas.length - 1);
+    
+    if (ehUltimaAula) {
+        btnProximaAula.disabled = false;
+        btnProximaAula.innerHTML = "🎓 Concluir & Avaliar";
+        btnProximaAula.className = "btn btn-primary btn-sm btn-concluir-final";
+    } else {
+        btnProximaAula.disabled = false;
+        btnProximaAula.innerHTML = "⏭️ Próxima Aula";
+        btnProximaAula.className = "btn btn-primary btn-sm";
+    }
 
     // Destaca a aula ativa na playlist
     const itensPlaylist = document.querySelectorAll(".lesson-item");
@@ -285,17 +322,23 @@ function carregarAulaNoPlayer(index) {
     });
 }
 
-btnAulaAnterior.addEventListener("click", () => {
+btnAulaAnterior.addEventListener("click", async () => {
     if (indiceAulaAtual > 0) {
-        carregarAulaNoPlayer(indiceAulaAtual - 1);
+        const prevIdx = indiceAulaAtual - 1;
+        carregarAulaNoPlayer(prevIdx);
+        await atualizarProgressoAluno(prevIdx);
     }
 });
 
-btnProximaAula.addEventListener("click", () => {
+btnProximaAula.addEventListener("click", async () => {
     if (indiceAulaAtual < listaAulasOrdenadas.length - 1) {
         const proximoIndice = indiceAulaAtual + 1;
         carregarAulaNoPlayer(proximoIndice);
-        atualizarProgressoAluno(proximoIndice);
+        await atualizarProgressoAluno(proximoIndice);
+    } else {
+        // Já está na última aula! Marca 100% concluído e rola suavemente para a avaliação:
+        await atualizarProgressoAluno(indiceAulaAtual);
+        sectionAvaliacao.scrollIntoView({ behavior: "smooth" });
     }
 });
 
@@ -303,30 +346,50 @@ async function atualizarProgressoAluno(indiceAulaConcluida) {
     if (!matriculaAlunoLogado) return;
 
     const totalAulas = listaAulasOrdenadas.length;
-    const novoProgresso = Math.min(100, Math.round(((indiceAulaConcluida + 1) / totalAulas) * 100));
-    const ehConcluido = novoProgresso === 100;
+    const ehUltimaAula = (indiceAulaConcluida === totalAulas - 1);
+    const novoProgresso = ehUltimaAula ? 100 : Math.min(100, Math.round(((indiceAulaConcluida + 1) / totalAulas) * 100));
+    const ehConcluido = (novoProgresso === 100);
 
-    try {
-        const dadosAtualizacao = { progresso: novoProgresso };
-        if (ehConcluido) dadosAtualizacao.status = "concluido";
+    const progressoAtual = matriculaAlunoLogado.progresso || 0;
 
-        await fetch(`${API_URL}/matriculas/${matriculaAlunoLogado.id}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(dadosAtualizacao)
-        });
+    if (novoProgresso > progressoAtual || ehUltimaAula) {
+        try {
+            const dadosAtualizacao = { progresso: novoProgresso };
+            if (ehConcluido) dadosAtualizacao.status = "concluido";
 
-        matriculaAlunoLogado.progresso = novoProgresso;
-        progressBarFill.style.width = `${novoProgresso}%`;
-        progressText.textContent = `${novoProgresso}% Concluído`;
+            await fetch(`${API_URL}/matriculas/${matriculaAlunoLogado.id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dadosAtualizacao)
+            });
 
-        if (ehConcluido) {
-            alert("🎉 Parabéns! Você concluiu 100% das aulas deste curso!");
-            sectionAvaliacao.classList.remove("hidden");
+            const avancou = novoProgresso > progressoAtual;
+
+            matriculaAlunoLogado.progresso = novoProgresso;
+            if (ehConcluido) matriculaAlunoLogado.status = "concluido";
+
+            progressBarFill.style.width = `${novoProgresso}%`;
+            progressText.textContent = `${novoProgresso}% Concluído`;
+
+            // Feedback só quando o progresso realmente avança (evita repetir
+            // a mensagem ao reabrir uma aula que o aluno já assistiu).
+            if (avancou && window.NexaUI) {
+                if (ehConcluido) {
+                    NexaUI.toastSucesso("🎓 Curso concluído! Avalie logo abaixo.");
+                } else {
+                    NexaUI.toastSucesso(`Progresso salvo: ${novoProgresso}%`);
+                }
+            }
+
+        } catch (e) {
+            console.warn("Erro ao atualizar progresso.");
+            if (window.NexaUI) NexaUI.toastErro("Não foi possível salvar seu progresso.");
         }
+    }
 
-    } catch (e) {
-        console.warn("Erro ao atualizar progresso.");
+    // Se estiver na última aula ou com 100%, libera a seção de avaliação imediatamente!
+    if (ehConcluido || ehUltimaAula) {
+        verificarEExibirAvaliacao(obterCursoIdDaURL(), usuarioLogadoGlobal, 100, "concluido");
     }
 }
 
@@ -338,7 +401,17 @@ function renderizarPlaylist(estaMatriculado) {
     playlistAulas.innerHTML = "";
 
     if (listaAulasOrdenadas.length === 0) {
-        playlistAulas.innerHTML = "<p class='empty-state'>Nenhuma aula disponível neste curso.</p>";
+        playlistAulas.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-art" viewBox="0 0 64 64" role="img" aria-label="Curso ainda sem aulas">
+                    <rect x="8" y="14" width="48" height="32" rx="5" fill="#F1EDF9" stroke="#2D1C52" stroke-width="3"/>
+                    <path d="M27 26 L39 32 L27 38 Z" fill="#E4E2E7"/>
+                    <path d="M16 52 h32" stroke="#E4E2E7" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <strong>Nenhuma aula publicada ainda</strong>
+                <p>Assim que a equipe de conteúdo cadastrar as videoaulas, elas aparecem aqui.</p>
+            </div>
+        `;
         return;
     }
 
@@ -368,8 +441,9 @@ function renderizarPlaylist(estaMatriculado) {
         `;
 
         if (estaMatriculado) {
-            itemDiv.addEventListener("click", () => {
+            itemDiv.addEventListener("click", async () => {
                 carregarAulaNoPlayer(index);
+                await atualizarProgressoAluno(index);
             });
         }
 
@@ -435,11 +509,22 @@ formAvaliacao.addEventListener("submit", async (e) => {
         });
 
         if (resp.ok) {
-            alert("Sua avaliação foi enviada com sucesso!");
+            if (window.NexaUI) {
+                await NexaUI.sucesso({
+                    titulo: "Avaliação enviada!",
+                    texto: "Obrigado por ajudar outros alunos a escolherem melhor.",
+                    confirmText: "De nada!"
+                });
+            }
             carregarSalaDeAula();
         }
     } catch (e) {
-        alert("Erro ao enviar avaliação.");
+        if (window.NexaUI) {
+            NexaUI.erro({
+                titulo: "Não foi possível enviar",
+                texto: "Verifique se o servidor json-server está rodando na porta 3000 e tente de novo."
+            });
+        }
     }
 });
 
@@ -461,11 +546,22 @@ async function realizarMatricula(usuarioId, cursoId) {
         });
 
         if (resp.ok) {
-            alert("Parabéns! Sua matrícula foi realizada com sucesso.");
+            if (window.NexaUI) {
+                await NexaUI.marca({
+                    titulo: "Matrícula confirmada!",
+                    texto: "Bons estudos! A primeira aula já está liberada no player acima.",
+                    confirmText: "Começar a assistir"
+                });
+            }
             carregarSalaDeAula();
         }
     } catch (e) {
-        alert("Erro ao realizar matrícula.");
+        if (window.NexaUI) {
+            NexaUI.erro({
+                titulo: "Não foi possível matricular",
+                texto: "Verifique se o servidor json-server está rodando na porta 3000 e tente de novo."
+            });
+        }
     }
 }
 
@@ -473,7 +569,17 @@ function renderizarAvaliacoes(avaliacoes) {
     reviewsList.innerHTML = "";
 
     if (avaliacoes.length === 0) {
-        reviewsList.innerHTML = "<p class='empty-state'>Este curso ainda não possui avaliações da comunidade.</p>";
+        reviewsList.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-art" viewBox="0 0 64 64" role="img" aria-label="Curso ainda sem avaliações">
+                    <path d="M32 10 l6.2 12.6 13.9 2 -10 9.8 2.4 13.8 L32 41.7 19.5 48.2 l2.4 -13.8 -10 -9.8 13.9 -2 Z"
+                          fill="#FFF5E6" stroke="#F3A730" stroke-width="3" stroke-linejoin="round"/>
+                    <path d="M26 30 h12" stroke="#F3A730" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+                </svg>
+                <strong>Seja o primeiro a avaliar</strong>
+                <p>Ainda não há comentários da comunidade neste curso. Conclua as aulas para deixar o seu.</p>
+            </div>
+        `;
         return;
     }
 

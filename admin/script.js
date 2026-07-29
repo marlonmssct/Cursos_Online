@@ -100,7 +100,17 @@ function renderHeader(usuario) {
     badge.className = `badge-role ${usuario.role}`;
 }
 
-document.getElementById("btnLogout").addEventListener("click", () => {
+document.getElementById("btnLogout").addEventListener("click", async () => {
+    // Confirmação antes de encerrar a sessão: o gestor pode estar no meio de uma edição.
+    const confirmado = await confirmarAcao({
+        titulo: "Sair do painel?",
+        texto: "Alterações não salvas em modais abertos serão perdidas.",
+        confirmText: "Sair",
+        icon: "question",
+        perigoso: false
+    });
+    if (!confirmado) return;
+
     Sessao.logout();
     window.location.href = "../login/index.html";
 });

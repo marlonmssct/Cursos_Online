@@ -22,6 +22,14 @@ function abrirAba(nome) {
     document.getElementById("auth").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+// Atalho de teclado: Esc limpa o campo em foco (comodidade, sem efeito na validação)
+document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+
+    const ativo = document.activeElement;
+    if (ativo && ativo.tagName === "INPUT" && ativo.value) ativo.value = "";
+});
+
 tabLoginBtn.addEventListener("click", () => abrirAba("login"));
 tabCadastroBtn.addEventListener("click", () => abrirAba("cadastro"));
 
@@ -41,6 +49,29 @@ function exibirErroLogin(mensagem) {
     feedbackLogin.textContent = mensagem;
     feedbackLogin.className = "feedback-box error";
     feedbackLogin.classList.remove("hidden");
+}
+
+// Saudação de boas-vindas antes de entrar no catálogo.
+// É só um aviso temporizado: se o SweetAlert2 não estiver disponível,
+// o redirecionamento acontece na hora, como antes.
+function saudarEEntrar(usuario) {
+    if (typeof Swal === "undefined") {
+        window.location.href = "../catalogo/index.html";
+        return;
+    }
+
+    Swal.fire({
+        icon: "success",
+        title: `Bem-vindo(a), ${usuario.nome.split(" ")[0]}!`,
+        text: "Estamos preparando o seu catálogo de cursos...",
+        timer: 1300,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        customClass: { popup: "nexa-swal" }
+    }).then(() => {
+        window.location.href = "../catalogo/index.html";
+    });
 }
 
 formLogin.addEventListener("submit", async (e) => {
@@ -79,7 +110,7 @@ formLogin.addEventListener("submit", async (e) => {
         }
 
         Sessao.setUsuario(usuario);
-        window.location.href = "../catalogo/index.html";
+        saudarEEntrar(usuario);
 
     } catch (erro) {
         console.error("Erro na autenticação:", erro);
@@ -155,6 +186,8 @@ formCadastro.addEventListener("submit", async (e) => {
             exibirFeedbackCadastro("Conta criada com sucesso! Faça login para continuar.", true);
             formCadastro.reset();
 
+            if (window.NexaUI) NexaUI.toastSucesso("Conta criada! Agora é só entrar.");
+
             setTimeout(() => {
                 abrirAba("login");
                 loginEmail.value = email;
@@ -168,4 +201,23 @@ formCadastro.addEventListener("submit", async (e) => {
         console.error("Erro no cadastro:", erro);
         exibirFeedbackCadastro("Servidor json-server offline na porta 3000. Inicie com npx json-server db.json");
     }
+});
+
+// ---------------------------------------------------- //
+// 4. PREENCHIMENTO RÁPIDO DAS CONTAS DE TESTE           //
+// Comodidade de demonstração: clicar em uma das contas   //
+// listadas apenas preenche os campos do formulário de    //
+// login. Não autentica ninguém — o submit continua        //
+// passando por toda a validação normal.                  //
+// ---------------------------------------------------- //
+document.querySelectorAll("[data-preencher-conta]").forEach((linha) => {
+    linha.addEventListener("click", () => {
+        abrirAba("login");
+
+        loginEmail.value = linha.dataset.email;
+        loginSenha.value = linha.dataset.senha;
+        feedbackLogin.classList.add("hidden");
+
+        if (window.NexaUI) NexaUI.toastInfo(`Dados de ${linha.dataset.email} preenchidos.`);
+    });
 });

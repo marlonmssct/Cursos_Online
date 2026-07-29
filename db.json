@@ -240,6 +240,14 @@
       "progresso": 25,
       "status": "em_andamento",
       "dataMatricula": "2026-07-25T09:30:00.000Z"
+    },
+    {
+      "id": "mat_1785352442513",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_react",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-29T19:14:02.513Z"
     }
   ],
   "avaliacoes": [
@@ -258,6 +266,14 @@
       "nota": 5,
       "comentario": "O melhor curso de Figma da plataforma. Consegui montar meu portfólio completo!",
       "data": "2026-07-24T18:00:00.000Z"
+    },
+    {
+      "id": "av_1785352461213",
+      "cursoId": "curso_react",
+      "usuarioNome": "Administrador Principal",
+      "nota": 5,
+      "comentario": "asasa",
+      "data": "2026-07-29T19:14:21.213Z"
     }
   ]
 }

@@ -6,16 +6,49 @@
     width: 100%;
 }
 
-/* Banner de Alto Impacto */
+/* ==================================================== */
+/* BANNER DE ALTO IMPACTO                                */
+/* Recebe a malha animada do Vanta.js como canvas de     */
+/* fundo. O gradiente abaixo continua sendo o visual      */
+/* padrão: se o WebGL não subir, o banner fica idêntico   */
+/* ao original, só sem o movimento.                       */
+/* ==================================================== */
 .hero-banner {
-    background: linear-gradient(135deg, var(--nexa-bg-dark) 0%, var(--nexa-secondary) 100%);
+    background: var(--nexa-grad-deep);
     color: white;
     padding: 48px 40px;
     border-radius: var(--radius-lg);
     margin-bottom: 36px;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-brand);
     position: relative;
     overflow: hidden;
+    isolation: isolate;
+}
+
+/* Véu sobre o canvas: devolve a profundidade violeta da marca e */
+/* garante contraste do texto por cima da malha animada.          */
+.hero-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(105deg, rgba(45, 28, 82, 0.86) 0%, rgba(45, 28, 82, 0.42) 55%, transparent 100%),
+        radial-gradient(circle at 92% 8%, rgba(243, 167, 48, 0.22) 0%, transparent 46%);
+}
+
+/* O canvas do Vanta é injetado como primeiro filho do banner */
+.hero-banner > canvas {
+    z-index: 0;
+    border-radius: inherit;
+}
+
+.hero-badge,
+.hero-banner h2,
+.hero-banner p {
+    position: relative;
+    z-index: 2;
 }
 
 .hero-badge {
@@ -29,6 +62,8 @@
     margin-bottom: 14px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    border: 1px solid rgba(243, 167, 48, 0.32);
+    backdrop-filter: blur(4px);
 }
 
 .hero-banner h2 {
@@ -36,12 +71,109 @@
     font-weight: 800;
     color: #FFFFFF;
     margin-bottom: 10px;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
 }
 
 .hero-banner p {
     font-size: 1.05rem;
-    color: #C6C2CF;
+    color: #D6D2DE;
     max-width: 680px;
+}
+
+/* ==================================================== */
+/* FAIXA INSTRUTIVA — A JORNADA DO ALUNO EM 3 PASSOS     */
+/* ==================================================== */
+.jornada-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.jornada-step {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--nexa-bg-card);
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s var(--ease-out-soft), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* Acento lateral que "acende" no hover */
+.jornada-step::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--nexa-grad-line);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s var(--ease-out-soft);
+}
+
+.jornada-step:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(58, 65, 113, 0.28);
+}
+
+.jornada-step:hover::before {
+    transform: scaleY(1);
+}
+
+.jornada-art {
+    flex-shrink: 0;
+    width: 88px;
+}
+
+.jornada-art svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.35s var(--ease-spring);
+}
+
+.jornada-step:hover .jornada-art svg {
+    transform: scale(1.07) rotate(-2deg);
+}
+
+.jornada-texto {
+    min-width: 0;
+}
+
+.jornada-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-image: var(--nexa-grad-cta);
+    color: var(--nexa-bg-dark);
+    font-family: var(--font-titles);
+    font-size: 0.72rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.jornada-texto h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--nexa-secondary);
+    margin-bottom: 4px;
+}
+
+.jornada-texto p {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--nexa-text-muted);
 }
 
 /* Seções do Catálogo */
@@ -57,6 +189,18 @@
     font-size: 1.4rem;
     font-weight: 800;
     color: var(--nexa-secondary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Fio de marca que se estende do título até o fim da linha */
+.secao-header h3::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(243, 167, 48, 0.55), rgba(58, 65, 113, 0.12) 45%, transparent);
 }
 
 .secao-header .sub-title {
@@ -90,6 +234,22 @@
     padding: 8px 14px;
     flex: 1;
     min-width: 260px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+/* O campo inteiro reage quando o input recebe foco */
+.search-input-wrapper:focus-within {
+    border-color: var(--nexa-primary);
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(58, 65, 113, 0.15);
+}
+
+.search-icon {
+    transition: transform 0.25s var(--ease-spring);
+}
+
+.search-input-wrapper:focus-within .search-icon {
+    transform: scale(1.15);
 }
 
 .input-search {
@@ -134,18 +294,55 @@
     display: flex;
     flex-direction: column;
     box-shadow: var(--shadow-sm);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    transition: transform 0.28s var(--ease-out-soft), box-shadow 0.28s ease, border-color 0.28s ease;
+    /* Entrada escalonada: os cards surgem em cascata a cada renderização
+       (inclusive ao filtrar), o que dá a sensação de resposta imediata. */
+    animation: nexa-blur-fade 0.5s var(--ease-out-soft) both;
 }
+
+.course-card:nth-child(1) { animation-delay: 0ms; }
+.course-card:nth-child(2) { animation-delay: 55ms; }
+.course-card:nth-child(3) { animation-delay: 110ms; }
+.course-card:nth-child(4) { animation-delay: 165ms; }
+.course-card:nth-child(5) { animation-delay: 220ms; }
+.course-card:nth-child(n+6) { animation-delay: 265ms; }
 
 .course-card:hover {
     transform: translateY(-6px);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(58, 65, 113, 0.3);
+}
+
+/* Traço superior dourado que aparece no hover */
+.course-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 2;
+    background: var(--nexa-grad-cta);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-out-soft);
+}
+
+.course-card:hover::after {
+    transform: scaleX(1);
 }
 
 .course-thumb {
     width: 100%;
     height: 190px;
     object-fit: cover;
+    background-color: var(--nexa-bg-light);
+    transition: transform 0.45s var(--ease-out-soft);
+}
+
+.course-card:hover .course-thumb {
+    transform: scale(1.06);
 }
 
 .course-body {
@@ -162,6 +359,23 @@
     color: var(--nexa-primary);
     margin-bottom: 8px;
     letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    background-color: var(--nexa-primary-soft);
+    border-radius: 20px;
+    padding: 3px 10px;
+}
+
+/* Ponto luminoso antes da categoria (detalhe de marca) */
+.course-category::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--nexa-cta);
+    flex-shrink: 0;
 }
 
 .course-title {
@@ -209,9 +423,21 @@
 
 .progress-card-bar-fill {
     height: 100%;
-    background-color: var(--nexa-success);
+    background-image: linear-gradient(90deg, #34D399 0%, var(--nexa-success) 100%);
     border-radius: 4px;
     transition: width 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Brilho que percorre a barra: dá vida ao progresso em andamento */
+.progress-card-bar-fill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    background-size: 200% 100%;
+    animation: nexa-shimmer 2.4s linear infinite;
 }
 
 .course-footer {
@@ -223,23 +449,39 @@
     margin-top: auto;
 }
 
-.badge-status {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.badge-status.publicado { background-color: var(--nexa-success-bg); color: var(--nexa-success); }
-.badge-status.rascunho { background-color: var(--nexa-warning-bg); color: #B45309; }
+/* .badge-status é definido no css/global.css (compartilhado com a sala de aula
+   e o painel de gestão), então não é redeclarado aqui. */
 
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 40px;
+    padding: 44px 24px;
     color: var(--nexa-text-muted);
     background-color: var(--nexa-bg-card);
     border: 1px dashed var(--nexa-border);
     border-radius: var(--radius-md);
+    animation: nexa-blur-fade 0.45s var(--ease-out-soft) both;
+}
+
+/* Faixa de filtros: leve elevação para separar do conteúdo */
+.filter-bar {
+    transition: box-shadow 0.25s ease;
+}
+
+.filter-bar:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.select-filter {
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.select-filter:hover {
+    border-color: var(--nexa-primary-mid);
+}
+
+.select-filter:focus {
+    border-color: var(--nexa-primary);
+    box-shadow: 0 0 0 3px rgba(58, 65, 113, 0.15);
 }

@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXA — Aprenda no seu ritmo</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <!-- Google Fonts do Guia NEXA: Sora e Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Bootstrap Icons: biblioteca de ícones vetoriais (somente a fonte de ícones,
+         sem o CSS de componentes do Bootstrap, que colidiria com as classes .btn/.modal daqui) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- SweetAlert2: feedbacks visuais e confirmações da plataforma -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -32,17 +40,26 @@
     <main>
         <!-- HERO: primeira impressão da plataforma -->
         <section class="hero" id="top">
+            <!-- Camada puramente decorativa (fora do fluxo): halos e malha da marca -->
+            <div class="hero-bg-decor" aria-hidden="true">
+                <span class="decor-orb decor-orb-cta"></span>
+                <span class="decor-orb decor-orb-brand"></span>
+                <span class="decor-mesh"></span>
+            </div>
+
             <div class="hero-container">
                 <div class="hero-content">
-                    <span class="eyebrow">Cursos online NEXA</span>
-                    <h1>Aprenda no seu ritmo, com quem entende do assunto.</h1>
+                    <span class="eyebrow"><i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Cursos online NEXA</span>
+                    <h1>Aprenda no seu ritmo, com quem <span class="h1-destaque">entende do assunto</span>.</h1>
                     <p class="hero-sobre">
                         A NEXA reúne cursos de programação, design e marketing para você evoluir na carreira
                         sem sair de casa. Crie sua conta grátis e comece a estudar agora mesmo.
                     </p>
 
                     <div class="hero-actions">
-                        <button type="button" class="btn btn-primary btn-lg" data-open-tab="cadastro">Venha aprender</button>
+                        <button type="button" class="btn btn-primary btn-lg" data-open-tab="cadastro">
+                            <i class="bi bi-rocket-takeoff-fill" aria-hidden="true"></i> Venha aprender
+                        </button>
                         <button type="button" class="btn-text" data-open-tab="login">Já tenho conta</button>
                     </div>
 
@@ -55,12 +72,22 @@
                     <div class="hero-media">
                         <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&auto=format&fit=crop"
                              alt="Pessoas estudando e colaborando juntas em frente a notebooks">
+
+                        <!-- Selo instrutivo sobre a foto: mostra, em uma olhada, como o -->
+                        <!-- acompanhamento de progresso funciona dentro da plataforma.   -->
+                        <div class="hero-media-selo">
+                            <span class="selo-icone"><i class="bi bi-play-fill" aria-hidden="true"></i></span>
+                            <div class="selo-info">
+                                <strong>Aula 3 de 12 · JavaScript Moderno</strong>
+                                <span class="selo-barra"><span class="selo-barra-fill"></span></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Coluna direita: módulo de autenticação (login e cadastro na mesma página) -->
                 <div class="hero-right" id="auth">
-                    <div class="auth-card">
+                    <div class="auth-card nexa-beam">
                         <div class="auth-tabs">
                             <button type="button" class="tab-btn active" id="tabLoginBtn">Entrar</button>
                             <button type="button" class="tab-btn" id="tabCadastroBtn">Criar conta</button>
@@ -90,11 +117,11 @@
                             </form>
 
                             <div class="test-accounts">
-                                <p><strong>Contas para teste rápido:</strong></p>
+                                <p><strong><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i> Contas para teste rápido:</strong> clique em uma para preencher</p>
                                 <ul>
-                                    <li><code>admin@plataforma.com</code> | <code>admin123</code> (Admin)</li>
-                                    <li><code>editor@plataforma.com</code> | <code>editor123</code> (Editor)</li>
-                                    <li><code>aluno@plataforma.com</code> | <code>aluno123</code> (Aluno)</li>
+                                    <li data-preencher-conta data-email="admin@plataforma.com" data-senha="admin123"><code>admin@plataforma.com</code> | <code>admin123</code> (Admin)</li>
+                                    <li data-preencher-conta data-email="editor@plataforma.com" data-senha="editor123"><code>editor@plataforma.com</code> | <code>editor123</code> (Editor)</li>
+                                    <li data-preencher-conta data-email="aluno@plataforma.com" data-senha="aluno123"><code>aluno@plataforma.com</code> | <code>aluno123</code> (Aluno)</li>
                                 </ul>
                             </div>
                         </div>
@@ -147,6 +174,7 @@
     </footer>
 
     <script src="../js/api.js"></script>
+    <script src="../js/nexa-ui.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

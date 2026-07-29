@@ -3,7 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Cursos Online</title>
+    <title>NEXA Cursos Online</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Splash de redirecionamento: usa as cores e fontes oficiais da NEXA
+           para que a primeira tela do site já seja a identidade da marca. */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+            background: linear-gradient(140deg, #1C1826 0%, #2D1C52 58%, #3A4171 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #C6C2CF;
+            text-align: center;
+            padding: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Malha de pontos da marca, esmaecida nas bordas */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+            background-size: 24px 24px;
+            -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 0%, transparent 72%);
+                    mask-image: radial-gradient(ellipse at 50% 50%, #000 0%, transparent 72%);
+        }
+
+        .splash { position: relative; }
+
+        .splash-logo {
+            width: 82px;
+            height: 82px;
+            animation: flutuar 3.4s ease-in-out infinite;
+        }
+
+        @keyframes flutuar {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-10px); }
+        }
+
+        .splash-marca {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: #FFFFFF;
+            margin-top: 10px;
+        }
+
+        .splash-texto {
+            font-size: 0.92rem;
+            font-weight: 500;
+        }
+
+        /* Barra de carregamento indeterminada na cor do CTA */
+        .splash-barra {
+            width: 190px;
+            height: 4px;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.14);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .splash-barra::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 45%;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #F7BC55, #F3A730, #E59820);
+            animation: correr 1.25s ease-in-out infinite;
+        }
+
+        @keyframes correr {
+            0%   { left: -45%; }
+            100% { left: 100%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .splash-logo, .splash-barra::after { animation: none; }
+            .splash-barra::after { left: 0; width: 100%; }
+        }
+    </style>
+
     <script>
         // Redireciona automaticamente para o login ou catalogo conforme o estado de autenticacao
         document.addEventListener("DOMContentLoaded", () => {
@@ -17,6 +114,16 @@
     </script>
 </head>
 <body>
-    <p style="text-align: center; padding: 40px; font-family: sans-serif;">Redirecionando para a plataforma...</p>
+    <div class="splash">
+        <svg class="splash-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logotipo NEXA">
+            <path d="M50 5 L88 26.5 C92 28.8 94 32.3 94 36.8 L94 63.2 C94 67.7 92 71.2 88 73.5 L50 95 C46 97.3 42 97.3 38 95 L12 73.5 C8 71.2 6 67.7 6 63.2 L6 36.8 C6 32.3 8 28.8 12 26.5 Z" fill="#20153B"/>
+            <path d="M30 68 V34 C30 30 35 28 38 31 L64 64 C67 67 72 65 72 61 V30" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M42 43.5 L57 51 L42 58.5 Z" fill="#F3A730"/>
+        </svg>
+        <p class="splash-marca">nexa</p>
+    </div>
+
+    <p class="splash-texto">Preparando a sua plataforma de aprendizado...</p>
+    <span class="splash-barra" role="progressbar" aria-label="Carregando"></span>
 </body>
 </html>

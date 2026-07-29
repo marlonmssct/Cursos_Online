@@ -178,6 +178,33 @@ h1, h2, h3, h4, h5, h6 {
 .badge-role.editor { background: #FFF7ED; color: #C2410C; }
 .badge-role.admin { background: #FEE2E2; color: #991B1B; }
 
+/* Selo de status (publicado/rascunho, ativo/desativado, concluído/em andamento).
+   Fica aqui no global porque é usado pelo catálogo, pela sala de aula e pelo
+   painel de gestão — antes só existia nos CSS do catálogo e do painel, e por
+   isso os selos da sala de aula apareciam sem estilo nenhum. */
+.badge-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid transparent;
+}
+
+.badge-status.publicado {
+    background-color: var(--nexa-success-bg);
+    color: var(--nexa-success);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.badge-status.rascunho {
+    background-color: var(--nexa-warning-bg);
+    color: #B45309;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
 /* Ícone de perfil (canto superior direito do header): abre o modal de edição de conta */
 .profile-icon-btn {
     width: 38px;
@@ -398,8 +425,602 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     font-size: 0.88rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
 }
 
 .global-footer strong {
     color: #FFFFFF;
+}
+
+/* Fio de marca no topo do rodapé: fecha a página com as duas cores da NEXA */
+.global-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--nexa-grad-line);
+}
+
+
+/* ==================================================== */
+/* 05. CAMADA DE IDENTIDADE ESTENDIDA (NEXA MOTION)     */
+/* Deriva tudo das cores oficiais já definidas no bloco  */
+/* 01 — nenhum tom novo é inventado, só tints, shades,   */
+/* gradientes e sombras coloridas a partir da paleta.    */
+/* Esta camada altera apenas cor, profundidade e         */
+/* movimento: nunca estrutura, tamanho ou posição.       */
+/* ==================================================== */
+:root {
+    /* Tints derivados (fundos suaves das cores da marca) */
+    --nexa-primary-soft: #EEF1FB;
+    --nexa-primary-mid: #4E5794;
+    --nexa-secondary-soft: #F1EDF9;
+    --nexa-cta-soft: #FFF5E6;
+
+    /* Gradientes oficiais de marca */
+    --nexa-grad-brand: linear-gradient(135deg, #2D1C52 0%, #3A4171 100%);
+    --nexa-grad-deep: linear-gradient(140deg, #1C1826 0%, #2D1C52 58%, #3A4171 100%);
+    --nexa-grad-cta: linear-gradient(135deg, #F7BC55 0%, #F3A730 55%, #E59820 100%);
+    --nexa-grad-line: linear-gradient(90deg, var(--nexa-cta) 0%, var(--nexa-primary) 55%, var(--nexa-secondary) 100%);
+
+    /* Sombras com a cor da marca (profundidade viva, não cinza morto) */
+    --shadow-lg: 0 18px 44px -14px rgba(34, 28, 45, 0.20);
+    --shadow-brand: 0 14px 34px -14px rgba(45, 28, 82, 0.42);
+    --glow-cta: 0 8px 26px -8px rgba(243, 167, 48, 0.62);
+
+    /* Curvas de animação padrão da plataforma */
+    --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+}
+
+/* Ângulo animável usado pelo contorno luminoso dos cartões de destaque */
+@property --nexa-beam-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* ---------------------------------------------------- */
+/* 5.1 KEYFRAMES BASE                                    */
+/* ---------------------------------------------------- */
+@keyframes nexa-blur-fade {
+    from { opacity: 0; transform: translateY(14px); filter: blur(6px); }
+    to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+@keyframes nexa-pop-in {
+    from { opacity: 0; transform: translateY(18px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes nexa-overlay-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes nexa-beam-spin {
+    to { --nexa-beam-angle: 360deg; }
+}
+
+@keyframes nexa-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+}
+
+@keyframes nexa-shimmer {
+    from { background-position: 200% 0; }
+    to   { background-position: -200% 0; }
+}
+
+@keyframes nexa-pulse-ring {
+    0%   { box-shadow: 0 0 0 0 rgba(243, 167, 48, 0.45); }
+    70%  { box-shadow: 0 0 0 10px rgba(243, 167, 48, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(243, 167, 48, 0); }
+}
+
+/* ---------------------------------------------------- */
+/* 5.2 UTILITÁRIOS DE MARCA (opt-in por classe)          */
+/* ---------------------------------------------------- */
+
+/* Entrada suave de qualquer bloco (usado em cards e seções) */
+.nexa-reveal {
+    animation: nexa-blur-fade 0.55s var(--ease-out-soft) both;
+}
+
+/* Contorno luminoso girando na borda — destaque dos cartões-chave */
+.nexa-beam {
+    position: relative;
+}
+
+.nexa-beam::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+        from var(--nexa-beam-angle),
+        transparent 0deg,
+        var(--nexa-cta) 30deg,
+        var(--nexa-primary) 70deg,
+        transparent 110deg
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+    animation: nexa-beam-spin 7s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Malha de pontos discreta para fundos escuros (profundidade sem ruído) */
+.nexa-dots-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(ellipse at 20% 0%, #000 0%, transparent 72%);
+            mask-image: radial-gradient(ellipse at 20% 0%, #000 0%, transparent 72%);
+    pointer-events: none;
+}
+
+/* Texto com gradiente de marca (usar só em 1 destaque por tela) */
+.nexa-grad-text {
+    background: linear-gradient(100deg, var(--nexa-cta) 0%, #FFD79A 45%, var(--nexa-cta) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    animation: nexa-shimmer 5s linear infinite;
+}
+
+/* ---------------------------------------------------- */
+/* 5.3 BOTÕES — BRILHO E PROFUNDIDADE                    */
+/* Mesmo tamanho, mesmo padding, mesma classe: só ganham */
+/* gradiente da paleta e um brilho que varre no hover.   */
+/* ---------------------------------------------------- */
+.btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: background-color 0.2s ease, color 0.2s ease,
+                transform 0.2s var(--ease-spring), box-shadow 0.25s ease;
+}
+
+.btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 28%, rgba(255, 255, 255, 0.42) 50%, transparent 72%);
+    transform: translateX(-130%);
+    transition: transform 0.65s var(--ease-out-soft);
+    pointer-events: none;
+}
+
+.btn:hover::after {
+    transform: translateX(130%);
+}
+
+.btn:disabled,
+.btn[disabled] {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none;
+}
+
+.btn:disabled::after,
+.btn[disabled]::after {
+    display: none;
+}
+
+.btn-primary {
+    background-image: var(--nexa-grad-cta);
+    box-shadow: var(--glow-cta);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 10px 30px -8px rgba(243, 167, 48, 0.75);
+}
+
+.btn-secondary {
+    background-image: var(--nexa-grad-brand);
+    box-shadow: 0 4px 14px -6px rgba(45, 28, 82, 0.55);
+}
+
+.btn-secondary:hover {
+    box-shadow: var(--shadow-brand);
+}
+
+.btn-outline:hover {
+    border-color: var(--nexa-primary);
+    color: var(--nexa-primary);
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background-image: linear-gradient(135deg, #F26060 0%, #EF4444 60%, #DC2626 100%);
+    box-shadow: 0 4px 14px -6px rgba(239, 68, 68, 0.6);
+}
+
+.btn-danger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px -8px rgba(239, 68, 68, 0.7);
+}
+
+/* Foco visível por teclado em toda a plataforma (acessibilidade) */
+.btn:focus-visible,
+.nav-link:focus-visible,
+.profile-icon-btn:focus-visible,
+.tab-btn:focus-visible,
+.btn-close:focus-visible {
+    outline: 3px solid rgba(243, 167, 48, 0.55);
+    outline-offset: 2px;
+}
+
+/* ---------------------------------------------------- */
+/* 5.4 HEADER — REAÇÃO AO SCROLL E MARCA MAIS PRESENTE   */
+/* ---------------------------------------------------- */
+.global-header {
+    transition: box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+/* Fio dourado/índigo abaixo do header: assinatura da marca */
+.global-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--nexa-grad-line);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.global-header.is-scrolled {
+    box-shadow: 0 6px 24px -12px rgba(34, 28, 45, 0.30);
+}
+
+.global-header.is-scrolled::after {
+    opacity: 1;
+}
+
+/* Sublinhado animado dos links de navegação */
+.nav-link {
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 2px;
+    width: 100%;
+    background: var(--nexa-cta);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.28s var(--ease-out-soft);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    transform: scaleX(1);
+}
+
+.logo-brand svg.nexa-logo-svg {
+    transition: transform 0.35s var(--ease-spring);
+}
+
+.logo-brand:hover svg.nexa-logo-svg {
+    transform: scale(1.08) rotate(-6deg);
+}
+
+/* Avatar do perfil com o gradiente da marca */
+.profile-icon-btn {
+    background-image: var(--nexa-grad-brand);
+    box-shadow: 0 2px 10px -4px rgba(45, 28, 82, 0.6);
+}
+
+.badge-role {
+    border: 1px solid transparent;
+}
+
+.badge-role.aluno  { border-color: rgba(58, 65, 113, 0.18); }
+.badge-role.editor { border-color: rgba(194, 65, 12, 0.18); }
+.badge-role.admin  { border-color: rgba(153, 27, 27, 0.18); }
+
+/* ---------------------------------------------------- */
+/* 5.5 MODAIS — ENTRADA SUAVE (mesma estrutura e lógica) */
+/* ---------------------------------------------------- */
+.modal-overlay {
+    animation: nexa-overlay-in 0.22s ease both;
+}
+
+.modal-card {
+    animation: nexa-pop-in 0.34s var(--ease-out-soft) both;
+    position: relative;
+}
+
+/* Faixa de marca no topo do modal, igual à do rodapé */
+.modal-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--nexa-grad-line);
+    border-radius: inherit;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.btn-close {
+    line-height: 1;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s var(--ease-spring);
+}
+
+.btn-close:hover {
+    background-color: var(--nexa-danger-bg);
+    color: var(--nexa-danger);
+    transform: rotate(90deg);
+}
+
+/* ---------------------------------------------------- */
+/* 5.6 FORMULÁRIOS — FOCO MAIS EXPRESSIVO                */
+/* ---------------------------------------------------- */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.form-group input:hover:not(:disabled),
+.form-group select:hover,
+.form-group textarea:hover {
+    border-color: var(--nexa-primary-mid);
+}
+
+.form-group input:focus:not(:disabled),
+.form-group select:focus,
+.form-group textarea:focus {
+    background-color: var(--nexa-primary-soft);
+}
+
+/* ---------------------------------------------------- */
+/* 5.7 CAIXAS DE FEEDBACK — ACENTO LATERAL E ENTRADA     */
+/* ---------------------------------------------------- */
+.feedback-box {
+    border-left-width: 4px;
+    border-left-style: solid;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: nexa-blur-fade 0.3s var(--ease-out-soft) both;
+}
+
+.feedback-box.error   { border-left-color: var(--nexa-danger); }
+.feedback-box.success { border-left-color: var(--nexa-success); }
+
+/* ---------------------------------------------------- */
+/* 5.8 ESTADO VAZIO ILUSTRADO                            */
+/* Ícone instrutivo + texto, no lugar da frase solta.    */
+/* ---------------------------------------------------- */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.empty-state .empty-art {
+    width: 84px;
+    height: 84px;
+    display: block;
+    opacity: 0.9;
+    animation: nexa-float 4.5s ease-in-out infinite;
+}
+
+.empty-state strong {
+    color: var(--nexa-text-main);
+    font-family: var(--font-titles);
+    font-size: 1rem;
+}
+
+/* ---------------------------------------------------- */
+/* 5.9 SWEETALERT2 GLOBAL — IDENTIDADE NEXA              */
+/* As classes .nexa-swal / .nexa-toast já eram usadas no  */
+/* painel de gestão; aqui elas passam a valer no site      */
+/* inteiro, para que todo feedback tenha a mesma cara.     */
+/* ---------------------------------------------------- */
+.swal2-container {
+    z-index: 1200;
+}
+
+.swal2-popup.nexa-swal {
+    position: relative;
+    overflow: hidden;
+    padding: 40px 32px 28px;
+    border-radius: var(--radius-lg);
+    font-family: var(--font-body);
+    box-shadow: var(--shadow-lg);
+}
+
+.swal2-popup.nexa-swal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--nexa-grad-line);
+}
+
+/* O SweetAlert2 marca o ícone com .swal2-warning/.swal2-error/... (e não
+   .swal2-icon-warning), então é por essas classes que a faixa superior muda
+   de cor conforme a natureza da ação. */
+.swal2-popup.nexa-swal:has(.swal2-icon.swal2-warning)::before  { background: var(--nexa-warning); }
+.swal2-popup.nexa-swal:has(.swal2-icon.swal2-error)::before    { background: var(--nexa-danger); }
+.swal2-popup.nexa-swal:has(.swal2-icon.swal2-success)::before  { background: var(--nexa-success); }
+.swal2-popup.nexa-swal:has(.swal2-icon.swal2-question)::before { background: var(--nexa-primary); }
+
+.nexa-swal .swal2-title {
+    font-family: var(--font-titles);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--nexa-text-main);
+    padding: 0;
+    margin-bottom: 4px;
+}
+
+.nexa-swal .swal2-html-container {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--nexa-text-muted);
+    margin: 8px 2px 0;
+}
+
+.nexa-swal .swal2-icon {
+    border-width: 3px;
+    margin: 0 auto 14px;
+}
+
+.nexa-swal .swal2-icon.swal2-warning  { border-color: var(--nexa-warning); color: var(--nexa-warning); }
+.nexa-swal .swal2-icon.swal2-error    { border-color: var(--nexa-danger);  color: var(--nexa-danger); }
+.nexa-swal .swal2-icon.swal2-question { border-color: var(--nexa-primary); color: var(--nexa-primary); }
+.nexa-swal .swal2-icon.swal2-info     { border-color: var(--nexa-primary); color: var(--nexa-primary); }
+.nexa-swal .swal2-icon.swal2-success [class^="swal2-success-line"] { background-color: var(--nexa-success); }
+.nexa-swal .swal2-icon.swal2-success .swal2-success-ring { border-color: var(--nexa-success); }
+
+.nexa-swal .swal2-actions {
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.nexa-swal .swal2-actions .btn {
+    margin: 0;
+}
+
+/* Selo hexagonal da marca no lugar do ícone genérico */
+.nexa-swal-gate {
+    padding-top: 36px;
+}
+
+.nexa-swal-gate .swal2-icon.nexa-swal-brand-icon {
+    border: none;
+    width: auto;
+    height: auto;
+    margin: 0 auto 16px;
+}
+
+.nexa-swal-gate .swal2-icon.nexa-swal-brand-icon svg {
+    width: 64px;
+    height: 64px;
+    animation: nexa-float 4s ease-in-out infinite;
+}
+
+/* Os toasts nascem abaixo do header fixo (76px), para nunca cobrirem o nome
+   do usuário, o ícone de perfil e o botão Sair enquanto estão na tela.
+   Atenção: o SweetAlert2 marca .swal2-toast-shown no <body>, e não no
+   container — por isso o seletor precisa partir do body. */
+body.swal2-toast-shown .swal2-container.swal2-top-end {
+    padding-top: 88px;
+}
+
+/* Toasts: reaproveitam o acento lateral do .feedback-box */
+.swal2-popup.nexa-toast {
+    font-family: var(--font-body);
+    border-radius: var(--radius-sm);
+    padding: 14px 20px 14px 16px;
+    box-shadow: var(--shadow-lg);
+    border-left: 4px solid var(--nexa-primary);
+}
+
+.swal2-popup.nexa-toast:has(.swal2-success) { border-left-color: var(--nexa-success); }
+.swal2-popup.nexa-toast:has(.swal2-error)   { border-left-color: var(--nexa-danger); }
+.swal2-popup.nexa-toast:has(.swal2-warning) { border-left-color: var(--nexa-warning); }
+
+.nexa-toast .swal2-title {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--nexa-text-main);
+}
+
+.nexa-toast .swal2-timer-progress-bar {
+    background: var(--nexa-grad-line);
+}
+
+/* ---------------------------------------------------- */
+/* 5.10 ÍCONES BOOTSTRAP — ALINHAMENTO COM A TIPOGRAFIA  */
+/* ---------------------------------------------------- */
+.bi {
+    line-height: 1;
+    vertical-align: -0.125em;
+}
+
+/* ---------------------------------------------------- */
+/* 5.11 SCROLLBAR E SELEÇÃO NA COR DA MARCA              */
+/* ---------------------------------------------------- */
+::selection {
+    background-color: rgba(243, 167, 48, 0.35);
+    color: var(--nexa-text-main);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #C9C5D2 transparent;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #C9C5D2;
+    border-radius: 8px;
+    border: 3px solid var(--nexa-bg-light);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--nexa-primary);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ---------------------------------------------------- */
+/* 5.12 RESPEITO À PREFERÊNCIA DE MENOS MOVIMENTO        */
+/* Quem desliga animações no sistema recebe o site        */
+/* estático — a identidade continua, o movimento sai.     */
+/* ---------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
 }

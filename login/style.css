@@ -15,6 +15,8 @@
     display: flex;
     align-items: center;
     padding: 16px 24px;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-container {
@@ -25,6 +27,58 @@
     grid-template-columns: 1fr 1fr;
     gap: 48px;
     align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------------------------------------------------- */
+/* CAMADA DECORATIVA DO HERO                             */
+/* Halos nas duas cores da marca + malha de pontos.      */
+/* Tudo absoluto e fora do fluxo: não ocupa espaço nem   */
+/* interfere na regra de "página sem scroll" do desktop. */
+/* ---------------------------------------------------- */
+.hero-bg-decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.decor-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.42;
+}
+
+.decor-orb-cta {
+    width: 380px;
+    height: 380px;
+    top: -140px;
+    right: -90px;
+    background: radial-gradient(circle, var(--nexa-cta) 0%, transparent 70%);
+    animation: nexa-float 9s ease-in-out infinite;
+}
+
+.decor-orb-brand {
+    width: 440px;
+    height: 440px;
+    bottom: -200px;
+    left: -140px;
+    background: radial-gradient(circle, var(--nexa-primary) 0%, transparent 70%);
+    animation: nexa-float 12s ease-in-out infinite reverse;
+}
+
+.decor-mesh {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(58, 65, 113, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(58, 65, 113, 0.055) 1px, transparent 1px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 0%, transparent 78%);
+            mask-image: radial-gradient(ellipse at 50% 40%, #000 0%, transparent 78%);
 }
 
 .hero-right {
@@ -33,7 +87,9 @@
 }
 
 .eyebrow {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     font-family: var(--font-body);
     font-size: 0.76rem;
     font-weight: 700;
@@ -41,6 +97,15 @@
     text-transform: uppercase;
     color: var(--nexa-primary);
     margin-bottom: 8px;
+    background-color: var(--nexa-primary-soft);
+    border: 1px solid rgba(58, 65, 113, 0.16);
+    border-radius: 20px;
+    padding: 5px 13px;
+}
+
+.eyebrow .bi {
+    color: var(--nexa-cta);
+    font-size: 0.9rem;
 }
 
 .hero-content h1 {
@@ -48,6 +113,26 @@
     line-height: 1.16;
     color: var(--nexa-secondary);
     max-width: 16ch;
+}
+
+/* Trecho destacado do título: sublinhado dourado desenhado à mão livre */
+.h1-destaque {
+    position: relative;
+    display: inline-block;
+    color: var(--nexa-primary);
+    white-space: nowrap;
+}
+
+.h1-destaque::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.02em;
+    height: 0.30em;
+    background: linear-gradient(90deg, rgba(243, 167, 48, 0.55), rgba(243, 167, 48, 0.28));
+    border-radius: 3px;
+    z-index: -1;
 }
 
 .hero-sobre {
@@ -112,7 +197,13 @@
     height: 16px;
     border-radius: 50%;
     background-color: var(--nexa-success-bg);
+    border: 1px solid rgba(16, 185, 129, 0.35);
     position: relative;
+    transition: transform 0.25s var(--ease-spring);
+}
+
+.hero-features li:hover .hero-feature-icon {
+    transform: scale(1.18);
 }
 
 .hero-feature-icon::after {
@@ -127,8 +218,15 @@
     transform: translate(-50%, -65%) rotate(-45deg);
 }
 
+/* ---------------------------------------------------- */
+/* MÍDIA DO HERO + SELO INSTRUTIVO                       */
+/* O selo flutua sobre a foto (absoluto, sem ocupar      */
+/* espaço) mostrando como o progresso do aluno aparece   */
+/* dentro da plataforma.                                 */
+/* ---------------------------------------------------- */
 .hero-media {
     margin-top: 16px;
+    position: relative;
 }
 
 .hero-media img {
@@ -137,8 +235,81 @@
     max-height: 20vh;
     object-fit: cover;
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
     border: 1px solid var(--nexa-border);
+}
+
+/* Véu escuro no pé da foto para o selo ficar sempre legível */
+.hero-media::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 60%;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    background: linear-gradient(to top, rgba(28, 24, 38, 0.78) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.hero-media-selo {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 12px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    background: rgba(28, 24, 38, 0.62);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.selo-icone {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-image: var(--nexa-grad-cta);
+    color: var(--nexa-bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    animation: nexa-pulse-ring 2.8s ease-out infinite;
+}
+
+.selo-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.selo-info strong {
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selo-barra {
+    display: block;
+    height: 4px;
+    margin-top: 5px;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.22);
+    overflow: hidden;
+}
+
+.selo-barra-fill {
+    display: block;
+    height: 100%;
+    width: 25%;
+    border-radius: 2px;
+    background-image: var(--nexa-grad-cta);
 }
 
 /* ---------------------------------------------------- */
@@ -151,7 +322,13 @@
     padding: 26px 30px;
     width: 100%;
     max-width: 420px;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
+    animation: nexa-pop-in 0.5s var(--ease-out-soft) both;
+}
+
+.auth-header h2 .bi {
+    color: var(--nexa-cta);
+    margin-right: 4px;
 }
 
 .auth-tabs {
@@ -176,10 +353,19 @@
     transition: color 0.2s ease, border-color 0.2s ease;
 }
 
+.tab-btn:hover {
+    color: var(--nexa-secondary);
+}
+
 .tab-btn.active {
     color: var(--nexa-secondary);
     border-bottom-color: var(--nexa-cta);
     font-weight: 700;
+}
+
+/* Troca de aba: o painel que entra faz um fade curto */
+.auth-panel:not(.hidden) {
+    animation: nexa-blur-fade 0.32s var(--ease-out-soft) both;
 }
 
 /* Painel de cada aba: limite de altura como rede de segurança —      */
@@ -264,11 +450,34 @@
     color: var(--nexa-text-main);
 }
 
+.test-accounts p .bi {
+    color: var(--nexa-cta);
+}
+
 .test-accounts ul {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 2px;
+}
+
+/* Cada linha preenche o formulário de login com um clique */
+.test-accounts li[data-preencher-conta] {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 2px 4px;
+    margin: 0 -4px;
+    transition: background-color 0.18s ease, transform 0.18s var(--ease-spring);
+}
+
+.test-accounts li[data-preencher-conta]:hover {
+    background-color: var(--nexa-cta-soft);
+    transform: translateX(3px);
+}
+
+.test-accounts li[data-preencher-conta]:hover code {
+    background: var(--nexa-cta);
+    color: var(--nexa-bg-dark);
 }
 
 .test-accounts code {
@@ -277,6 +486,7 @@
     padding: 1px 5px;
     border-radius: 4px;
     font-weight: 700;
+    transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 /* ---------------------------------------------------- */
