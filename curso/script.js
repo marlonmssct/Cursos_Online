@@ -490,7 +490,12 @@ formAvaliacao.addEventListener("submit", async (e) => {
     const nota = Number(selectNota.value);
     const comentario = inputComentario.value.trim();
 
-    if (!comentario) return;
+    if (!comentario || comentario.length < 5) {
+        if (window.NexaUI) {
+            NexaUI.toastErro("Escreva um comentário com pelo menos 5 caracteres.");
+        }
+        return;
+    }
 
     try {
         const novaAvaliacao = {

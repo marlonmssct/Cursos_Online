@@ -22,20 +22,9 @@ const TOGGLE_SENHA_HTML = (targetId) => `
     </button>
 `;
 
-// Mostrar/ocultar senha: delegado no document, funciona também para campos
-// criados depois (modais montados dinamicamente).
-document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".toggle-senha");
-    if (!btn) return;
-
-    const input = document.getElementById(btn.dataset.target);
-    if (!input) return;
-
-    const estaVisivel = input.type === "text";
-    input.type = estaVisivel ? "password" : "text";
-    btn.classList.toggle("is-visible", !estaVisivel);
-    btn.setAttribute("aria-label", estaVisivel ? "Mostrar senha" : "Ocultar senha");
-});
+// O clique em ".toggle-senha" já é tratado globalmente por js/perfil-modal.js
+// (carregado nesta página) — não duplicar o listener aqui, ou o campo de senha
+// alterna de tipo duas vezes por clique e parece não fazer nada.
 
 // Selo hexagonal da NEXA reaproveitado como ícone das telas de bloqueio de acesso
 // (login necessário / acesso restrito) — os únicos dois momentos de marca do painel.

@@ -403,6 +403,12 @@
     outline: none;
 }
 
+/* Reabre espaço para o ícone de mostrar/ocultar senha (esta folha carrega    */
+/* depois de global.css e reseta o padding-right definido lá em .form-group). */
+.password-field input {
+    padding-right: 42px;
+}
+
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
