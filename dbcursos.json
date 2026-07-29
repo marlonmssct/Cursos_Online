@@ -15,7 +15,7 @@
       "email": "editor@plataforma.com",
       "senha": "editor123",
       "role": "editor",
-      "ativo": true,
+      "ativo": false,
       "criadoEm": "2026-07-02T11:30:00.000Z"
     },
     {
@@ -26,6 +26,33 @@
       "role": "aluno",
       "ativo": true,
       "criadoEm": "2026-07-05T14:20:00.000Z"
+    },
+    {
+      "id": "VvDNG72RTiY",
+      "nome": "assadsadsadsadsadsa",
+      "email": "dsadsad@gmail.com",
+      "senha": "aaaaaa",
+      "role": "aluno",
+      "ativo": true,
+      "criadoEm": "2026-07-29T18:01:46.713Z"
+    },
+    {
+      "id": "XI3khSIQxb4",
+      "nome": "Gabrielm",
+      "email": "gabriel.silva@itlean.com.br",
+      "senha": "123456",
+      "role": "admin",
+      "ativo": true,
+      "criadoEm": "2026-07-29T18:02:04.413Z"
+    },
+    {
+      "id": "4RbvjOX3yLA",
+      "nome": "Gabrielaa",
+      "email": "asdasd@gmail.com",
+      "senha": "123456",
+      "role": "aluno",
+      "ativo": true,
+      "criadoEm": "2026-07-29T18:02:56.864Z"
     }
   ],
   "categorias": [
@@ -45,15 +72,9 @@
       "slug": "marketing"
     },
     {
-<<<<<<< HEAD
       "id": "0bV-SFOkpCY",
       "nome": "TESTE1",
       "slug": "teste1"
-=======
-      "id": "cat_ia",
-      "nome": "Inteligência Artificial & Data",
-      "slug": "ia-data"
->>>>>>> 95fafa39a8d822547f9596cb22bd949524c4f672
     }
   ],
   "cursos": [
@@ -70,45 +91,6 @@
       "criadoEm": "2026-07-10T09:00:00.000Z"
     },
     {
-<<<<<<< HEAD
-=======
-      "id": "curso_react",
-      "titulo": "React.js & Next.js Completo",
-      "descricao": "Construa aplicações web modernas, reativas e com Server-Side Rendering utilizando os frameworks mais requisitados do mercado.",
-      "categoriaId": "cat_prog",
-      "instrutor": "Lucas Mendes",
-      "cargaHoraria": "35h",
-      "preco": 189.9,
-      "imagem": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop",
-      "status": "publicado",
-      "criadoEm": "2026-07-11T10:00:00.000Z"
-    },
-    {
-      "id": "curso_ui",
-      "titulo": "Design de Interfaces UI/UX com Figma",
-      "descricao": "Domine a criação de protótipos de alta fidelidade, sistemas de design, componentes reutilizáveis e usabilidade em interfaces.",
-      "categoriaId": "cat_design",
-      "instrutor": "Lucas Mendes",
-      "cargaHoraria": "25h",
-      "preco": 199.9,
-      "imagem": "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=600&auto=format&fit=crop",
-      "status": "publicado",
-      "criadoEm": "2026-07-12T14:00:00.000Z"
-    },
-    {
-      "id": "curso_python",
-      "titulo": "Python & Ciência de Dados para Iniciantes",
-      "descricao": "Aprenda lógica de programação com Python, manipulação de dados com Pandas e visualização de gráficos interativos.",
-      "categoriaId": "cat_ia",
-      "instrutor": "Fernanda Lima",
-      "cargaHoraria": "30h",
-      "preco": 129.9,
-      "imagem": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop",
-      "status": "publicado",
-      "criadoEm": "2026-07-14T08:00:00.000Z"
-    },
-    {
->>>>>>> 95fafa39a8d822547f9596cb22bd949524c4f672
       "id": "curso_mkt",
       "titulo": "Estratégias de Growth e SEO para Negócios",
       "descricao": "Aumente o tráfego orgânico e aprenda a posicionar sua marca no topo dos mecanismos de busca com técnicas avançadas.",
@@ -117,20 +99,8 @@
       "cargaHoraria": "18h",
       "preco": 89.9,
       "imagem": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop",
-      "status": "publicado",
-      "criadoEm": "2026-07-15T16:00:00.000Z"
-    },
-    {
-      "id": "curso_node",
-      "titulo": "Node.js & APIs RESTful com Express",
-      "descricao": "Aprenda a construir servidores backend robustos, autenticação JWT, integração com banco de dados e arquitetura escalável.",
-      "categoriaId": "cat_prog",
-      "instrutor": "Mariana Souza",
-      "cargaHoraria": "28h",
-      "preco": 159.9,
-      "imagem": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&auto=format&fit=crop",
       "status": "rascunho",
-      "criadoEm": "2026-07-20T11:00:00.000Z"
+      "criadoEm": "2026-07-15T16:00:00.000Z"
     }
   ],
   "aulas": [
@@ -138,7 +108,7 @@
       "id": "aula_js_1",
       "cursoId": "curso_js",
       "ordem": 1,
-      "titulo": "Aula 1: Introdução ao JavaScript e Ambiente",
+      "titulo": "Introdução ao JavaScript e Configuração do Ambiente",
       "duracao": "15 min",
       "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400&auto=format&fit=crop",
       "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
@@ -147,7 +117,7 @@
       "id": "aula_js_2",
       "cursoId": "curso_js",
       "ordem": 2,
-      "titulo": "Aula 2: Variáveis, Tipos e Operadores",
+      "titulo": "Variáveis, Tipos de Dados e Operadores",
       "duracao": "25 min",
       "thumb": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&auto=format&fit=crop",
       "videoUrl": "https://www.youtube-nocookie.com/embed/Ptbk2af68e8"
@@ -156,142 +126,39 @@
       "id": "aula_js_3",
       "cursoId": "curso_js",
       "ordem": 3,
-      "titulo": "Aula 3: Estruturas de Controle (If / Else)",
-      "duracao": "20 min",
+      "titulo": "Manipulação do HTML DOM e Eventos",
+      "duracao": "30 min",
       "thumb": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
-    },
-    {
-      "id": "aula_js_4",
-      "cursoId": "curso_js",
-      "ordem": 4,
-      "titulo": "Aula 4: Funções e Escopo no JavaScript",
-      "duracao": "30 min",
-      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/Ptbk2af68e8"
-    },
-    {
-      "id": "aula_react_1",
-      "cursoId": "curso_react",
-      "ordem": 1,
-      "titulo": "Aula 1: Conceitos do React e JSX",
-      "duracao": "20 min",
-      "thumb": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/Erj8048Nfls"
-    },
-    {
-      "id": "aula_react_2",
-      "cursoId": "curso_react",
-      "ordem": 2,
-      "titulo": "Aula 2: Componentes, Props e useState",
-      "duracao": "30 min",
-      "thumb": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/Y7bN_jH3H-4"
+      "videoUrl": "https://www.youtube-nocookie.com/embed/8jLOx1hD3_o"
     },
     {
       "id": "aula_ui_1",
       "cursoId": null,
       "ordem": 1,
-      "titulo": "Aula 1: Tipografia e Teoria das Cores",
+      "titulo": "Fundamentos de Tipografia e Teoria das Cores",
       "duracao": "20 min",
       "thumb": "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/L_LUpnjgPso"
-    },
-    {
-      "id": "aula_ui_2",
-      "cursoId": "curso_ui",
-      "ordem": 2,
-      "titulo": "Aula 2: Auto Layout e Componentes Figma",
-      "duracao": "35 min",
-      "thumb": "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/8_wwv5Kl6Mg"
-    },
-    {
-      "id": "aula_py_1",
-      "cursoId": "curso_python",
-      "ordem": 1,
-      "titulo": "Aula 1: Configuração do Python e VS Code",
-      "duracao": "15 min",
-      "thumb": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/rfscVS0vtbw"
-    },
-    {
-      "id": "aula_py_2",
-      "cursoId": "curso_python",
-      "ordem": 2,
-      "titulo": "Aula 2: Listas, Dicionários e Tuplas",
-      "duracao": "30 min",
-      "thumb": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/YYXdXT2l-Gg"
+      "videoUrl": "https://youtu.be/eXOW65xAFdo?si=0_8w_RQIjJbL7kBg"
     }
   ],
   "matriculas": [
     {
-      "id": "mat_aluno_1",
+      "id": "mat_1",
       "usuarioId": "u_aluno1",
       "cursoId": "curso_js",
-      "progresso": 75,
+      "progresso": 33,
       "status": "em_andamento",
       "dataMatricula": "2026-07-18T10:00:00.000Z"
     },
     {
-      "id": "mat_aluno_2",
-      "usuarioId": "u_aluno1",
-      "cursoId": "curso_python",
-      "progresso": 50,
-      "status": "em_andamento",
-      "dataMatricula": "2026-07-19T11:00:00.000Z"
-    },
-    {
-      "id": "mat_aluno_3",
-      "usuarioId": "u_aluno1",
-      "cursoId": "curso_ui",
-      "progresso": 100,
-      "status": "concluido",
-      "dataMatricula": "2026-07-20T14:00:00.000Z"
-    },
-    {
-      "id": "mat_aluno_4",
-      "usuarioId": "u_aluno1",
-      "cursoId": "curso_react",
-      "progresso": 100,
-      "status": "concluido",
-      "dataMatricula": "2026-07-25T09:30:00.000Z"
-    },
-    {
-      "id": "mat_admin_1",
-      "usuarioId": "u_admin1",
-      "cursoId": "curso_js",
-      "progresso": 75,
-      "status": "em_andamento",
-      "dataMatricula": "2026-07-10T10:00:00.000Z"
-    },
-    {
-      "id": "mat_admin_2",
-      "usuarioId": "u_admin1",
-      "cursoId": "curso_react",
-      "progresso": 50,
-      "status": "em_andamento",
-      "dataMatricula": "2026-07-12T11:00:00.000Z"
-    },
-    {
-      "id": "mat_admin_3",
-      "usuarioId": "u_admin1",
-      "cursoId": "curso_python",
-      "progresso": 100,
-      "status": "concluido",
-      "dataMatricula": "2026-07-15T14:00:00.000Z"
-    },
-    {
-      "id": "mat_admin_4",
+      "id": "XQeW2gyuKE0",
       "usuarioId": "u_admin1",
       "cursoId": null,
       "progresso": 100,
-      "status": "concluido",
-      "dataMatricula": "2026-07-16T16:00:00.000Z"
+      "dataMatricula": "2026-07-29T14:30:20.725Z",
+      "status": "concluido"
     },
     {
-<<<<<<< HEAD
       "id": "03mTopy4yLM",
       "usuarioId": "u_admin1",
       "cursoId": "curso_js",
@@ -306,30 +173,6 @@
       "progresso": 10,
       "status": "em_andamento",
       "dataMatricula": "2026-07-29T18:03:21.814Z"
-=======
-      "id": "mat_editor_1",
-      "usuarioId": "u_editor1",
-      "cursoId": "curso_react",
-      "progresso": 50,
-      "status": "em_andamento",
-      "dataMatricula": "2026-07-11T09:00:00.000Z"
-    },
-    {
-      "id": "mat_editor_2",
-      "usuarioId": "u_editor1",
-      "cursoId": "curso_ui",
-      "progresso": 100,
-      "status": "concluido",
-      "dataMatricula": "2026-07-14T15:00:00.000Z"
-    },
-    {
-      "id": "mat_editor_3",
-      "usuarioId": "u_editor1",
-      "cursoId": "curso_mkt",
-      "progresso": 100,
-      "status": "concluido",
-      "dataMatricula": "2026-07-17T18:00:00.000Z"
->>>>>>> 95fafa39a8d822547f9596cb22bd949524c4f672
     }
   ],
   "avaliacoes": [
@@ -338,7 +181,6 @@
       "cursoId": "curso_js",
       "usuarioNome": "Carlos Oliveira",
       "nota": 5,
-<<<<<<< HEAD
       "comentario": "Excelente curso! Didática muito clara e prática.",
       "data": "2026-07-20T11:00:00.000Z"
     },
@@ -357,34 +199,7 @@
       "nota": 2,
       "comentario": "2323232332",
       "data": "2026-07-29T19:55:52.408Z"
-=======
-      "comentario": "Excelente Didática! As aulas práticas facilitam muito o aprendizado dos conceitos.",
-      "data": "2026-07-22T15:30:00.000Z"
-    },
-    {
-      "id": "av_2",
-      "cursoId": "curso_ui",
-      "usuarioNome": "Carlos Oliveira",
-      "nota": 5,
-      "comentario": "O melhor curso de Figma da plataforma. Consegui montar meu portfólio completo!",
-      "data": "2026-07-24T18:00:00.000Z"
-    },
-    {
-      "id": "av_3",
-      "cursoId": "curso_python",
-      "usuarioNome": "Administrador Principal",
-      "nota": 5,
-      "comentario": "Curso excelente! Conteúdo muito bem estruturado e prático para iniciantes.",
-      "data": "2026-07-25T10:00:00.000Z"
-    },
-    {
-      "id": "av_4",
-      "cursoId": "curso_ui",
-      "usuarioNome": "Mariana Souza (Gestora de Conteúdo)",
-      "nota": 5,
-      "comentario": "Muito bom! Ótima visão de design de produto e prototipação rápida.",
-      "data": "2026-07-26T14:20:00.000Z"
->>>>>>> 95fafa39a8d822547f9596cb22bd949524c4f672
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

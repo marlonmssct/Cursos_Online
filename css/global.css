@@ -1072,9 +1072,17 @@ html {
 /* Bolha flutuante injetada por js/support-chat.js em     */
 /* toda página que carregar o script.                     */
 /* ==================================================== */
+/* --nexa-chat-footer-offset é calculado em js/support-chat.js: quantos     */
+/* pixels do rodapé estão visíveis na tela agora. O botão soma esse valor  */
+/* ao seu recuo normal para nunca ficar "afundado" dentro do rodapé,       */
+/* em nenhuma página, independente da altura do rodapé.                   */
+:root {
+    --nexa-chat-footer-offset: 0px;
+}
+
 .support-chat-btn {
     position: fixed;
-    bottom: 60px;
+    bottom: calc(24px + var(--nexa-chat-footer-offset));
     right: 24px;
     width: 56px;
     height: 56px;
@@ -1103,7 +1111,7 @@ html {
 
 .support-chat-panel {
     position: fixed;
-    bottom: 92px;
+    bottom: calc(92px + var(--nexa-chat-footer-offset));
     right: 24px;
     width: 360px;
     max-width: calc(100vw - 32px);
@@ -1270,12 +1278,12 @@ html {
 @media (max-width: 480px) {
     .support-chat-panel {
         right: 16px;
-        bottom: 84px;
+        bottom: calc(84px + var(--nexa-chat-footer-offset));
         width: calc(100vw - 32px);
     }
 
     .support-chat-btn {
         right: 16px;
-        bottom: 16px;
+        bottom: calc(16px + var(--nexa-chat-footer-offset));
     }
 }

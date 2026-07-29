@@ -202,8 +202,39 @@ Seja breve (poucas frases), cordial e direto. Responda sempre em português do B
         return texto;
     }
 
+    // ---------------------------------------------------- //
+    // 4. NUNCA FICAR "AFUNDADO" NO RODAPÉ                   //
+    // Mede quantos pixels do rodapé estão visíveis na tela   //
+    // e soma esse valor ao recuo do widget — funciona em     //
+    // qualquer página, com qualquer altura de rodapé.         //
+    // ---------------------------------------------------- //
+    function evitarSobreporRodape() {
+        const rodape = document.querySelector(".global-footer");
+        if (!rodape) return;
+
+        let pendente = false;
+
+        function medir() {
+            pendente = false;
+            const rect = rodape.getBoundingClientRect();
+            const sobreposicao = Math.max(0, Math.round(window.innerHeight - rect.top));
+            document.documentElement.style.setProperty("--nexa-chat-footer-offset", `${sobreposicao}px`);
+        }
+
+        function agendarMedicao() {
+            if (pendente) return;
+            pendente = true;
+            requestAnimationFrame(medir);
+        }
+
+        medir();
+        window.addEventListener("scroll", agendarMedicao, { passive: true });
+        window.addEventListener("resize", agendarMedicao);
+    }
+
     function iniciar() {
         const { botao, painel } = montarWidget();
+        evitarSobreporRodape();
         const fechar = painel.querySelector("#nexaChatClose");
         const mensagensEl = painel.querySelector("#nexaChatMessages");
         const form = painel.querySelector("#nexaChatForm");
