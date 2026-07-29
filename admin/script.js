@@ -253,6 +253,14 @@ async function editarCurso(id, categorias) {
 function abrirModalCurso(curso, categorias, aulasExistentes = []) {
     const overlay = document.createElement("div");
     overlay.className = "modal-overlay";
+
+    // Prepara a lista inicial de aulas em memória
+    let listaAulasMemoria = aulasExistentes.length > 0
+        ? [...aulasExistentes].sort((a, b) => a.ordem - b.ordem)
+        : [{ titulo: "Aula 1: Introdução", videoUrl: "https://www.youtube.com/watch?v=WRlfwBof66s", duracao: "15 min" }];
+
+    let indiceAulaAtiva = 0;
+
     overlay.innerHTML = `
         <div class="modal-card" style="max-width: 650px; max-height: 90vh; overflow-y: auto;">
             <div class="modal-header">
@@ -299,18 +307,46 @@ function abrirModalCurso(curso, categorias, aulasExistentes = []) {
                     </select>
                 </div>
 
-                <!-- LISTA DINÂMICA DE VIDEOAULAS ENUMERADAS (AULA 1, AULA 2, AULA 3...) -->
+                <!-- GERENCIADOR DE VIDEOAULAS VIA SELECT (LIMPO E NÃO POLUÍDO) -->
                 <div class="form-group" style="margin-top: 24px; border-top: 2px dashed var(--nexa-border); padding-top: 20px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
                         <div>
-                            <label style="font-weight: 700; font-size: 1.05rem; color: var(--nexa-secondary);">🎬 Videoaulas do Curso</label>
-                            <small style="display: block; color: var(--nexa-text-muted);">Adicione e ordene as videoaulas do curso dinamicamente</small>
+                            <label style="font-weight: 700; font-size: 1.05rem; color: var(--nexa-secondary);">🎬 Gerenciador de Videoaulas</label>
+                            <small style="display: block; color: var(--nexa-text-muted);">Selecione a aula no menu abaixo para editar seus dados</small>
                         </div>
-                        <button type="button" id="btnAdicionarVideoAula" class="btn btn-primary btn-sm">➕ Adicionar Videoaula</button>
+                        <button type="button" id="btnNovaVideoAulaSelect" class="btn btn-primary btn-sm">➕ Adicionar Videoaula</button>
                     </div>
 
-                    <div id="containerListaVideoAulas" style="display: flex; flex-direction: column; gap: 14px;">
-                        <!-- Cards das aulas inseridos via JS -->
+                    <!-- SELECT DE SELEÇÃO DA AULA PARA EDIÇÃO -->
+                    <div class="form-group" style="margin-bottom: 16px;">
+                        <label for="selectGerenciarAulas" style="font-weight: 600; font-size: 0.85rem;">Selecione a Aula para Configurar:</label>
+                        <select id="selectGerenciarAulas" style="font-weight: 700; padding: 11px 14px; border-color: var(--nexa-primary); background-color: #F8FAFC; width: 100%;">
+                            <!-- Populado dinamicamente -->
+                        </select>
+                    </div>
+
+                    <!-- PAINEL DEDICADO DE EDIÇÃO DA AULA SELECIONADA NO SELECT -->
+                    <div id="painelEdicaoAulaSelecionada" style="background: var(--nexa-bg-light); border: 1px solid var(--nexa-border); border-radius: var(--radius-sm); padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <strong id="labelAulaEditando" style="color: var(--nexa-primary); font-size: 0.95rem;">📖 Editando Aula 1</strong>
+                            <button type="button" id="btnRemoverAulaSelecionada" class="btn btn-danger btn-sm" style="padding: 4px 10px; font-size: 0.8rem;">🗑️ Remover Aula</button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputAulaTitulo">Título da Aula</label>
+                            <input type="text" id="inputAulaTitulo" placeholder="Ex: Aula 1: Introdução aos conceitos" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="inputAulaUrl">URL do Vídeo (YouTube)</label>
+                                <input type="url" id="inputAulaUrl" placeholder="https://www.youtube.com/watch?v=..." required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="inputAulaDuracao">Duração</label>
+                                <input type="text" id="inputAulaDuracao" placeholder="Ex: 15 min" value="15 min">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -324,82 +360,96 @@ function abrirModalCurso(curso, categorias, aulasExistentes = []) {
 
     document.body.appendChild(overlay);
 
-    const containerLista = overlay.querySelector("#containerListaVideoAulas");
-    const btnAdd = overlay.querySelector("#btnAdicionarVideoAula");
+    const selectGerenciar = overlay.querySelector("#selectGerenciarAulas");
+    const btnNovoSelect = overlay.querySelector("#btnNovaVideoAulaSelect");
+    const btnRemoverAula = overlay.querySelector("#btnRemoverAulaSelecionada");
 
-    // Preenche as aulas existentes ordenadas ou cria 1 aula vazia se for novo
-    const aulasOrdenadas = aulasExistentes.sort((a, b) => a.ordem - b.ordem);
-    if (aulasOrdenadas.length > 0) {
-        aulasOrdenadas.forEach((a) => adicionarItemVideoAula(containerLista, a));
-    } else {
-        adicionarItemVideoAula(containerLista); // Adiciona Aula 1 inicial por padrão
+    const labelAulaEditando = overlay.querySelector("#labelAulaEditando");
+    const inputTitulo = overlay.querySelector("#inputAulaTitulo");
+    const inputUrl = overlay.querySelector("#inputAulaUrl");
+    const inputDuracao = overlay.querySelector("#inputAulaDuracao");
+
+    // Função que atualiza o menu <select> e carrega os dados da aula ativa no painel
+    function renderizarSelectEAulaAtiva(idxParaSelecionar = 0) {
+        if (listaAulasMemoria.length === 0) {
+            listaAulasMemoria.push({ titulo: "Aula 1: Introdução", videoUrl: "https://www.youtube.com/watch?v=WRlfwBof66s", duracao: "15 min" });
+        }
+
+        indiceAulaAtiva = Math.max(0, Math.min(idxParaSelecionar, listaAulasMemoria.length - 1));
+
+        // Repopula as opções do select
+        selectGerenciar.innerHTML = "";
+        listaAulasMemoria.forEach((aula, index) => {
+            const opt = document.createElement("option");
+            opt.value = index;
+            opt.textContent = `Aula ${index + 1}: ${aula.titulo || "(Sem título)"}`;
+            if (index === indiceAulaAtiva) opt.selected = true;
+            selectGerenciar.appendChild(opt);
+        });
+
+        // Carrega os dados da aula selecionada no formulário de edição
+        const aulaAtual = listaAulasMemoria[indiceAulaAtiva];
+        labelAulaEditando.textContent = `📖 Editando Aula ${indiceAulaAtiva + 1} de ${listaAulasMemoria.length}`;
+        inputTitulo.value = aulaAtual.titulo || "";
+        inputUrl.value = aulaAtual.videoUrl || "";
+        inputDuracao.value = aulaAtual.duracao || "15 min";
     }
 
-    btnAdd.addEventListener("click", () => {
-        adicionarItemVideoAula(containerLista);
+    // Evento ao trocar a opção no <select>
+    selectGerenciar.addEventListener("change", (e) => {
+        renderizarSelectEAulaAtiva(parseInt(e.target.value));
     });
+
+    // Atualização em tempo real quando o usuário digita nos campos da aula ativa
+    inputTitulo.addEventListener("input", (e) => {
+        listaAulasMemoria[indiceAulaAtiva].titulo = e.target.value;
+        selectGerenciar.options[indiceAulaAtiva].textContent = `Aula ${indiceAulaAtiva + 1}: ${e.target.value || "(Sem título)"}`;
+    });
+
+    inputUrl.addEventListener("input", (e) => {
+        listaAulasMemoria[indiceAulaAtiva].videoUrl = e.target.value;
+    });
+
+    inputDuracao.addEventListener("input", (e) => {
+        listaAulasMemoria[indiceAulaAtiva].duracao = e.target.value;
+    });
+
+    // Botão Adicionar Nova Videoaula: cria uma nova opção no select!
+    btnNovoSelect.addEventListener("click", () => {
+        const novaNum = listaAulasMemoria.length + 1;
+        listaAulasMemoria.push({
+            titulo: `Aula ${novaNum}: Conteúdo da Aula`,
+            videoUrl: "https://www.youtube.com/watch?v=WRlfwBof66s",
+            duracao: "15 min"
+        });
+        renderizarSelectEAulaAtiva(listaAulasMemoria.length - 1);
+        toastSucesso(`Nova opção "Aula ${novaNum}" adicionada ao Select!`);
+    });
+
+    // Botão Remover Aula Ativa
+    btnRemoverAula.addEventListener("click", () => {
+        if (listaAulasMemoria.length <= 1) {
+            toastErro("O curso deve conter pelo menos 1 videoaula.");
+            return;
+        }
+        listaAulasMemoria.splice(indiceAulaAtiva, 1);
+        renderizarSelectEAulaAtiva(Math.max(0, indiceAulaAtiva - 1));
+        toastSucesso("Aula removida da lista.");
+    });
+
+    // Inicializa o select com a primeira aula
+    renderizarSelectEAulaAtiva(0);
 
     overlay.querySelectorAll("[data-close]").forEach((el) => el.addEventListener("click", () => overlay.remove()));
     overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.remove(); });
 
     overlay.querySelector("#formCurso").addEventListener("submit", async (e) => {
         e.preventDefault();
-        await salvarCursoEAulas(curso, overlay, containerLista);
+        await salvarCursoEAulasMemoria(curso, overlay, listaAulasMemoria);
     });
 }
 
-// Função auxiliar para criar cada card de videoaula enumerado (Aula 1, Aula 2, Aula 3...)
-function adicionarItemVideoAula(container, dados = {}) {
-    const numAula = container.children.length + 1;
-    const itemDiv = document.createElement("div");
-    itemDiv.className = "item-video-aula-card";
-    itemDiv.style.cssText = "background: var(--nexa-bg-light); border: 1px solid var(--nexa-border); border-radius: var(--radius-sm); padding: 16px; position: relative;";
-
-    itemDiv.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <strong class="label-num-aula" style="color: var(--nexa-primary); font-size: 0.95rem;">📖 Aula ${numAula}</strong>
-            <button type="button" class="btn-remover-aula" style="background: #FEE2E2; border: 1px solid #FCA5A5; color: #991B1B; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 0.8rem; font-weight: 700;">🗑️ Remover</button>
-        </div>
-        <div class="form-group" style="margin-bottom: 10px;">
-            <label style="font-size: 0.8rem; font-weight: 600;">Título da Aula ${numAula}</label>
-            <input type="text" class="input-aula-titulo" placeholder="Ex: Aula ${numAula}: Introdução aos conceitos" required value="${escapeHTML(dados.titulo || "")}">
-        </div>
-        <div class="form-row">
-            <div class="form-group" style="margin-bottom: 0;">
-                <label style="font-size: 0.8rem; font-weight: 600;">URL do Vídeo (YouTube)</label>
-                <input type="url" class="input-aula-url" placeholder="https://www.youtube.com/watch?v=..." required value="${escapeHTML(dados.videoUrl || "")}">
-            </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label style="font-size: 0.8rem; font-weight: 600;">Duração</label>
-                <input type="text" class="input-aula-duracao" placeholder="Ex: 15 min" value="${escapeHTML(dados.duracao || "15 min")}">
-            </div>
-        </div>
-    `;
-
-    itemDiv.querySelector(".btn-remover-aula").addEventListener("click", () => {
-        itemDiv.remove();
-        reordenarEnumeracaoAulas(container);
-    });
-
-    container.appendChild(itemDiv);
-}
-
-// Reordena a numeração (Aula 1, Aula 2, Aula 3...) caso alguma seja removida
-function reordenarEnumeracaoAulas(container) {
-    const cards = container.querySelectorAll(".item-video-aula-card");
-    cards.forEach((card, index) => {
-        const label = card.querySelector(".label-num-aula");
-        const inputTitulo = card.querySelector(".input-aula-titulo");
-        if (label) {
-            label.textContent = `📖 Aula ${index + 1}`;
-        }
-        if (inputTitulo && (!inputTitulo.value || inputTitulo.value.startsWith("Aula "))) {
-            inputTitulo.placeholder = `Ex: Aula ${index + 1}: Introdução aos conceitos`;
-        }
-    });
-}
-
-async function salvarCursoEAulas(cursoExistente, overlay, containerLista) {
+async function salvarCursoEAulasMemoria(cursoExistente, overlay, listaAulas) {
     const dadosCurso = {
         titulo: overlay.querySelector("#cursoTitulo").value.trim(),
         descricao: overlay.querySelector("#cursoDescricao").value.trim(),
@@ -432,7 +482,7 @@ async function salvarCursoEAulas(cursoExistente, overlay, containerLista) {
             });
         }
 
-        // Deleta as aulas antigas vinculadas a este curso para atualizar a lista cronológica
+        // Deleta as aulas antigas vinculadas a este curso para atualizar com a lista do select
         if (cursoExistente) {
             const respAntigas = await fetch(`${API_URL}/aulas?cursoId=${targetCursoId}`);
             if (respAntigas.ok) {
@@ -443,22 +493,16 @@ async function salvarCursoEAulas(cursoExistente, overlay, containerLista) {
             }
         }
 
-        // Lê todos os cards de videoaula do modal e salva na ordem cronológica (1, 2, 3...)
-        const cardsAulas = containerLista.querySelectorAll(".item-video-aula-card");
+        // Salva todas as aulas organizadas no select na ordem cronológica (1, 2, 3...)
         let ordemNum = 1;
-
-        for (const card of cardsAulas) {
-            const titulo = card.querySelector(".input-aula-titulo").value.trim();
-            const urlRaw = card.querySelector(".input-aula-url").value.trim();
-            const duracao = card.querySelector(".input-aula-duracao").value.trim() || "15 min";
-
-            if (titulo && urlRaw) {
-                let urlEmbed = urlRaw;
-                if (urlRaw.includes("watch?v=")) {
-                    const videoId = urlRaw.split("watch?v=")[1].split("&")[0];
+        for (const a of listaAulas) {
+            if (a.titulo && a.videoUrl) {
+                let urlEmbed = a.videoUrl;
+                if (a.videoUrl.includes("watch?v=")) {
+                    const videoId = a.videoUrl.split("watch?v=")[1].split("&")[0];
                     urlEmbed = `https://www.youtube-nocookie.com/embed/${videoId}`;
-                } else if (urlRaw.includes("youtu.be/")) {
-                    const videoId = urlRaw.split("youtu.be/")[1].split("?")[0];
+                } else if (a.videoUrl.includes("youtu.be/")) {
+                    const videoId = a.videoUrl.split("youtu.be/")[1].split("?")[0];
                     urlEmbed = `https://www.youtube-nocookie.com/embed/${videoId}`;
                 }
 
@@ -466,9 +510,9 @@ async function salvarCursoEAulas(cursoExistente, overlay, containerLista) {
                     id: `aula_${targetCursoId}_${ordemNum}_${Date.now()}`,
                     cursoId: targetCursoId,
                     ordem: ordemNum,
-                    titulo: titulo,
-                    duracao: duracao,
-                    thumb: "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+                    titulo: a.titulo,
+                    duracao: a.duracao || "15 min",
+                    thumb: a.thumb || "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
                     videoUrl: urlEmbed
                 };
 
