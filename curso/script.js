@@ -2,7 +2,7 @@
 // LÓGICA DA SALA DE AULA - NAVEGAÇÃO, THUMBS & PLAYER  //
 // ==================================================== //
 
-const API_URL = "http://localhost:3000";
+// O script agora usa a const API_URL do arquivo global js/api.js
 
 // Elementos da Interface
 const userWelcome = document.getElementById("userWelcome");
@@ -46,14 +46,19 @@ let imagemCursoPadrao = "";
 // 1. VERIFICAÇÃO DE SESSÃO DO USUÁRIO LOGADO           //
 // ---------------------------------------------------- //
 function verificarSessao() {
-    const usuarioSalvo = localStorage.getItem("usuarioLogado");
+    let usuario = null;
 
-    if (!usuarioSalvo) {
+    if (typeof Sessao !== "undefined" && typeof Sessao.getUsuario === "function") {
+        usuario = Sessao.getUsuario();
+    } else {
+        const bruto = localStorage.getItem("usuarioLogado");
+        usuario = bruto ? JSON.parse(bruto) : null;
+    }
+
+    if (!usuario) {
         window.location.href = "../login/index.html";
         return null;
     }
-
-    const usuario = JSON.parse(usuarioSalvo);
 
     if (userWelcome) userWelcome.textContent = `Olá, ${usuario.nome}`;
     if (userRoleBadge) {
@@ -83,7 +88,11 @@ if (btnLogout) {
             if (!confirmado) return;
         }
 
-        localStorage.removeItem("usuarioLogado");
+        if (typeof Sessao !== "undefined" && typeof Sessao.logout === "function") {
+            Sessao.logout();
+        } else {
+            localStorage.removeItem("usuarioLogado");
+        }
         window.location.href = "../login/index.html";
     });
 }

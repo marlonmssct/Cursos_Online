@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Aprendizado - NEXA Cursos Online</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+    <!-- Google Fonts do Guia NEXA: Sora e Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons para métricas e badges -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SweetAlert2: feedbacks visuais e confirmações da plataforma -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <!-- Header Fixo Dinâmico NEXA -->
+    <header class="global-header">
+        <div class="header-container">
+            <a href="../catalogo/index.html" class="logo-brand">
+                <svg class="nexa-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 5 L88 26.5 C92 28.8 94 32.3 94 36.8 L94 63.2 C94 67.7 92 71.2 88 73.5 L50 95 C46 97.3 42 97.3 38 95 L12 73.5 C8 71.2 6 67.7 6 63.2 L6 36.8 C6 32.3 8 28.8 12 26.5 Z" fill="#20153B"/>
+                    <path d="M30 68 V34 C30 30 35 28 38 31 L64 64 C67 67 72 65 72 61 V30" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M42 43.5 L57 51 L42 58.5 Z" fill="#F3A730"/>
+                </svg>
+                <span class="logo-text">nexa</span>
+            </a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="../catalogo/index.html" class="nav-link">Catálogo</a></li>
+                    <li><a href="../meu-aprendizado/index.html" class="nav-link active">Meu Aprendizado</a></li>
+                    <li id="navAdminItem" class="hidden"><a href="../admin/index.html" class="nav-link">Painel Gestão</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-widget">
+                <span id="userWelcome" style="font-size: 0.9rem; font-weight: 600;">Olá, Aluno</span>
+                <span id="userRoleBadge" class="badge-role aluno">Aluno</span>
+                <button type="button" id="btnAbrirPerfil" class="profile-icon-btn" aria-label="Meu perfil" title="Meu perfil"></button>
+                <button id="btnLogout" class="btn btn-secondary btn-sm">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal do Dashboard Meu Aprendizado -->
+    <main class="aprendizado-container">
+
+        <!-- 1. Saudação e Indicadores Rápidos (KPIs) -->
+        <section class="dashboard-hero">
+            <div class="hero-greeting">
+                <h1 id="userGreetingTitle">Olá, Aluno! 👋</h1>
+                <p id="userGreetingSubtitle">Que bom te ver de volta. Continue de onde parou e conquiste seus objetivos da semana.</p>
+            </div>
+
+            <!-- Grid de Cartões de Métricas Rápidas (KPIs) -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-active">
+                        <i class="bi bi-book-half"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-value" id="kpiEmAndamento">0</span>
+                        <span class="kpi-label">Cursos em Andamento</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-completed">
+                        <i class="bi bi-patch-check-fill"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-value" id="kpiConcluidos">0</span>
+                        <span class="kpi-label">Cursos Concluídos</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-hours">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-value" id="kpiHorasEstudadas">0h</span>
+                        <span class="kpi-label">Tempo Dedicado</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-streak">
+                        <i class="bi bi-fire"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-value" id="kpiStreak">1 Dia</span>
+                        <span class="kpi-label">Frequência (Streak)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Destaque: "Continuar de Onde Parou" -->
+        <section id="sectionContinuarParou" class="continuar-parou-section hidden">
+            <div class="section-title-wrapper">
+                <h2>🔥 Continuar de Onde Parou</h2>
+                <span class="section-subtitle">Acesso rápido ao seu estudo mais recente</span>
+            </div>
+
+            <div class="continuar-card">
+                <div id="continuarThumb" class="continuar-media"></div>
+                <div class="continuar-body">
+                    <span id="continuarCategoria" class="course-card-cat">Programação</span>
+                    <h3 id="continuarTitulo">JavaScript Moderno do Zero ao Avançado</h3>
+                    <p id="continuarDescricao">Fundamentos, manipulação do DOM e boas práticas.</p>
+                    
+                    <div class="continuar-progress-box">
+                        <div class="progress-info">
+                            <span id="continuarProximaAula">Próxima: Aula 2 - Variáveis e Operadores</span>
+                            <strong id="continuarPorcentagem">50%</strong>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div id="continuarBarFill" class="progress-bar-fill" style="width: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <a id="btnRetomarAula" href="#" class="btn btn-primary btn-retomar">
+                        <i class="bi bi-play-circle-fill"></i> Retomar Aula Agora
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Organização de Cursos em Abas -->
+        <section class="abas-aprendizado-section">
+            <div class="tabs-header">
+                <button type="button" class="tab-btn active" data-tab="emAndamento">
+                    <i class="bi bi-play-btn"></i> Em Andamento (<span id="countTabAndamento">0</span>)
+                </button>
+                <button type="button" class="tab-btn" data-tab="concluidos">
+                    <i class="bi bi-trophy"></i> Concluídos (<span id="countTabConcluidos">0</span>)
+                </button>
+                <button type="button" class="tab-btn" data-tab="anotacoes">
+                    <i class="bi bi-journal-text"></i> Minhas Anotações &amp; Favoritos
+                </button>
+            </div>
+
+            <!-- Aba 1: Cursos em Andamento -->
+            <div id="painelEmAndamento" class="tab-panel active">
+                <div id="gridEmAndamento" class="cards-grid">
+                    <p class="empty-state">Carregando seus cursos em andamento...</p>
+                </div>
+            </div>
+
+            <!-- Aba 2: Cursos Concluídos -->
+            <div id="painelConcluidos" class="tab-panel hidden">
+                <div id="gridConcluidos" class="cards-grid">
+                    <p class="empty-state">Você ainda não concluiu nenhum curso.</p>
+                </div>
+            </div>
+
+            <!-- Aba 3: Minhas Anotações & Favoritos -->
+            <div id="painelAnotacoes" class="tab-panel hidden">
+                <div class="anotacoes-wrapper">
+                    <!-- Formulário para Criar Anotação -->
+                    <div class="nova-anotacao-card">
+                        <h3><i class="bi bi-plus-circle"></i> Criar Nova Anotação de Estudo</h3>
+                        <form id="formAnotacao">
+                            <div class="form-row">
+                                <div class="form-group" style="flex: 1;">
+                                    <label for="selectCursoAnotacao">Selecione o Curso:</label>
+                                    <select id="selectCursoAnotacao" required>
+                                        <!-- Populado via JS -->
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex: 1;">
+                                    <label for="inputTituloAnotacao">Título do Tópico:</label>
+                                    <input type="text" id="inputTituloAnotacao" placeholder="Ex: Dúvida sobre Closures e Arrow Functions" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="textoAnotacao">Sua Anotação / Resumo:</label>
+                                <textarea id="textoAnotacao" rows="3" placeholder="Escreva suas anotações ou conceitos importantes para revisar..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="bi bi-save"></i> Salvar Anotação
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Lista de Anotações Salvas -->
+                    <div class="anotacoes-list-container">
+                        <h3><i class="bi bi-journal-bookmark"></i> Minhas Anotações Salvas</h3>
+                        <div id="listaAnotacoes" class="anotacoes-grid">
+                            <!-- Anotações inseridas via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4 e 5. Gamificação (Badges) e Cronograma -->
+        <section class="gamificacao-grid-section">
+            
+            <!-- Card de Conquistas & Badges -->
+            <div class="dashboard-box flex-1">
+                <div class="box-header">
+                    <h3>🏆 Minhas Conquistas &amp; Badges NEXA</h3>
+                    <small>Medalhas destravadas de acordo com seu ritmo de estudos</small>
+                </div>
+                <div id="badgesContainer" class="badges-grid">
+                    <!-- Badges renderizados via JS -->
+                </div>
+            </div>
+
+            <!-- Card de Cronograma & Frequência Semanal -->
+            <div class="dashboard-box flex-1">
+                <div class="box-header">
+                    <h3>📅 Frequência Semanal de Estudo</h3>
+                    <small>Mantenha a constância para acelerar o aprendizado</small>
+                </div>
+                <div class="streak-week-wrapper">
+                    <div class="streak-days">
+                        <div class="day-dot active"><span>Seg</span><i class="bi bi-check-circle-fill"></i></div>
+                        <div class="day-dot active"><span>Ter</span><i class="bi bi-check-circle-fill"></i></div>
+                        <div class="day-dot active"><span>Qua</span><i class="bi bi-check-circle-fill"></i></div>
+                        <div class="day-dot"><span>Qui</span><i class="bi bi-circle"></i></div>
+                        <div class="day-dot"><span>Sex</span><i class="bi bi-circle"></i></div>
+                        <div class="day-dot"><span>Sáb</span><i class="bi bi-circle"></i></div>
+                        <div class="day-dot"><span>Dom</span><i class="bi bi-circle"></i></div>
+                    </div>
+                    <div class="streak-meta-text">
+                        <i class="bi bi-lightning-charge-fill" style="color: var(--nexa-cta);"></i>
+                        <span>Sua meta da semana está <strong>60% concluída</strong>! Faltam apenas 2 sessões de estudo.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Estatísticas por Área & Recomendações do Catálogo -->
+        <section class="estatisticas-recomendacao-section">
+            
+            <!-- Distribuição por Área de Conhecimento -->
+            <div class="dashboard-box flex-1">
+                <div class="box-header">
+                    <h3>📊 Distribuição de Estudos por Área</h3>
+                    <small>Veja quais categorias você mais estuda na plataforma</small>
+                </div>
+                <div id="distribuicaoCategorias" class="distribuicao-container">
+                    <!-- Barras percentuais populadas via JS -->
+                </div>
+            </div>
+
+            <!-- Cursos Recomendados para Você -->
+            <div class="dashboard-box flex-1">
+                <div class="box-header">
+                    <h3>💡 Sugestões de Próximos Cursos</h3>
+                    <small>Cursos do catálogo recomendados para seu perfil</small>
+                </div>
+                <div id="gridRecomendados" class="recomendados-list">
+                    <!-- Sugestões inseridas via JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Fixo Global -->
+    <footer class="global-footer">
+        <p>&copy; 2026 <strong>NEXA Cursos Online</strong>. Plataforma de alta performance e aprendizado contínuo.</p>
+    </footer>
+
+    <!-- MODAL DE CERTIFICADO NOMINAL DE CONCLUSÃO -->
+    <div id="modalCertificado" class="modal-overlay hidden">
+        <div class="modal-card modal-certificado-card">
+            <div class="modal-header">
+                <h3>🏆 Certificado de Conclusão NEXA</h3>
+                <button type="button" class="btn-close" id="btnFecharCertificado">&times;</button>
+            </div>
+            
+            <!-- Moldura Oficial do Certificado Stylized -->
+            <div class="certificado-frame">
+                <div class="cert-border-corner top-left"></div>
+                <div class="cert-border-corner top-right"></div>
+                <div class="cert-border-corner bottom-left"></div>
+                <div class="cert-border-corner bottom-right"></div>
+
+                <div class="cert-header">
+                    <svg class="cert-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 5 L88 26.5 C92 28.8 94 32.3 94 36.8 L94 63.2 C94 67.7 92 71.2 88 73.5 L50 95 C46 97.3 42 97.3 38 95 L12 73.5 C8 71.2 6 67.7 6 63.2 L6 36.8 C6 32.3 8 28.8 12 26.5 Z" fill="#2D1C52"/>
+                        <path d="M30 68 V34 C30 30 35 28 38 31 L64 64 C67 67 72 65 72 61 V30" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M42 43.5 L57 51 L42 58.5 Z" fill="#F3A730"/>
+                    </svg>
+                    <h2>CERTIFICADO DE CONCLUSÃO</h2>
+                    <span class="cert-subtitle">NEXA HIGH PERFORMANCE EDUCATION</span>
+                </div>
+
+                <div class="cert-body">
+                    <p class="cert-text-lead">Certificamos que o(a) aluno(a)</p>
+                    <h1 id="certNomeAluno">Carlos Oliveira</h1>
+                    <p class="cert-text-desc">concluiu com êxito o curso de extensão profissionalizante de</p>
+                    <h3 id="certNomeCurso">Design de Interfaces UI/UX com Figma</h3>
+                    <p class="cert-text-meta">com carga horária total de <strong id="certCargaHoraria">25h</strong> e aproveitamento de <strong>100%</strong>.</p>
+                </div>
+
+                <div class="cert-footer">
+                    <div class="cert-sign">
+                        <div class="sign-line"></div>
+                        <span id="certInstrutor">Mariana Souza</span>
+                        <small>Instrutor(a) Responsável</small>
+                    </div>
+                    <div class="cert-stamp">
+                        <div class="stamp-badge">
+                            <span>VERIFICADO</span>
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <small id="certDataEmissao">Emitido em 29/07/2026</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 20px; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" id="btnImprimirCertificado">
+                    <i class="bi bi-printer"></i> Imprimir / Salvar PDF
+                </button>
+                <button type="button" class="btn btn-primary" id="btnFecharCertificadoBottom">
+                    Concluído
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/nexa-ui.js"></script>
+    <script src="../js/perfil-modal.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

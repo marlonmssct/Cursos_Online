@@ -1,0 +1,699 @@
+/* ==================================================== */
+/* ESTILOS ESPECÍFICOS - MEU APRENDIZADO (NEXA)        */
+/* ==================================================== */
+
+.aprendizado-container {
+    max-width: 1200px;
+    margin: 32px auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+}
+
+/* ---------------------------------------------------- */
+/* 1. HERO DE SAUDAÇÃO & CARDS DE KPIS                  */
+/* ---------------------------------------------------- */
+.dashboard-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.hero-greeting h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--nexa-secondary);
+    margin-bottom: 6px;
+}
+
+.hero-greeting p {
+    color: var(--nexa-text-muted);
+    font-size: 1.05rem;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.kpi-card {
+    background: #FFFFFF;
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.kpi-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.kpi-icon.icon-active {
+    background: rgba(58, 65, 113, 0.1);
+    color: var(--nexa-primary);
+}
+
+.kpi-icon.icon-completed {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10B981;
+}
+
+.kpi-icon.icon-hours {
+    background: rgba(139, 92, 246, 0.12);
+    color: #8B5CF6;
+}
+
+.kpi-icon.icon-streak {
+    background: rgba(243, 167, 48, 0.15);
+    color: #D97706;
+}
+
+.kpi-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-value {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--nexa-secondary);
+    line-height: 1.2;
+}
+
+.kpi-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--nexa-text-muted);
+}
+
+
+/* ---------------------------------------------------- */
+/* 2. DESTAQUE "CONTINUAR DE ONDE PAROU"                */
+/* ---------------------------------------------------- */
+.continuar-parou-section {
+    background: linear-gradient(135deg, #2D1C52 0%, #3A4171 100%);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    color: #FFFFFF;
+    box-shadow: var(--shadow-md);
+
+}
+
+.continuar-parou-section .section-title-wrapper {
+    margin-bottom: 20px;
+}
+
+.continuar-parou-section h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.4rem;
+    color: #FFFFFF;
+}
+
+.continuar-parou-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.continuar-card {
+    display: flex;
+    gap: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    align-items: center;
+}
+
+.continuar-media {
+    width: 200px;
+    height: 120px;
+    border-radius: var(--radius-sm);
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.continuar-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.continuar-body h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem;
+    color: #FFFFFF;
+}
+
+.continuar-body p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+}
+
+.continuar-progress-box {
+    margin-top: 6px;
+}
+
+.continuar-progress-box .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.continuar-progress-box .progress-bar-bg {
+    background: rgba(255, 255, 255, 0.2);
+    height: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.continuar-progress-box .progress-bar-fill {
+    background: var(--nexa-cta);
+    height: 100%;
+    border-radius: 10px;
+    transition: width var(--transition-fast);
+}
+
+.btn-retomar {
+    align-self: flex-start;
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* ---------------------------------------------------- */
+/* 3. ORGANIZAÇÃO DE CURSOS EM ABAS                     */
+/* ---------------------------------------------------- */
+.abas-aprendizado-section {
+    background: #FFFFFF;
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.tabs-header {
+    display: flex;
+    gap: 12px;
+    border-bottom: 2px solid var(--nexa-border);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--nexa-text-muted);
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition-fast);
+}
+
+.tab-btn:hover {
+    color: var(--nexa-primary);
+    background: var(--nexa-bg-light);
+}
+
+.tab-btn.active {
+    color: #FFFFFF;
+    background: var(--nexa-primary);
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+
+/* ---------------------------------------------------- */
+/* ABA 3: BLOCO DE ANOTAÇÕES                            */
+/* ---------------------------------------------------- */
+.anotacoes-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.nova-anotacao-card {
+    background: var(--nexa-bg-light);
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+}
+
+.nova-anotacao-card h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.1rem;
+    color: var(--nexa-secondary);
+    margin-bottom: 16px;
+}
+
+.anotacoes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.anotacao-card {
+    background: #FFFFFF;
+    border: 1px solid var(--nexa-border);
+    border-left: 4px solid var(--nexa-primary);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--shadow-sm);
+}
+
+.anotacao-card .anotacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.anotacao-card .anotacao-curso {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--nexa-primary);
+    text-transform: uppercase;
+}
+
+.anotacao-card h4 {
+    font-size: 1rem;
+    color: var(--nexa-secondary);
+}
+
+.anotacao-card p {
+    font-size: 0.9rem;
+    color: var(--nexa-text-muted);
+    white-space: pre-wrap;
+}
+
+.anotacao-card .anotacao-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--nexa-text-muted);
+    border-top: 1px solid var(--nexa-border);
+    padding-top: 8px;
+    margin-top: 6px;
+}
+
+.btn-del-anotacao {
+    background: none;
+    border: none;
+    color: var(--nexa-danger);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+
+/* ---------------------------------------------------- */
+/* 4 & 5. GAMIFICAÇÃO & CRONOGRAMA                      */
+/* ---------------------------------------------------- */
+.gamificacao-grid-section {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.dashboard-box {
+    background: #FFFFFF;
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.dashboard-box.flex-1 {
+    flex: 1;
+    min-width: 320px;
+}
+
+.box-header {
+    margin-bottom: 20px;
+}
+
+.box-header h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    color: var(--nexa-secondary);
+}
+
+.box-header small {
+    color: var(--nexa-text-muted);
+    font-size: 0.85rem;
+}
+
+/* GRID DE BADGES DE CONQUISTAS */
+.badges-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.badge-item {
+    background: var(--nexa-bg-light);
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: transform var(--transition-fast);
+}
+
+.badge-item:hover {
+    transform: translateY(-2px);
+}
+
+.badge-item.unlocked {
+    border-color: #F3A730;
+    background: rgba(243, 167, 48, 0.06);
+}
+
+.badge-item.locked {
+    opacity: 0.55;
+    filter: grayscale(80%);
+}
+
+.badge-icon-frame {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.badge-item.unlocked .badge-icon-frame {
+    background: #F3A730;
+    color: #FFFFFF;
+}
+
+.badge-item-info h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--nexa-secondary);
+}
+
+.badge-item-info p {
+    font-size: 0.8rem;
+    color: var(--nexa-text-muted);
+}
+
+
+/* FREQUÊNCIA SEMANAL (STREAK WEEK) */
+.streak-week-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.streak-days {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--nexa-bg-light);
+    padding: 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--nexa-border);
+}
+
+.day-dot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--nexa-text-muted);
+}
+
+.day-dot i {
+    font-size: 1.4rem;
+}
+
+.day-dot.active {
+    color: #10B981;
+}
+
+.streak-meta-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--nexa-secondary);
+}
+
+
+/* ---------------------------------------------------- */
+/* 6. DISTRIBUIÇÃO & RECOMENDAÇÕES                      */
+/* ---------------------------------------------------- */
+.estatisticas-recomendacao-section {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.distribuicao-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.distribuicao-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.distribuicao-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--nexa-secondary);
+}
+
+.distribuicao-bar-bg {
+    height: 10px;
+    background: var(--nexa-bg-light);
+    border: 1px solid var(--nexa-border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.distribuicao-bar-fill {
+    height: 100%;
+    background: var(--nexa-primary);
+    border-radius: 10px;
+    transition: width var(--transition-fast);
+}
+
+.recomendados-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.recomendado-card-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--nexa-bg-light);
+    border: 1px solid var(--nexa-border);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    transition: transform var(--transition-fast);
+}
+
+.recomendado-card-item:hover {
+    transform: translateX(4px);
+}
+
+.recomendado-thumb {
+    width: 60px;
+    height: 42px;
+    border-radius: 4px;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.recomendado-info {
+    flex: 1;
+}
+
+.recomendado-info h4 {
+    font-size: 0.9rem;
+    color: var(--nexa-secondary);
+}
+
+.recomendado-info small {
+    font-size: 0.75rem;
+    color: var(--nexa-text-muted);
+}
+
+
+/* ---------------------------------------------------- */
+/* MODAL DE CERTIFICADO STYLIZED NOMINAL NEXA           */
+/* ---------------------------------------------------- */
+.modal-certificado-card {
+    max-width: 800px;
+    width: 95%;
+}
+
+.certificado-frame {
+    background: #FFFDF9;
+    border: 8px double #2D1C52;
+    border-radius: var(--radius-md);
+    padding: 40px 30px;
+    position: relative;
+    text-align: center;
+    color: #2D1C52;
+    box-shadow: var(--shadow-md);
+    margin-top: 16px;
+}
+
+.cert-logo-svg {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 8px;
+}
+
+.cert-header h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #2D1C52;
+    margin-bottom: 2px;
+}
+
+.cert-subtitle {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #F3A730;
+}
+
+.cert-body {
+    margin: 30px 0;
+}
+
+.cert-text-lead {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.cert-body h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: 2.2rem;
+    color: #3A4171;
+    margin: 10px 0 16px 0;
+    text-decoration: underline;
+    text-decoration-color: #F3A730;
+}
+
+.cert-text-desc {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.cert-body h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.4rem;
+    color: #2D1C52;
+    margin: 8px 0 14px 0;
+}
+
+.cert-text-meta {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.cert-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
+.cert-sign {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sign-line {
+    width: 180px;
+    height: 2px;
+    background: #2D1C52;
+    margin-bottom: 6px;
+}
+
+.cert-sign span {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.cert-stamp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.stamp-badge {
+    background: #10B981;
+    color: #FFFFFF;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}

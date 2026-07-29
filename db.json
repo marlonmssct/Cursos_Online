@@ -122,6 +122,18 @@
       "imagem": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&auto=format&fit=crop",
       "status": "rascunho",
       "criadoEm": "2026-07-20T11:00:00.000Z"
+    },
+    {
+      "titulo": "fdsfdsvss",
+      "descricao": "dsvsvsvsvs",
+      "categoriaId": "cat_prog",
+      "cargaHoraria": "22",
+      "instrutor": "Mariana Souza",
+      "preco": 333.03,
+      "status": "publicado",
+      "id": "curso_1785356727486",
+      "criadoEm": "2026-07-29T20:25:27.486Z",
+      "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
     }
   ],
   "aulas": [
@@ -214,19 +226,36 @@
       "duracao": "30 min",
       "thumb": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&auto=format&fit=crop",
       "videoUrl": "https://www.youtube-nocookie.com/embed/YYXdXT2l-Gg"
+    },
+    {
+      "id": "aula_curso_1785356727486_1_1785356727511",
+      "cursoId": "curso_1785356727486",
+      "ordem": 1,
+      "titulo": "Aula 1: Introdução",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
     }
   ],
   "matriculas": [
     {
-      "id": "mat_1",
+      "id": "mat_aluno_1",
       "usuarioId": "u_aluno1",
       "cursoId": "curso_js",
-      "progresso": 50,
+      "progresso": 75,
       "status": "em_andamento",
       "dataMatricula": "2026-07-18T10:00:00.000Z"
     },
     {
-      "id": "mat_2",
+      "id": "mat_aluno_2",
+      "usuarioId": "u_aluno1",
+      "cursoId": "curso_python",
+      "progresso": 50,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-19T11:00:00.000Z"
+    },
+    {
+      "id": "mat_aluno_3",
       "usuarioId": "u_aluno1",
       "cursoId": "curso_ui",
       "progresso": 100,
@@ -234,20 +263,76 @@
       "dataMatricula": "2026-07-20T14:00:00.000Z"
     },
     {
-      "id": "mat_3",
+      "id": "mat_aluno_4",
       "usuarioId": "u_aluno1",
-      "cursoId": "curso_react",
-      "progresso": 25,
-      "status": "em_andamento",
-      "dataMatricula": "2026-07-25T09:30:00.000Z"
-    },
-    {
-      "id": "mat_1785352442513",
-      "usuarioId": "u_admin1",
       "cursoId": "curso_react",
       "progresso": 100,
       "status": "concluido",
-      "dataMatricula": "2026-07-29T19:14:02.513Z"
+      "dataMatricula": "2026-07-25T09:30:00.000Z"
+    },
+    {
+      "id": "mat_admin_1",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_js",
+      "progresso": 75,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-10T10:00:00.000Z"
+    },
+    {
+      "id": "mat_admin_2",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_react",
+      "progresso": 50,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-12T11:00:00.000Z"
+    },
+    {
+      "id": "mat_admin_3",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_python",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-15T14:00:00.000Z"
+    },
+    {
+      "id": "mat_admin_4",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_ui",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-16T16:00:00.000Z"
+    },
+    {
+      "id": "mat_editor_1",
+      "usuarioId": "u_editor1",
+      "cursoId": "curso_react",
+      "progresso": 50,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-11T09:00:00.000Z"
+    },
+    {
+      "id": "mat_editor_2",
+      "usuarioId": "u_editor1",
+      "cursoId": "curso_ui",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-14T15:00:00.000Z"
+    },
+    {
+      "id": "mat_editor_3",
+      "usuarioId": "u_editor1",
+      "cursoId": "curso_mkt",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-17T18:00:00.000Z"
+    },
+    {
+      "id": "mat_1785356744856",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_1785356727486",
+      "progresso": 10,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-29T20:25:44.856Z"
     }
   ],
   "avaliacoes": [
@@ -268,12 +353,20 @@
       "data": "2026-07-24T18:00:00.000Z"
     },
     {
-      "id": "av_1785352461213",
-      "cursoId": "curso_react",
+      "id": "av_3",
+      "cursoId": "curso_python",
       "usuarioNome": "Administrador Principal",
       "nota": 5,
-      "comentario": "asasa",
-      "data": "2026-07-29T19:14:21.213Z"
+      "comentario": "Curso excelente! Conteúdo muito bem estruturado e prático para iniciantes.",
+      "data": "2026-07-25T10:00:00.000Z"
+    },
+    {
+      "id": "av_4",
+      "cursoId": "curso_ui",
+      "usuarioNome": "Mariana Souza (Gestora de Conteúdo)",
+      "nota": 5,
+      "comentario": "Muito bom! Ótima visão de design de produto e prototipação rápida.",
+      "data": "2026-07-26T14:20:00.000Z"
     }
   ]
 }
