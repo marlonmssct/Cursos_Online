@@ -345,14 +345,24 @@ function renderizarAbasCursos() {
 document.querySelectorAll(".tabs-header .tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".tabs-header .tab-btn").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach(p => {
+            p.classList.remove("active");
+            p.classList.add("hidden");
+        });
 
         btn.classList.add("active");
         const abaAlvo = btn.dataset.tab;
 
-        if (abaAlvo === "emAndamento" && document.getElementById("painelEmAndamento")) document.getElementById("painelEmAndamento").classList.add("active");
-        if (abaAlvo === "concluidos" && document.getElementById("painelConcluidos")) document.getElementById("painelConcluidos").classList.add("active");
-        if (abaAlvo === "anotacoes" && document.getElementById("painelAnotacoes")) document.getElementById("painelAnotacoes").classList.add("active");
+        const mapaPaineis = {
+            emAndamento: "painelEmAndamento",
+            concluidos: "painelConcluidos",
+            anotacoes: "painelAnotacoes"
+        };
+        const painelAlvo = document.getElementById(mapaPaineis[abaAlvo]);
+        if (painelAlvo) {
+            painelAlvo.classList.remove("hidden");
+            painelAlvo.classList.add("active");
+        }
     });
 });
 
