@@ -167,6 +167,18 @@
             <!-- Aba 3: Minhas Anotações & Favoritos -->
             <div id="painelAnotacoes" class="tab-panel hidden">
                 <div class="anotacoes-wrapper">
+                    
+                    <!-- 📜 Bloco de Certificados de Conclusão em PDF -->
+                    <div class="anotacoes-list-container" style="margin-bottom: 32px;">
+                        <h3><i class="bi bi-award-fill" style="color: #F3A730;"></i> Meus Certificados de Conclusão (PDF)</h3>
+                        <p style="font-size: 0.9rem; color: var(--nexa-text-muted); margin-bottom: 16px;">
+                            Emita, visualize e baixe seus certificados oficiais em formato PDF contendo seu nome e os dados dos cursos concluídos.
+                        </p>
+                        <div id="gridCertificadosAnotacoes" class="anotacoes-grid">
+                            <!-- Renderizado via JS -->
+                        </div>
+                    </div>
+
                     <!-- Formulário para Criar Anotação -->
                     <div class="nova-anotacao-card">
                         <h3><i class="bi bi-plus-circle"></i> Criar Nova Anotação de Estudo</h3>
@@ -187,9 +199,14 @@
                                 <label for="textoAnotacao">Sua Anotação / Resumo:</label>
                                 <textarea id="textoAnotacao" rows="3" placeholder="Escreva suas anotações ou conceitos importantes para revisar..." required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="bi bi-save"></i> Salvar Anotação
-                            </button>
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-save"></i> Salvar Anotação
+                                </button>
+                                <button type="button" id="btnGerarPdfAnotacaoForm" class="btn btn-outline btn-sm">
+                                    <i class="bi bi-file-earmark-pdf-fill" style="color: #EF4444;"></i> Emitir Certificado PDF deste Curso
+                                </button>
+                            </div>
                         </form>
                     </div>
 
@@ -278,9 +295,20 @@
     <!-- MODAL DE CERTIFICADO NOMINAL DE CONCLUSÃO -->
     <div id="modalCertificado" class="modal-overlay hidden">
         <div class="modal-card modal-certificado-card">
-            <div class="modal-header">
-                <h3>🏆 Certificado de Conclusão NEXA</h3>
-                <button type="button" class="btn-close" id="btnFecharCertificado">&times;</button>
+            <div class="modal-header" style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px;">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                    <h3>🏆 Certificado de Conclusão NEXA</h3>
+                    <button type="button" class="btn-close" id="btnFecharCertificado">&times;</button>
+                </div>
+                <!-- OPÇÃO DE SELEÇÃO DO CURSO DENTRO DO MODAL -->
+                <div class="form-group" style="width: 100%; margin-top: 6px;">
+                    <label for="selectCursoCertificadoModal" style="font-weight: 600; font-size: 0.85rem; color: var(--nexa-secondary);">
+                        <i class="bi bi-journal-check"></i> Selecionar Curso para Gerar PDF:
+                    </label>
+                    <select id="selectCursoCertificadoModal" class="select-filter" style="width: 100%; padding: 8px; border-radius: 8px; font-size: 0.9rem;">
+                        <!-- Populado via JS -->
+                    </select>
+                </div>
             </div>
             
             <!-- Moldura Oficial do Certificado Stylized -->
@@ -324,12 +352,12 @@
                 </div>
             </div>
 
-            <div class="modal-actions" style="margin-top: 20px; justify-content: flex-end;">
-                <button type="button" class="btn btn-secondary" id="btnImprimirCertificado">
-                    <i class="bi bi-printer"></i> Imprimir / Salvar PDF
+            <div class="modal-actions" style="margin-top: 20px; justify-content: space-between; width: 100%;">
+                <button type="button" class="btn btn-primary" id="btnImprimirCertificado">
+                    <i class="bi bi-file-earmark-pdf-fill"></i> Imprimir / Salvar em PDF
                 </button>
-                <button type="button" class="btn btn-primary" id="btnFecharCertificadoBottom">
-                    Concluído
+                <button type="button" class="btn btn-secondary" id="btnFecharCertificadoBottom">
+                    Fechar
                 </button>
             </div>
         </div>
