@@ -53,6 +53,15 @@
       "role": "aluno",
       "ativo": true,
       "criadoEm": "2026-07-29T18:02:56.864Z"
+    },
+    {
+      "id": "u_1785360681682",
+      "nome": "teste1",
+      "email": "gabriel@gmail.com",
+      "senha": "123456",
+      "role": "aluno",
+      "ativo": true,
+      "criadoEm": "2026-07-29T21:31:21.682Z"
     }
   ],
   "categorias": [
@@ -85,52 +94,64 @@
       "categoriaId": "cat_prog",
       "instrutor": "Mariana Souza",
       "cargaHoraria": "40h",
-      "preco": 149.9,
+      "preco": 3,
       "imagem": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=600&auto=format&fit=crop",
       "status": "publicado",
-      "criadoEm": "2026-07-10T09:00:00.000Z"
+      "criadoEm": "2026-07-10T09:00:00.000Z",
+      "abacatePayProductId": "prod_ph0SuxUNHgaQyhNdjXQXhJFq"
     },
     {
-      "id": "curso_mkt",
-      "titulo": "Estratégias de Growth e SEO para Negócios",
-      "descricao": "Aumente o tráfego orgânico e aprenda a posicionar sua marca no topo dos mecanismos de busca com técnicas avançadas.",
-      "categoriaId": "cat_mkt",
-      "instrutor": "Fernanda Lima",
-      "cargaHoraria": "18h",
-      "preco": 89.9,
-      "imagem": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop",
-      "status": "rascunho",
-      "criadoEm": "2026-07-15T16:00:00.000Z"
+      "titulo": "tete",
+      "descricao": "2",
+      "categoriaId": "cat_prog",
+      "cargaHoraria": "2",
+      "instrutor": "2",
+      "preco": 3,
+      "status": "publicado",
+      "id": "curso_1785361583199",
+      "criadoEm": "2026-07-29T21:46:23.199Z",
+      "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600",
+      "abacatePayProductId": "prod_y4rZSDJTHzqgXsaWY2dTzM40",
+      "abacatePayProductPreco": 300
+    },
+    {
+      "titulo": "TESTE1",
+      "descricao": "asdsadasd",
+      "categoriaId": "cat_prog",
+      "cargaHoraria": "3",
+      "instrutor": "asdsa1",
+      "preco": 1,
+      "status": "publicado",
+      "id": "curso_1785374350241",
+      "criadoEm": "2026-07-30T01:19:10.241Z",
+      "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
+    },
+    {
+      "titulo": "teste3",
+      "descricao": "asdsad4455",
+      "categoriaId": "cat_prog",
+      "cargaHoraria": "5",
+      "instrutor": "sad",
+      "preco": 30,
+      "status": "publicado",
+      "id": "curso_1785377049012",
+      "criadoEm": "2026-07-30T02:04:09.012Z",
+      "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
+    },
+    {
+      "titulo": "TESTE4",
+      "descricao": "asdsad",
+      "categoriaId": "cat_prog",
+      "cargaHoraria": "34",
+      "instrutor": "Lucas Mendes",
+      "preco": 0,
+      "status": "publicado",
+      "id": "curso_1785377270619",
+      "criadoEm": "2026-07-30T02:07:50.619Z",
+      "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
     }
   ],
   "aulas": [
-    {
-      "id": "aula_js_1",
-      "cursoId": "curso_js",
-      "ordem": 1,
-      "titulo": "Introdução ao JavaScript e Configuração do Ambiente",
-      "duracao": "15 min",
-      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
-    },
-    {
-      "id": "aula_js_2",
-      "cursoId": "curso_js",
-      "ordem": 2,
-      "titulo": "Variáveis, Tipos de Dados e Operadores",
-      "duracao": "25 min",
-      "thumb": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/Ptbk2af68e8"
-    },
-    {
-      "id": "aula_js_3",
-      "cursoId": "curso_js",
-      "ordem": 3,
-      "titulo": "Manipulação do HTML DOM e Eventos",
-      "duracao": "30 min",
-      "thumb": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&auto=format&fit=crop",
-      "videoUrl": "https://www.youtube-nocookie.com/embed/8jLOx1hD3_o"
-    },
     {
       "id": "aula_ui_1",
       "cursoId": null,
@@ -139,6 +160,60 @@
       "duracao": "20 min",
       "thumb": "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&auto=format&fit=crop",
       "videoUrl": "https://youtu.be/eXOW65xAFdo?si=0_8w_RQIjJbL7kBg"
+    },
+    {
+      "id": "aula_curso_1785361583199_1_1785361583215",
+      "cursoId": "curso_1785361583199",
+      "ordem": 1,
+      "titulo": "Aula 1: Introdução",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785374350241_1_1785374350276",
+      "cursoId": "curso_1785374350241",
+      "ordem": 1,
+      "titulo": "Aula 1: Introdução",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785374350241_2_1785374350292",
+      "cursoId": "curso_1785374350241",
+      "ordem": 2,
+      "titulo": "Aula 2: Conteúdo da Aula",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785377049012_1_1785377049040",
+      "cursoId": "curso_1785377049012",
+      "ordem": 1,
+      "titulo": "Aula 1: Introdução",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785377270619_1_1785377270662",
+      "cursoId": "curso_1785377270619",
+      "ordem": 1,
+      "titulo": "Aula 1: Introdução",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785377270619_2_1785377270710",
+      "cursoId": "curso_1785377270619",
+      "ordem": 2,
+      "titulo": "Aula 2: Conteúdo da Aula",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
     }
   ],
   "matriculas": [
@@ -173,6 +248,32 @@
       "progresso": 10,
       "status": "em_andamento",
       "dataMatricula": "2026-07-29T18:03:21.814Z"
+    },
+    {
+      "id": "mat_1785370461765",
+      "usuarioId": "4RbvjOX3yLA",
+      "cursoId": "curso_js",
+      "progresso": 10,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-30T00:14:21.766Z",
+      "valorPago": 3
+    },
+    {
+      "id": "mat_1785376387688",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_1785374350241",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-30T01:53:07.688Z",
+      "valorPago": 1
+    },
+    {
+      "id": "mat_1785377284920",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_1785377270619",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-30T02:08:04.920Z"
     }
   ],
   "avaliacoes": [

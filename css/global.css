@@ -322,6 +322,91 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 24px;
 }
 
+.modal-card-sm {
+    max-width: 420px;
+}
+
+/* ==================================================== */
+/* MODAL DE PIX EMBUTIDO (QR Code direto na página)      */
+/* ==================================================== */
+.pix-pagamento-curso {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--nexa-text-muted);
+    margin-top: 4px;
+}
+
+.pix-pagamento-preco {
+    text-align: center;
+    font-family: var(--font-titles);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--nexa-secondary);
+    margin-top: 2px;
+}
+
+.pix-qrcode-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 18px 0 4px;
+}
+
+.pix-qrcode-img {
+    width: 200px;
+    height: 200px;
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-sm);
+    padding: 8px;
+    background: #FFFFFF;
+}
+
+.pix-copia-cola {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.pix-copia-cola input {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.76rem;
+    font-family: monospace;
+    padding: 10px 12px;
+    border: 1px solid var(--nexa-border);
+    border-radius: var(--radius-sm);
+    background: var(--nexa-bg-light);
+    color: var(--nexa-text-muted);
+}
+
+.pix-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 0.88rem;
+    color: var(--nexa-text-muted);
+}
+
+.pix-status.pago {
+    color: var(--nexa-success);
+    font-weight: 700;
+}
+
+.pix-spinner {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border: 2px solid var(--nexa-border);
+    border-top-color: var(--nexa-primary);
+    border-radius: 50%;
+    animation: pix-girar 0.8s linear infinite;
+}
+
+@keyframes pix-girar {
+    to { transform: rotate(360deg); }
+}
+
 /* Campo de senha com botão de mostrar/ocultar (usado em login, cadastro, */
 /* perfil e no cadastro de usuários do painel de gestão) */
 .password-field {

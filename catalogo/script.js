@@ -235,7 +235,7 @@ async function carregarTodosCursos() {
             <div class="empty-state">
                 ${ART_SEM_CONEXAO}
                 <strong>Não foi possível falar com o servidor</strong>
-                <p>O json-server precisa estar rodando na porta 3000. Inicie com <code>npx json-server db.json</code>.</p>
+                <p>O json-server precisa estar rodando na porta 3000. Inicie com <code>npx json-server dbcursos.json</code>.</p>
             </div>
         `;
         if (window.NexaUI) NexaUI.toastErro("Servidor offline na porta 3000.");

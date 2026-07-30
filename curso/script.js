@@ -240,7 +240,43 @@ async function carregarSalaDeAula() {
             playerFocusSection.classList.add("hidden");
             sectionAvaliacao.classList.add("hidden");
 
-            if (curso.status === "publicado") {
+            if (curso.status === "publicado" && Number(curso.preco) > 0) {
+                const precoFormatado = Number(curso.preco).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+                enrollmentActions.innerHTML = `
+                    <button id="btnMatricular" class="btn btn-primary btn-block">
+                        💳 Matricular-se — ${precoFormatado}
+                    </button>
+                `;
+
+                document.getElementById("btnMatricular").addEventListener("click", async () => {
+                    // PIX embutido: o modal com o QR Code já funciona como a etapa de
+                    // confirmação (o aluno pode simplesmente fechar se desistir).
+                    try {
+                        const resultado = await NexaPagamento.abrirPagamentoPixMercadoPago(curso, usuarioLogadoGlobal);
+
+                        if (resultado.pago) {
+                            await realizarMatricula(usuarioLogadoGlobal.id, curso.id, {
+                                valorPago: resultado.valor
+                            });
+                        } else if (resultado.motivo === "expirado" && window.NexaUI) {
+                            NexaUI.erro({
+                                titulo: "PIX expirado",
+                                texto: "O código expirou antes da confirmação. Clique em matricular-se de novo para gerar um novo PIX."
+                            });
+                        }
+                        // motivo "cancelado": o aluno só fechou o modal, sem necessidade de aviso.
+                    } catch (erroPagamento) {
+                        console.error("Erro ao gerar PIX:", erroPagamento);
+                        if (window.NexaUI) {
+                            NexaUI.erro({
+                                titulo: "Não foi possível gerar o PIX",
+                                texto: erroPagamento.message || "Tente novamente em instantes."
+                            });
+                        }
+                    }
+                });
+            } else if (curso.status === "publicado") {
                 enrollmentActions.innerHTML = `
                     <button id="btnMatricular" class="btn btn-primary btn-block">
                         🎓 Realizar Matrícula Gratuita
@@ -542,7 +578,7 @@ formAvaliacao.addEventListener("submit", async (e) => {
     }
 });
 
-async function realizarMatricula(usuarioId, cursoId) {
+async function realizarMatricula(usuarioId, cursoId, extras = {}) {
     try {
         const novaMatricula = {
             id: "mat_" + Date.now(),
@@ -550,7 +586,8 @@ async function realizarMatricula(usuarioId, cursoId) {
             cursoId: cursoId,
             progresso: 10,
             status: "em_andamento",
-            dataMatricula: new Date().toISOString()
+            dataMatricula: new Date().toISOString(),
+            ...extras // checkoutId/valorPago, quando a matrícula vem de um pagamento confirmado
         };
 
         const resp = await fetch(`${API_URL}/matriculas`, {

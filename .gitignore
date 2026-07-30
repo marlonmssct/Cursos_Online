@@ -2,4 +2,12 @@
 # Copie js/chat-config.example.js para js/chat-config.js e preencha a sua chave.
 js/chat-config.js
 
+# Config de pagamento (URL do mini-servidor local). Copie
+# js/payment-config.example.js para js/payment-config.js.
+js/payment-config.js
+
+# Mini-servidor do Mercado Pago: tem o Access Token de PRODUÇÃO embutido.
+# Copie server-pagamento.example.js para server-pagamento.js e preencha o seu token.
+server-pagamento.js
+
 node_modules/

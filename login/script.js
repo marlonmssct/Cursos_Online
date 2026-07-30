@@ -142,7 +142,7 @@ formLogin.addEventListener("submit", async (e) => {
 
     } catch (erro) {
         console.error("Erro na autenticação:", erro);
-        exibirErroLogin("O servidor json-server não está respondendo. Verifique se executou: npx json-server db.json");
+        exibirErroLogin("O servidor json-server não está respondendo. Verifique se executou: npx json-server dbcursos.json");
     }
 });
 
@@ -237,7 +237,7 @@ formCadastro.addEventListener("submit", async (e) => {
 
     } catch (erro) {
         console.error("Erro no cadastro:", erro);
-        exibirFeedbackCadastro("Servidor json-server offline na porta 3000. Inicie com npx json-server db.json");
+        exibirFeedbackCadastro("Servidor json-server offline na porta 3000. Inicie com npx json-server dbcursos.json");
     }
 });
 
