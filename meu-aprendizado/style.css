@@ -697,3 +697,45 @@
     align-items: center;
     gap: 6px;
 }
+
+
+/* ---------------------------------------------------- */
+/* REGRAS DE IMPRESSÃO / GERAÇÃO DE PDF DE CERTIFICADO  */
+/* ---------------------------------------------------- */
+@media print {
+    body * {
+        visibility: hidden !important;
+    }
+    #modalCertificado,
+    #modalCertificado * {
+        visibility: visible !important;
+    }
+    #modalCertificado {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: #FFFFFF !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+    }
+    .modal-card {
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+    .modal-header, .modal-actions, .btn-close {
+        display: none !important;
+    }
+    .certificado-frame {
+        border: 8px double #2D1C52 !important;
+        padding: 40px 30px !important;
+        margin: 0 auto !important;
+        width: 90% !important;
+    }
+}

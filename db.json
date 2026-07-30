@@ -26,6 +26,15 @@
       "role": "aluno",
       "ativo": true,
       "criadoEm": "2026-07-05T14:20:00.000Z"
+    },
+    {
+      "id": "u_1785359806434",
+      "nome": "Kaue Souza",
+      "email": "kaue@email.com",
+      "senha": "123456",
+      "role": "aluno",
+      "ativo": true,
+      "criadoEm": "2026-07-29T21:16:46.434Z"
     }
   ],
   "categorias": [
@@ -333,6 +342,22 @@
       "progresso": 10,
       "status": "em_andamento",
       "dataMatricula": "2026-07-29T20:25:44.856Z"
+    },
+    {
+      "id": "mat_1785359870473",
+      "usuarioId": "u_1785359806434",
+      "cursoId": "curso_ui",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-29T21:17:50.473Z"
+    },
+    {
+      "id": "mat_1785359951003",
+      "usuarioId": "u_1785359806434",
+      "cursoId": "curso_js",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-29T21:19:11.003Z"
     }
   ],
   "avaliacoes": [
@@ -367,6 +392,14 @@
       "nota": 5,
       "comentario": "Muito bom! Ótima visão de design de produto e prototipação rápida.",
       "data": "2026-07-26T14:20:00.000Z"
+    },
+    {
+      "id": "av_1785359985155",
+      "cursoId": "curso_js",
+      "usuarioNome": "Kaue Souza",
+      "nota": 5,
+      "comentario": "gostei, metodologia de fácil aprendizado",
+      "data": "2026-07-29T21:19:45.155Z"
     }
   ]
 }

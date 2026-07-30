@@ -165,6 +165,7 @@ async function carregarDashboard() {
         renderizarAbasCursos();
         popularSelectCursosAnotacao();
         renderizarAnotacoesSalvas();
+        renderizarCertificadosAnotacoes();
         renderizarGamificacao();
         renderizarEstatisticas();
         renderizarRecomendacoes();
@@ -459,6 +460,78 @@ if (formAnotacao) {
 
 
 // ---------------------------------------------------- //
+// 6.B EMISSÃO DE CERTIFICADOS PDF (MINHAS ANOTAÇÕES)   //
+// ---------------------------------------------------- //
+function renderizarCertificadosAnotacoes() {
+    const gridCert = document.getElementById("gridCertificadosAnotacoes");
+    if (!gridCert) return;
+
+    const concluidos = matriculasGlobal.filter(m => (m.progresso || 0) === 100 || m.status === "concluido");
+
+    if (concluidos.length === 0) {
+        gridCert.innerHTML = `
+            <div class="anotacao-card" style="border-left: 4px solid #F3A730;">
+                <div class="anotacao-header">
+                    <span class="badge-status publicado" style="background: rgba(243, 167, 48, 0.15); color: #D97706;">MODELO DEMO</span>
+                    <small>📜 Certificado PDF</small>
+                </div>
+                <h4>🎓 Certificado de Demonstração</h4>
+                <p>Aluno(a): <strong>${usuarioLogadoGlobal ? usuarioLogadoGlobal.nome : "Aluno NEXA"}</strong></p>
+                <p style="font-size: 0.85rem; color: var(--nexa-text-muted);">
+                    Você ainda não concluiu 100% de nenhum curso. Para visualizar ou baixar o PDF modelo com seu nome e curso, clique no botão abaixo:
+                </p>
+                <div class="anotacao-footer" style="margin-top: 12px;">
+                    <button type="button" class="btn btn-primary btn-sm btn-gerar-pdf-demo">
+                        <i class="bi bi-file-earmark-pdf-fill"></i> Visualizar / Gerar PDF (Modelo)
+                    </button>
+                </div>
+            </div>
+        `;
+
+        const btnDemo = gridCert.querySelector(".btn-gerar-pdf-demo");
+        if (btnDemo) {
+            btnDemo.addEventListener("click", () => {
+                const primeiroCursoId = cursosGlobal.length > 0 ? cursosGlobal[0].id : "curso_js";
+                abrirModalCertificado(primeiroCursoId);
+            });
+        }
+        return;
+    }
+
+    gridCert.innerHTML = concluidos.map(m => {
+        const curso = cursosGlobal.find(c => c.id === m.cursoId);
+        if (!curso) return "";
+
+        return `
+            <div class="anotacao-card" style="border-left: 4px solid #10B981;">
+                <div class="anotacao-header">
+                    <span class="anotacao-curso"><i class="bi bi-patch-check-fill" style="color: #10B981;"></i> Concluído (100%)</span>
+                    <small>📜 Documento PDF</small>
+                </div>
+                <h4>🎓 ${curso.titulo}</h4>
+                <p>Aluno(a): <strong>${usuarioLogadoGlobal ? usuarioLogadoGlobal.nome : "Aluno NEXA"}</strong></p>
+                <p style="font-size: 0.85rem; color: var(--nexa-text-muted);">
+                    Carga Horária: <strong>${curso.cargaHoraria || "30h"}</strong> | Status: <strong>Aprovado</strong>
+                </p>
+                <div class="anotacao-footer" style="margin-top: 12px;">
+                    <button type="button" class="btn btn-primary btn-sm btn-emitir-pdf" data-curso-id="${curso.id}">
+                        <i class="bi bi-file-earmark-pdf-fill"></i> Gerar Certificado PDF
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join("");
+
+    gridCert.querySelectorAll(".btn-emitir-pdf").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const cursoId = btn.dataset.cursoId;
+            abrirModalCertificado(cursoId);
+        });
+    });
+}
+
+
+// ---------------------------------------------------- //
 // 7. GAMIFICAÇÃO & BADGES DE CONQUISTAS NEXA           //
 // ---------------------------------------------------- //
 function renderizarGamificacao() {
@@ -590,17 +663,47 @@ function renderizarRecomendacoes() {
 // ---------------------------------------------------- //
 // 9. MODAL DE CERTIFICADO NOMINAL NEXA                 //
 // ---------------------------------------------------- //
-function abrirModalCertificado(cursoId) {
-    if (!modalCertificado) return;
+const selectCursoCertificadoModal = document.getElementById("selectCursoCertificadoModal");
+const btnGerarPdfAnotacaoForm = document.getElementById("btnGerarPdfAnotacaoForm");
+
+function popularSelectCertificadoModal() {
+    if (!selectCursoCertificadoModal) return;
+    selectCursoCertificadoModal.innerHTML = "";
+
+    if (cursosGlobal.length === 0) return;
+
+    cursosGlobal.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.textContent = c.titulo;
+        selectCursoCertificadoModal.appendChild(opt);
+    });
+}
+
+if (selectCursoCertificadoModal) {
+    selectCursoCertificadoModal.addEventListener("change", (e) => {
+        const cursoId = e.target.value;
+        if (cursoId) preencherModalCertificado(cursoId);
+    });
+}
+
+function preencherModalCertificado(cursoId) {
     const curso = cursosGlobal.find(c => c.id === cursoId);
     if (!curso) return;
 
-    if (certNomeAluno) certNomeAluno.textContent = usuarioLogadoGlobal.nome;
+    if (certNomeAluno) certNomeAluno.textContent = usuarioLogadoGlobal ? usuarioLogadoGlobal.nome : "Aluno NEXA";
     if (certNomeCurso) certNomeCurso.textContent = curso.titulo;
     if (certCargaHoraria) certCargaHoraria.textContent = curso.cargaHoraria || "30h";
     if (certInstrutor) certInstrutor.textContent = curso.instrutor || "Mariana Souza";
     if (certDataEmissao) certDataEmissao.textContent = `Emitido em ${new Date().toLocaleDateString("pt-BR")}`;
+    if (selectCursoCertificadoModal) selectCursoCertificadoModal.value = cursoId;
+}
 
+function abrirModalCertificado(cursoId) {
+    if (!modalCertificado) return;
+    popularSelectCertificadoModal();
+    const targetId = cursoId || (cursosGlobal.length > 0 ? cursosGlobal[0].id : "");
+    preencherModalCertificado(targetId);
     modalCertificado.classList.remove("hidden");
 }
 
@@ -611,6 +714,13 @@ function fecharModalCertificado() {
 if (btnFecharCertificado) btnFecharCertificado.addEventListener("click", fecharModalCertificado);
 if (btnFecharCertificadoBottom) btnFecharCertificadoBottom.addEventListener("click", fecharModalCertificado);
 if (btnImprimirCertificado) btnImprimirCertificado.addEventListener("click", () => window.print());
+
+if (btnGerarPdfAnotacaoForm) {
+    btnGerarPdfAnotacaoForm.addEventListener("click", () => {
+        const cursoId = selectCursoAnotacao ? selectCursoAnotacao.value : "";
+        abrirModalCertificado(cursoId);
+    });
+}
 
 
 // ---------------------------------------------------- //
