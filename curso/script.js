@@ -320,10 +320,48 @@ async function carregarSalaDeAula() {
 // ---------------------------------------------------- //
 // 4. PLAYER DE VÍDEO COMPACTO (RODA NO PRÓPRIO SITE)   //
 // ---------------------------------------------------- //
+function dataLocalYMD(data) {
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, "0");
+    const dia = String(data.getDate()).padStart(2, "0");
+    return `${ano}-${mes}-${dia}`;
+}
+
+// Marca o dia de hoje na frequência semanal do aluno (exibida em "Meu Aprendizado").
+// Só faz PATCH quando hoje ainda não estava registrado, pra não repetir a cada troca de aula.
+async function registrarDiaDeEstudo() {
+    if (!usuarioLogadoGlobal) return;
+
+    const hoje = dataLocalYMD(new Date());
+    const diasEstudo = usuarioLogadoGlobal.diasEstudo || [];
+    if (diasEstudo.includes(hoje)) return;
+
+    const novosDias = [...diasEstudo, hoje];
+
+    try {
+        const resp = await fetch(`${API_URL}/usuarios/${usuarioLogadoGlobal.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ diasEstudo: novosDias })
+        });
+        if (resp.ok) {
+            usuarioLogadoGlobal.diasEstudo = novosDias;
+            if (typeof Sessao !== "undefined" && typeof Sessao.setUsuario === "function") {
+                Sessao.setUsuario(usuarioLogadoGlobal);
+            } else {
+                localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogadoGlobal));
+            }
+        }
+    } catch (erro) {
+        console.warn("Não foi possível registrar o dia de estudo.", erro);
+    }
+}
+
 function carregarAulaNoPlayer(index) {
     if (index < 0 || index >= listaAulasOrdenadas.length) return;
 
     indiceAulaAtual = index;
+    registrarDiaDeEstudo();
     const aula = listaAulasOrdenadas[index];
     const ehUltimaAula = (index === listaAulasOrdenadas.length - 1);
 
@@ -580,11 +618,17 @@ formAvaliacao.addEventListener("submit", async (e) => {
 
 async function realizarMatricula(usuarioId, cursoId, extras = {}) {
     try {
+        // Progresso inicial reflete 1 aula concluída sobre o total do curso
+        // (mesma conta usada ao longo do curso: (índice + 1) / totalAulas).
+        const respAulasCurso = await fetch(`${API_URL}/aulas?cursoId=${cursoId}`);
+        const aulasCurso = respAulasCurso.ok ? await respAulasCurso.json() : [];
+        const progressoInicial = aulasCurso.length > 0 ? Math.round((1 / aulasCurso.length) * 100) : 0;
+
         const novaMatricula = {
             id: "mat_" + Date.now(),
             usuarioId: usuarioId,
             cursoId: cursoId,
-            progresso: 10,
+            progresso: progressoInicial,
             status: "em_andamento",
             dataMatricula: new Date().toISOString(),
             ...extras // checkoutId/valorPago, quando a matrícula vem de um pagamento confirmado

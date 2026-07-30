@@ -7,7 +7,10 @@
       "senha": "admin123",
       "role": "admin",
       "ativo": true,
-      "criadoEm": "2026-07-01T10:00:00.000Z"
+      "criadoEm": "2026-07-01T10:00:00.000Z",
+      "diasEstudo": [
+        "2026-07-30"
+      ]
     },
     {
       "id": "u_editor1",
@@ -25,7 +28,8 @@
       "senha": "aluno123",
       "role": "aluno",
       "ativo": true,
-      "criadoEm": "2026-07-05T14:20:00.000Z"
+      "criadoEm": "2026-07-05T14:20:00.000Z",
+      "diasEstudo": []
     },
     {
       "id": "VvDNG72RTiY",
@@ -62,6 +66,39 @@
       "role": "aluno",
       "ativo": true,
       "criadoEm": "2026-07-29T21:31:21.682Z"
+    },
+    {
+      "id": "u_1785380079539",
+      "nome": "Yasmin",
+      "email": "yasmin@gmail.com",
+      "senha": "123456",
+      "role": "aluno",
+      "ativo": true,
+      "criadoEm": "2026-07-30T02:54:39.539Z"
+    },
+    {
+      "id": "u_1785412623901",
+      "nome": "sdfsdf",
+      "email": "a@gmail.com",
+      "senha": "123456",
+      "role": "aluno",
+      "ativo": true,
+      "criadoEm": "2026-07-30T11:57:03.901Z",
+      "diasEstudo": [
+        "2026-07-30"
+      ]
+    },
+    {
+      "id": "u_1785414414018",
+      "nome": "baaaaa",
+      "email": "b@gmail.com",
+      "senha": "123456",
+      "role": "aluno",
+      "ativo": true,
+      "criadoEm": "2026-07-30T12:26:54.018Z",
+      "diasEstudo": [
+        "2026-07-30"
+      ]
     }
   ],
   "categorias": [
@@ -84,6 +121,11 @@
       "id": "0bV-SFOkpCY",
       "nome": "TESTE1",
       "slug": "teste1"
+    },
+    {
+      "id": "cat_1785380634645",
+      "nome": "Paisagismo",
+      "slug": "paisagismo"
     }
   ],
   "cursos": [
@@ -101,41 +143,39 @@
       "abacatePayProductId": "prod_ph0SuxUNHgaQyhNdjXQXhJFq"
     },
     {
-      "titulo": "tete",
-      "descricao": "2",
-      "categoriaId": "cat_prog",
-      "cargaHoraria": "2",
-      "instrutor": "2",
-      "preco": 3,
+      "titulo": "Planta",
+      "descricao": "Sobre plantas",
+      "categoriaId": "cat_1785380634645",
+      "cargaHoraria": "10",
+      "instrutor": "Yasmin",
+      "preco": 0,
       "status": "publicado",
-      "id": "curso_1785361583199",
-      "criadoEm": "2026-07-29T21:46:23.199Z",
-      "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600",
-      "abacatePayProductId": "prod_y4rZSDJTHzqgXsaWY2dTzM40",
-      "abacatePayProductPreco": 300
-    },
-    {
-      "titulo": "TESTE1",
-      "descricao": "asdsadasd",
-      "categoriaId": "cat_prog",
-      "cargaHoraria": "3",
-      "instrutor": "asdsa1",
-      "preco": 1,
-      "status": "publicado",
-      "id": "curso_1785374350241",
-      "criadoEm": "2026-07-30T01:19:10.241Z",
+      "id": "curso_1785380707304",
+      "criadoEm": "2026-07-30T03:05:07.304Z",
       "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
     },
     {
-      "titulo": "testeasasda",
+      "titulo": "sdadasd",
+      "descricao": "asdasd",
+      "categoriaId": "0bV-SFOkpCY",
+      "cargaHoraria": "321",
+      "instrutor": "assadsad",
+      "preco": 1,
+      "status": "publicado",
+      "id": "curso_1785412500844",
+      "criadoEm": "2026-07-30T11:55:00.844Z",
+      "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
+    },
+    {
+      "titulo": "teste",
       "descricao": "asdsad",
-      "categoriaId": "cat_prog",
-      "cargaHoraria": "34",
-      "instrutor": "asfsa",
+      "categoriaId": "0bV-SFOkpCY",
+      "cargaHoraria": "12h",
+      "instrutor": "Lucas Mendes",
       "preco": 0,
       "status": "publicado",
-      "id": "curso_1785379442411",
-      "criadoEm": "2026-07-30T02:44:02.411Z",
+      "id": "curso_1785414535183",
+      "criadoEm": "2026-07-30T12:28:55.183Z",
       "imagem": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
     }
   ],
@@ -208,6 +248,60 @@
       "cursoId": "curso_1785379442411",
       "ordem": 1,
       "titulo": "Aula 1: Introdução",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785380707304_1_1785380739545",
+      "cursoId": "curso_1785380707304",
+      "ordem": 1,
+      "titulo": "Aula 1: Introdução",
+      "duracao": "9",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/0ln_NARtJ58"
+    },
+    {
+      "id": "aula_curso_1785380707304_2_1785380739625",
+      "cursoId": "curso_1785380707304",
+      "ordem": 2,
+      "titulo": "Aula 2: Conteúdo da Aula",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785380707304_3_1785380739695",
+      "cursoId": "curso_1785380707304",
+      "ordem": 3,
+      "titulo": "Aula 3: Conteúdo da Aula",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785412500844_1_1785412500867",
+      "cursoId": "curso_1785412500844",
+      "ordem": 1,
+      "titulo": "Aula 1: Introdução",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785414535183_1_1785426561031",
+      "cursoId": "curso_1785414535183",
+      "ordem": 1,
+      "titulo": "Aula 1: Introdução",
+      "duracao": "15 min",
+      "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
+      "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
+    },
+    {
+      "id": "aula_curso_1785414535183_2_1785426561063",
+      "cursoId": "curso_1785414535183",
+      "ordem": 2,
+      "titulo": "Aula 2: Conteúdo da Aula",
       "duracao": "15 min",
       "thumb": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400",
       "videoUrl": "https://www.youtube-nocookie.com/embed/WRlfwBof66s"
@@ -295,6 +389,55 @@
       "progresso": 100,
       "status": "concluido",
       "dataMatricula": "2026-07-30T02:44:40.997Z"
+    },
+    {
+      "id": "mat_1785380260760",
+      "usuarioId": "u_1785380079539",
+      "cursoId": "curso_1785379442411",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-30T02:57:40.760Z"
+    },
+    {
+      "id": "mat_1785380751557",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_1785380707304",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-30T03:05:51.557Z"
+    },
+    {
+      "id": "mat_1785412548886",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_1785412500844",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-30T11:55:48.886Z",
+      "valorPago": 1
+    },
+    {
+      "id": "mat_1785413407207",
+      "usuarioId": "u_1785412623901",
+      "cursoId": "curso_1785380707304",
+      "progresso": 10,
+      "status": "em_andamento",
+      "dataMatricula": "2026-07-30T12:10:07.207Z"
+    },
+    {
+      "id": "mat_1785426530646",
+      "usuarioId": "u_1785414414018",
+      "cursoId": "curso_1785414535183",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-30T15:48:50.646Z"
+    },
+    {
+      "id": "mat_1785426570649",
+      "usuarioId": "u_admin1",
+      "cursoId": "curso_1785414535183",
+      "progresso": 100,
+      "status": "concluido",
+      "dataMatricula": "2026-07-30T15:49:30.649Z"
     }
   ],
   "avaliacoes": [
@@ -321,6 +464,22 @@
       "nota": 2,
       "comentario": "2323232332",
       "data": "2026-07-29T19:55:52.408Z"
+    },
+    {
+      "id": "av_1785380286420",
+      "cursoId": "curso_1785379442411",
+      "usuarioNome": "Yasmin",
+      "nota": 5,
+      "comentario": "Achei top",
+      "data": "2026-07-30T02:58:06.420Z"
+    },
+    {
+      "id": "av_1785381034369",
+      "cursoId": "curso_1785380707304",
+      "usuarioNome": "Administrador Principal",
+      "nota": 5,
+      "comentario": "Uau! demais!",
+      "data": "2026-07-30T03:10:34.369Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

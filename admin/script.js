@@ -509,11 +509,15 @@ async function salvarCursoEAulasMemoria(cursoExistente, overlay, listaAulas) {
         return;
     }
 
+    // Normaliza pra sempre terminar em "h" (30, 30h, 30 horas, 30H -> "30h"),
+    // igual ao padrão já usado nos cursos originais da plataforma.
+    const cargaHorariaFormatada = cargaHoraria.replace(/\s*h(oras?)?\s*$/i, "") + "h";
+
     const dadosCurso = {
         titulo,
         descricao,
         categoriaId,
-        cargaHoraria,
+        cargaHoraria: cargaHorariaFormatada,
         instrutor,
         preco: parseFloat(precoValor),
         status: overlay.querySelector("#cursoStatus").value

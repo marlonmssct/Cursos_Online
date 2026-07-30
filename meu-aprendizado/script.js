@@ -150,15 +150,6 @@ async function carregarDashboard() {
         matriculasGlobal = todasMatriculas.filter(m => String(m.usuarioId) === String(usuarioLogadoGlobal.id));
         avaliacoesGlobal = todasAvaliacoes.filter(a => a.usuarioNome === usuarioLogadoGlobal.nome || String(a.usuarioId) === String(usuarioLogadoGlobal.id));
 
-        // Se o usuário atual não possuir matrículas gravadas no banco (ex: conta nova de teste ou admin sem inscrição),
-        // atribui matrículas de demonstração automáticas para que a interface e KPIs NUNCA fiquem vazios/zerados!
-        if (matriculasGlobal.length === 0 && cursosGlobal.length > 0) {
-            matriculasGlobal = [
-                { id: "demo_1", usuarioId: usuarioLogadoGlobal.id, cursoId: cursosGlobal[0].id, progresso: 75, status: "em_andamento" },
-                { id: "demo_2", usuarioId: usuarioLogadoGlobal.id, cursoId: cursosGlobal[1] ? cursosGlobal[1].id : cursosGlobal[0].id, progresso: 100, status: "concluido" }
-            ];
-        }
-
         // Monta os módulos da tela
         renderizarKPIs();
         renderizarContinuarParou();
@@ -169,6 +160,7 @@ async function carregarDashboard() {
         renderizarGamificacao();
         renderizarEstatisticas();
         renderizarRecomendacoes();
+        renderizarFrequencia();
 
     } catch (erro) {
         console.error("Erro ao carregar dashboard:", erro);
@@ -199,7 +191,76 @@ function renderizarKPIs() {
     });
 
     if (kpiHorasEstudadas) kpiHorasEstudadas.textContent = `${totalHoras}h`;
-    if (kpiStreak) kpiStreak.textContent = `3 Dias 🔥`;
+}
+
+// ---------------------------------------------------- //
+// 3b. FREQUÊNCIA SEMANAL REAL (baseada em usuario.diasEstudo, //
+// gravado pelo curso/script.js sempre que uma aula é aberta)   //
+// ---------------------------------------------------- //
+function dataLocalYMD(data) {
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, "0");
+    const dia = String(data.getDate()).padStart(2, "0");
+    return `${ano}-${mes}-${dia}`;
+}
+
+function obterDatasDaSemanaAtual() {
+    const hoje = new Date();
+    const diaSemanaAtual = hoje.getDay(); // 0 = Domingo ... 6 = Sábado
+    const deslocamentoSegunda = (diaSemanaAtual === 0) ? -6 : 1 - diaSemanaAtual;
+    const segunda = new Date(hoje);
+    segunda.setDate(hoje.getDate() + deslocamentoSegunda);
+
+    const datas = {};
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(segunda);
+        d.setDate(segunda.getDate() + i);
+        datas[d.getDay()] = dataLocalYMD(d);
+    }
+    return datas;
+}
+
+function renderizarFrequencia() {
+    const diasEstudo = (usuarioLogadoGlobal && usuarioLogadoGlobal.diasEstudo) || [];
+    const datasDaSemana = obterDatasDaSemanaAtual();
+    const META_SEMANAL = 5;
+
+    let diasEstudadosNaSemana = 0;
+    document.querySelectorAll("#streakDiasSemana .day-dot").forEach(dot => {
+        const dataDoDia = datasDaSemana[Number(dot.dataset.dia)];
+        const estudou = diasEstudo.includes(dataDoDia);
+        const icone = dot.querySelector("i");
+
+        dot.classList.toggle("active", estudou);
+        if (icone) icone.className = estudou ? "bi bi-check-circle-fill" : "bi bi-circle";
+        if (estudou) diasEstudadosNaSemana++;
+    });
+
+    const streakMetaTexto = document.getElementById("streakMetaTexto");
+    if (streakMetaTexto) {
+        if (diasEstudadosNaSemana === 0) {
+            streakMetaTexto.innerHTML = "Comece a estudar essa semana para bater sua meta!";
+        } else {
+            const percentual = Math.min(100, Math.round((diasEstudadosNaSemana / META_SEMANAL) * 100));
+            const faltam = Math.max(0, META_SEMANAL - diasEstudadosNaSemana);
+            const textoFaltam = faltam === 0
+                ? "Meta da semana concluída!"
+                : `Faltam apenas ${faltam} ${faltam === 1 ? "sessão" : "sessões"} de estudo.`;
+            streakMetaTexto.innerHTML = `Sua meta da semana está <strong>${percentual}%</strong> concluída! ${textoFaltam}`;
+        }
+    }
+
+    // Streak: dias consecutivos de estudo terminando hoje (ou ontem, se ainda não estudou hoje)
+    let streak = 0;
+    const cursor = new Date();
+    if (!diasEstudo.includes(dataLocalYMD(cursor))) {
+        cursor.setDate(cursor.getDate() - 1);
+    }
+    while (diasEstudo.includes(dataLocalYMD(cursor))) {
+        streak++;
+        cursor.setDate(cursor.getDate() - 1);
+    }
+    if (kpiStreak) kpiStreak.textContent = `${streak} ${streak === 1 ? "Dia" : "Dias"} 🔥`;
 }
 
 

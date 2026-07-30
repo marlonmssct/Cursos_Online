@@ -242,18 +242,18 @@
                     <small>Mantenha a constância para acelerar o aprendizado</small>
                 </div>
                 <div class="streak-week-wrapper">
-                    <div class="streak-days">
-                        <div class="day-dot active"><span>Seg</span><i class="bi bi-check-circle-fill"></i></div>
-                        <div class="day-dot active"><span>Ter</span><i class="bi bi-check-circle-fill"></i></div>
-                        <div class="day-dot active"><span>Qua</span><i class="bi bi-check-circle-fill"></i></div>
-                        <div class="day-dot"><span>Qui</span><i class="bi bi-circle"></i></div>
-                        <div class="day-dot"><span>Sex</span><i class="bi bi-circle"></i></div>
-                        <div class="day-dot"><span>Sáb</span><i class="bi bi-circle"></i></div>
-                        <div class="day-dot"><span>Dom</span><i class="bi bi-circle"></i></div>
+                    <div class="streak-days" id="streakDiasSemana">
+                        <div class="day-dot" data-dia="1"><span>Seg</span><i class="bi bi-circle"></i></div>
+                        <div class="day-dot" data-dia="2"><span>Ter</span><i class="bi bi-circle"></i></div>
+                        <div class="day-dot" data-dia="3"><span>Qua</span><i class="bi bi-circle"></i></div>
+                        <div class="day-dot" data-dia="4"><span>Qui</span><i class="bi bi-circle"></i></div>
+                        <div class="day-dot" data-dia="5"><span>Sex</span><i class="bi bi-circle"></i></div>
+                        <div class="day-dot" data-dia="6"><span>Sáb</span><i class="bi bi-circle"></i></div>
+                        <div class="day-dot" data-dia="0"><span>Dom</span><i class="bi bi-circle"></i></div>
                     </div>
                     <div class="streak-meta-text">
                         <i class="bi bi-lightning-charge-fill" style="color: var(--nexa-cta);"></i>
-                        <span>Sua meta da semana está <strong>60% concluída</strong>! Faltam apenas 2 sessões de estudo.</span>
+                        <span id="streakMetaTexto">Comece a estudar essa semana para bater sua meta!</span>
                     </div>
                 </div>
             </div>
