@@ -11,7 +11,7 @@
 // ==================================================== //
 
 window.NEXA_CHAT_CONFIG = {
-    apiKey: "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",
+    apiKey: "COLE_SUA_CHAVE_GRATUITA_DA_GROQ_AQUI",
     apiUrl: "https://api.groq.com/openai/v1/chat/completions",
     model: "llama-3.3-70b-versatile"
 };
